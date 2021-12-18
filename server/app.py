@@ -5,6 +5,14 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 import os
 
+# MODEL IMPORTS FOR FLASK-MIGRATE
+from models.chengyu import Chengyu
+from models.goal_message import GoalMessage
+from models.log import Log
+from models.milestone import Milestone
+from models.note import Note
+from models.user import User
+
 load_dotenv()
 
 migrate = Migrate(compare_type=True)
