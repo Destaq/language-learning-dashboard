@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify
 from extensions import db
 from models.log import Log
 
@@ -26,3 +26,17 @@ def submit_custom_log():
 
     # return the log
     return jsonify(success=True)
+
+
+@log_bp.route("/upload-log-file", methods=["POST", "OPTIONS"])
+def upload_log_file():
+    file = request.files["file"]
+    parse_and_use_file(file)
+    return jsonify(success=True)
+
+
+# HELPER FUNCTIONS - READ ANKI + PLECO TO GET HISTORY
+def parse_and_use_file(file):
+    # parse the file (file.read())
+    # use the data to create a new log
+    pass
