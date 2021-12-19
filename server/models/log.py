@@ -7,7 +7,8 @@ class Log(db.Model):
     """
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
+    title = db.Column(db.String(100), nullable=False)
     text = db.Column(db.Text)
     timestamp = db.Column(
         db.DateTime, nullable=False, default=db.func.current_timestamp()
@@ -18,8 +19,9 @@ class Log(db.Model):
     # iso 639-1 language code
     language = db.Column(db.String(2), nullable=True)
 
-    def __init__(self, text, user_id, length, type, language):
+    def __init__(self, text, title, user_id, length, type, language):
         self.text = text
+        self.title = title
         self.user_id = user_id
         self.length = length
         self.type = type

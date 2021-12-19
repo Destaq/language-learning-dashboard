@@ -7,6 +7,7 @@ import os
 
 # BLUEPRINT IMPORTS
 from blueprints.chengyu import chengyu_bp
+from blueprints.log import log_bp
 
 # MODEL IMPORTS FOR FLASK-MIGRATE
 from models.chengyu import Chengyu
@@ -28,13 +29,14 @@ def create_app():
     app.config.from_object(os.environ.get("APP_SETTINGS"))
     db.init_app(app)
     migrate.init_app(app, db)
+    # register blueprints
     cors.init_app(
         app,
-        resources={r"/*": {"origins": r"http://localhost:3000/*"}},
-        supports_credentials=False,
+        resources={r"*": {"origins": "http://localhost:3000"}},
+        supports_credentials=True,
     )
-    
-    # register blueprints
+
     app.register_blueprint(chengyu_bp)
+    app.register_blueprint(log_bp)
 
     return app
