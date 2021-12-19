@@ -11,6 +11,7 @@ class User(db.Model):
     milestones = db.relationship("Milestone", backref="user", lazy=True)
     notes = db.relationship("Note", backref="user", lazy=True)
     logs = db.relationship("Log", backref="user", lazy=True)
+    actions = db.relationship("Action", backref="user", lazy=True)
 
     def __init__(self, username):
         self.username = username

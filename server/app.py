@@ -15,6 +15,7 @@ from models.log import Log
 from models.milestone import Milestone
 from models.note import Note
 from models.user import User
+from models.action import Action
 
 load_dotenv()
 

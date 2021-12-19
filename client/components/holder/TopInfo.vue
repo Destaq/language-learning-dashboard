@@ -1,7 +1,3 @@
-<script setup>
-const { data } = await useAsyncData('randomchengyu', () => $fetch('http://localhost:5000/random-chengyu'))
-</script>
-
 <template>
   <div class="flex justify-between items-center">
     <div class="chinese text-3xl">{{ data.chengyu.word }}</div>
@@ -28,6 +24,10 @@ const { data } = await useAsyncData('randomchengyu', () => $fetch('http://localh
 <script>
 export default {
   async setup() {
+    const { data } = await useAsyncData("randomchengyu", () =>
+      $fetch("http://localhost:5000/random-chengyu")
+    );
+
     // get today in the format: "Monday, January 1, 2020"
     const today = new Date().toLocaleDateString("en-US", {
       weekday: "long",
@@ -37,6 +37,7 @@ export default {
     });
 
     return {
+      data,
       today,
     };
   },
