@@ -1,5 +1,8 @@
 <template>
   <div>
-    Empty... not for long!
+    <p>Language Learning Dashboard</p>
+    <LeftsidebarDailyGrouping />
+    <LeftsidebarWeeklyGoals />
+    <img src="@/assets/thoughts.svg" />
   </div>
 </template>
