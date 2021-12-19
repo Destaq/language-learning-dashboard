@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>Daily Actions</p>
-    <div v-for="daily in dailies" :key="daily" class="card">
+    <div v-for="(daily, index) in dailies" :key="index" class="card">
       <div class="card-body font-semibold">
         <!-- all with different colors, randomly chosen from fixed list -->
         <div class="text-lg">{{ daily.title }}</div>
@@ -24,7 +24,7 @@ export default {
   async setup() {
     // a bunch of cards, since these are just things that can be repeated
     const { data } = await useAsyncData("dailies", () =>
-      $fetch("http://localhost:5000/possible-daily-actions")
+      $fetch("http://127.0.0.1:5000/possible-daily-actions")
     );
 
     return {

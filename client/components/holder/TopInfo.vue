@@ -25,7 +25,7 @@
 export default {
   async setup() {
     const { data } = await useAsyncData("randomchengyu", () =>
-      $fetch("http://localhost:5000/random-chengyu")
+      $fetch("http://127.0.0.1:5000/random-chengyu")
     );
 
     // get today in the format: "Monday, January 1, 2020"
