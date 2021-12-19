@@ -5,6 +5,9 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 import os
 
+# BLUEPRINT IMPORTS
+from blueprints.chengyu import chengyu_bp
+
 # MODEL IMPORTS FOR FLASK-MIGRATE
 from models.chengyu import Chengyu
 from models.goal_message import GoalMessage
@@ -28,6 +31,9 @@ def create_app():
         app,
         resources={r"/*": {"origins": r"http://localhost:3000/*"}},
         supports_credentials=False,
-    )  # TODO: not localhost but custom domain host
+    )
+    
+    # register blueprints
+    app.register_blueprint(chengyu_bp)
 
     return app

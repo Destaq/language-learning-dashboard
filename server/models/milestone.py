@@ -9,8 +9,10 @@ class Milestone(db.Model):
     value = db.Column(db.Integer, nullable=True)
     text = db.Column(db.Text, nullable=True)
     type = db.Column(db.String(80), nullable=True) # 'writing', 'reading', 'speaking', 'listening'...
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 
-    def __init__(self, value, text, type):
+    def __init__(self, value, text, type, user_id=None):
         self.value = value
         self.text = text
         self.type = type
+        self.user_id = user_id
