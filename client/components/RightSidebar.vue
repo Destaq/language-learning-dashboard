@@ -2,7 +2,7 @@
   <div>
     <p class="chinese btn">
       <!-- chinese flag svg -->
-      <img src="@/assets/ChineseFlag.svg" width="20" height="20">
+      <img src="@/assets/ChineseFlag.svg" width="20" height="20" />
       <span class="text-xl">中文</span>
       <!-- switch icon svg -->
       <svg
@@ -20,5 +20,8 @@
         ></path>
       </svg>
     </p>
+    <RightsidebarUserProfile />
+    <RightsidebarRecentActivity />
+    <RightsidebarAllMilestones />
   </div>
 </template>

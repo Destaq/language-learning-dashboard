@@ -39,4 +39,6 @@ def upload_log_file():
 def parse_and_use_file(file):
     # parse the file (file.read())
     # use the data to create a new log
+    # NOTE: custom file upload is for VOCAB TRACKING ONLY
+    # to track time, upload screen time to the custom log
     pass
