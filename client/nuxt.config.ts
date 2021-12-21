@@ -4,4 +4,9 @@ export default defineNuxtConfig({
   buildModules: [
     'nuxt-windicss',
   ],
+  build: {
+    transpile: [
+      /echarts/
+    ]
+  }
 })

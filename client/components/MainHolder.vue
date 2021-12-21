@@ -6,5 +6,10 @@
       <HolderCustomLog class="inline" />
       <HolderStatisticLog class="inline" />
     </div>
+    <HolderHistoryView />
+    <div class="grid grid-cols-2 gap-2">
+      <HolderPieChart />
+      <HolderStackedBarchart />
+    </div>
   </div>
 </template>

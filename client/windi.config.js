@@ -1,5 +1,5 @@
-const { transform } = require("windicss/helpers");
+// const { transform } = require("windicss/helpers");
 
-module.exports = {
-  plugins: [transform("daisyui")],
-};
+// module.exports = {
+//   plugins: [transform("daisyui")],
+// };

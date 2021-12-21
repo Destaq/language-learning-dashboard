@@ -3,7 +3,7 @@
     <div class="avatar">
       <div class="mb-2 rounded-btn w-24 h-24">
         <img
-          src="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
+          src="https://i.pinimg.com/736x/64/e0/3c/64e03c70778b113427fb39c4bdbf3b59.jpg"
         />
       </div>
     </div>

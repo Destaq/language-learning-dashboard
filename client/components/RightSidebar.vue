@@ -20,8 +20,8 @@
         ></path>
       </svg>
     </p>
-    <RightsidebarUserProfile />
-    <RightsidebarRecentActivity />
-    <RightsidebarAllMilestones />
+    <RightSidebarUserProfile />
+    <RightSidebarRecentActivity />
+    <RightSidebarAllMilestones />
   </div>
 </template>

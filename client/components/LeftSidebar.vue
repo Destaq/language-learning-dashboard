@@ -1,8 +1,8 @@
 <template>
   <div class="h-screen relative">
-    <p>Language Learning Dashboard</p>
-    <LeftsidebarDailyGrouping />
-    <LeftsidebarWeeklyGoals />
+    <p class="text-xl">Language Learning Dashboard</p>
+    <LeftSidebarDailyGrouping />
+    <LeftSidebarWeeklyGoals />
     <img src="@/assets/thoughts.svg" class="absolute bottom-0" />
   </div>
 </template>

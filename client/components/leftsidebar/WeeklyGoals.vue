@@ -20,6 +20,10 @@ export default {
     const { data } = await useAsyncData("weeklychecklist", () =>
       $fetch("http://127.0.0.1:5000/weekly-goals")
     );
+
+    if (data.goals === undefined) {
+      data.goals = [];
+    }
     // sortUndone is a function that sorts the goals, setting those which have completed to be true to the at the bottom
     const sortUndone = (goals) => {
       return goals.sort((a, b) => {
