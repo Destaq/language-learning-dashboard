@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Displays the users total history -->
     <client-only>
       <v-chart class="chart" :option="option" />
     </client-only>
@@ -7,16 +8,16 @@
 </template>
 
 <script>
-import { use } from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
-import { PieChart } from 'echarts/charts';
+import { use } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { PieChart } from "echarts/charts";
 import {
   TitleComponent,
   TooltipComponent,
   LegendComponent,
-} from 'echarts/components';
-import VChart, { THEME_KEY } from 'vue-echarts';
-import { ref, defineComponent } from 'vue';
+} from "echarts/components";
+import VChart, { THEME_KEY } from "vue-echarts";
+import { ref, defineComponent } from "vue";
 
 use([
   CanvasRenderer,
@@ -27,48 +28,48 @@ use([
 ]);
 
 export default defineComponent({
-  name: 'HelloWorld',
+  name: "PieChart",
   components: {
     VChart,
   },
   provide: {
-    [THEME_KEY]: 'dark',
+    [THEME_KEY]: "light",
   },
-  setup() {
+  async setup() {
+    const allLogData = await useAsyncData("allUserData", () =>
+      $fetch("http://127.0.0.1:5000/full-historical-breakdown")
+    );
+
+    if (allLogData.timeBreakdown === undefined) {
+      allLogData.timeBreakdown = [{ value: 0, name: "No Data" }];
+    }
+
     const option = ref({
       title: {
-        text: 'Traffic Sources',
-        left: 'center',
+        text: "Time Breakdown",
+        left: "center",
       },
       tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)',
+        trigger: "item",
       },
       legend: {
-        orient: 'vertical',
-        left: 'left',
-        data: ['Direct', 'Email', 'Ad Networks', 'Video Ads', 'Search Engines'],
+        top: "7%",
+        left: "center",
       },
       series: [
         {
-          name: 'Traffic Sources',
-          type: 'pie',
-          radius: '55%',
-          center: ['50%', '60%'],
-          data: [
-            { value: 335, name: 'Direct' },
-            { value: 310, name: 'Email' },
-            { value: 234, name: 'Ad Networks' },
-            { value: 135, name: 'Video Ads' },
-            { value: 1548, name: 'Search Engines' },
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)',
-            },
+          name: "Hours spent",
+          type: "pie",
+          radius: ["50%", "70%"],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: "#fff",
+            borderWidth: 2,
           },
+          data:
+            // [{ value: 1048, name: "Search Engine" }],
+            allLogData.timeBreakdown,
         },
       ],
     });
@@ -80,6 +81,6 @@ export default defineComponent({
 
 <style scoped>
 .chart {
-  height: 100vh;
+  height: 50vh;
 }
 </style>
