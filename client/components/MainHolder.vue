@@ -7,8 +7,9 @@
       <HolderStatisticLog class="inline" />
     </div>
     <HolderHistoryChart />
-    <div class="grid grid-cols-2 gap-2">
+    <div class="grid grid-cols-2">
       <HolderPieChart />
+      <HolderLevelsRadar />
     </div>
   </div>
 </template>

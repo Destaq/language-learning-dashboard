@@ -33,7 +33,7 @@ use([
 ]);
 
 export default defineComponent({
-  name: "HistoryView",
+  name: "HistoryChart",
   components: {
     VChart,
   },
@@ -58,8 +58,9 @@ export default defineComponent({
     };
 
     // TODO: support daily, weekly, monthly history
-    const allLogData = await useAsyncData("allUserData", () =>
-      $fetch("http://127.0.0.1:5000/hours-by-period?period=daily") // TODO: improve
+    const allLogData = await useAsyncData(
+      "allUserData",
+      () => $fetch("http://127.0.0.1:5000/hours-by-period?period=daily") // TODO: improve
     );
 
     if (allLogData.information === undefined) {
@@ -70,7 +71,7 @@ export default defineComponent({
         Listening: [5, 3, 1, 3.5, 2],
         Writing: [5, 3, 1, 3.5, 2],
         Other: [5, 3, 1, 3.5, 2],
-        Total: []
+        Total: [],
       };
     }
 
@@ -105,16 +106,17 @@ export default defineComponent({
       );
     });
 
-
-    allLogData.information.Total = allLogData.information.Reading.map((reading, i) => {
-      return (
-        reading +
-        allLogData.information.Speaking[i] +
-        allLogData.information.Listening[i] +
-        allLogData.information.Writing[i] +
-        allLogData.information.Other[i]
-      );
-    });
+    allLogData.information.Total = allLogData.information.Reading.map(
+      (reading, i) => {
+        return (
+          reading +
+          allLogData.information.Speaking[i] +
+          allLogData.information.Listening[i] +
+          allLogData.information.Writing[i] +
+          allLogData.information.Other[i]
+        );
+      }
+    );
 
     const option = ref({
       tooltip: {
@@ -135,7 +137,14 @@ export default defineComponent({
         },
       },
       legend: {
-        data: ["Reading", "Listening", "Writing", "Speaking", "Other", "Cumulative Sum"],
+        data: [
+          "Reading",
+          "Listening",
+          "Writing",
+          "Speaking",
+          "Other",
+          "Cumulative Sum",
+        ],
       },
       xAxis: [
         {

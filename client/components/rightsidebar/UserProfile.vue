@@ -9,10 +9,10 @@
     </div>
     <p>Mythaar</p>
     <ul>
-      <li>Reading: {{ levels.reading }} [edit]</li>
-      <li>Listening: {{ levels.listening }} [edit]</li>
-      <li>Speaking: {{ levels.speaking }} [edit]</li>
-      <li>Writing: {{ levels.writing }} [edit]</li>
+      <li v-for="(statistic, index) in statistics">
+        <span class="text-gray-600">{{ statistic.name }}</span>
+        <span class="text-gray-600">{{ statistic.value }}</span>
+      </li>
     </ul>
   </div>
 </template>
@@ -24,19 +24,14 @@ export default {
       $fetch("http://127.0.0.1:5000/fetch-levels")
     );
 
-    if (data.value == undefined) {
+    if (data.statistics == undefined) {
       return {
-        levels: {
-          reading: "",
-          listening: "",
-          speaking: "",
-          writing: "",
-        },
+        statistics: [],
       };
     }
 
     return {
-      levels: data.levels,
+      statistics: data.statistics,
     };
   },
 };
