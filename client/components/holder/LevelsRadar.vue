@@ -4,6 +4,7 @@
     <client-only>
       <v-chart class="chart" :option="option" />
     </client-only>
+    <button>Edit</button>
   </div>
 </template>
 

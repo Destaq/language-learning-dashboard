@@ -15,3 +15,51 @@ class User(db.Model):
 
     def __init__(self, username):
         self.username = username
+
+    def get_actions(self):
+        # return a dictionary of possible quick log actions
+        # TODO: this would be an individual database for every user
+        # TODO: set in-app Sunday evening reminder to input data (readibu, anki, pleco, hellotalk)
+        # NOTE: can also input manually and then subtract from file
+        return {
+            "show": {
+                "title": "Watched Show",
+                "text": "Watched Chinese television content.",
+                "length": 15,
+                "type": "listening",
+                "language": "zh",
+                "user_id": self.id
+            },
+            "chinese_class": {
+                "title": "Chinese Class",
+                "text": "Had a Chinese class with my tutor.",
+                "length": 60,
+                "type": "listening",
+                "language": "zh",
+                "user_id": self.id
+            },
+            "podcast": {
+                "title": "Podcast",
+                "text": "Listened to a podcast in Chinese.",
+                "length": 30,
+                "type": "listening",
+                "language": "zh",
+                "user_id": self.id
+            },
+            "shadowing": {
+                "title": "Shadowing",
+                "text": "Shadowed some Chinese content.",
+                "length": 10,
+                "type": "speaking",
+                "language": "zh",
+                "user_id": self.id
+            },
+            "workbook": {
+                "title": "Workbook",
+                "text": "Did some workbook exercises.",
+                "length": 45,
+                "type": "other",
+                "language": "zh",
+                "user_id": self.id
+            }
+        }

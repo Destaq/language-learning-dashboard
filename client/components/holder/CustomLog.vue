@@ -33,13 +33,31 @@
 </template>
 
 <script>
+import { watch } from "vue";
+
 export default {
-  async setup() {
+  props: {
+    // the data for the custom log
+    log: {
+      type: Object,
+      required: false,
+    },
+  },
+  async setup(props) {
     // create the submitCustomLog function, sending the above data to the 127.0.0.1:5000/submit-custom-log route
     var logTitle = ref("");
     var logDescription = ref("");
     var logType = ref("");
-    var logLength = ref("");
+    var logLength = ref(0);
+
+    watch(() => props.log, (value) => {
+      if (value) {
+        logTitle.value = value.title;
+        logDescription.value = value.text;
+        logType.value = value.type[0].toUpperCase() + value.type.slice(1);
+        logLength.value = value.length;
+      }
+    });
 
     async function submitCustomLog() {
       fetch("http://127.0.0.1:5000/submit-custom-log", {

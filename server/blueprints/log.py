@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from extensions import db
 from models.log import Log
+from models.user import User
 
 log_bp = Blueprint("log", __name__)
 
@@ -34,8 +35,15 @@ def upload_log_file():
     parse_and_use_file(file)
     return jsonify(success=True)
 
+@log_bp.route("/possible-daily-actions", methods=["GET"])
+def action_templater():
+    # some action templates on the left as cards that fill out the custom log area
+    action_user = User.query.filter_by(id=1).first()  # NOTE: hardcoded for prototype
+    return jsonify(actions=action_user.get_actions())
+
 
 # HELPER FUNCTIONS - READ ANKI + PLECO TO GET HISTORY
+# ANKI OR PLECO OR SCREEN TIME CUSTOM FILE
 def parse_and_use_file(file):
     # parse the file (file.read())
     # use the data to create a new log
