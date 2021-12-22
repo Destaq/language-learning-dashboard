@@ -8,12 +8,6 @@
           placeholder="Title"
           v-model="logTitle"
         />
-        <textarea
-          class="input input-bordered w-full m-1"
-          cols="30"
-          placeholder="Your description here..."
-          v-model="logDescription"
-        ></textarea>
       </div>
       <div>
         <div class="grid grid-cols-2 gap-2 mt-1">
@@ -58,17 +52,14 @@ export default {
   async setup(props) {
     // create the submitCustomLog function, sending the above data to the 127.0.0.1:5000/submit-custom-log route
     var logTitle = ref("");
-    var logDescription = ref("");
     var logType = ref("");
     var logLength = ref(0);
 
     watch(
       () => props.log,
       (value) => {
-        console.log("updated!")
         if (value) {
           logTitle.value = value.title;
-          logDescription.value = value.text;
           logType.value = value.type[0].toUpperCase() + value.type.slice(1);
           logLength.value = value.length;
         }
@@ -83,7 +74,6 @@ export default {
         },
         body: JSON.stringify({
           logTitle: logTitle.value,
-          logDescription: logDescription.value,
           logType: logType.value,
           logLength: logLength.value,
         }),
@@ -91,7 +81,6 @@ export default {
         .then(() => {
           // clear all values
           logTitle.value = "";
-          logDescription.value = "";
           logType.value = "";
           logLength.value = "";
         })
@@ -103,7 +92,6 @@ export default {
     return {
       submitCustomLog,
       logTitle,
-      logDescription,
       logType,
       logLength,
     };

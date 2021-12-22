@@ -19,7 +19,7 @@ class User(db.Model):
     def get_active_goals(self):
         resp = {}
         for goal in self.goals:
-            if (goal.deadline < datetime.now()) or (goal.deadline > datetime.now() and goal.completed == False):
+            if (goal.deadline < datetime.now() and goal.completed == False) or (goal.deadline > datetime.now()):
                 resp[goal.id] = {
                     "description": goal.description,
                     "set_time": goal.set_time,
@@ -56,7 +56,6 @@ class User(db.Model):
         return {
             "show": {
                 "title": "Watched Show",
-                "text": "Watched Chinese television content.",
                 "length": 15,
                 "type": "listening",
                 "language": "zh",
@@ -64,7 +63,6 @@ class User(db.Model):
             },
             "chinese_class": {
                 "title": "Chinese Class",
-                "text": "Had a Chinese class with my tutor.",
                 "length": 60,
                 "type": "listening",
                 "language": "zh",
@@ -72,7 +70,6 @@ class User(db.Model):
             },
             "podcast": {
                 "title": "Podcast",
-                "text": "Listened to a podcast in Chinese.",
                 "length": 30,
                 "type": "listening",
                 "language": "zh",
@@ -80,7 +77,6 @@ class User(db.Model):
             },
             "shadowing": {
                 "title": "Shadowing",
-                "text": "Shadowed some Chinese content.",
                 "length": 10,
                 "type": "speaking",
                 "language": "zh",
@@ -88,7 +84,6 @@ class User(db.Model):
             },
             "workbook": {
                 "title": "Workbook",
-                "text": "Did some workbook exercises.",
                 "length": 45,
                 "type": "other",
                 "language": "zh",

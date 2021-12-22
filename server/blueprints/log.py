@@ -13,7 +13,6 @@ def submit_custom_log():
 
     # create a new log
     log = Log(
-        text=data["text"],
         title=data["title"],
         user_id=1,  # NOTE: hardcoded for prototype
         length=data["length"],

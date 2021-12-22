@@ -171,6 +171,7 @@ export default {
         .then(() => {
           goalObject.description = goalObject.tempDescription;
           goalObject.deadline = goalObject.tempDeadline;
+          goals.value = sortUndone(Object.values(goals.value)); // rearrange if ticked
         })
         .catch((err) => {
           console.log(err);
