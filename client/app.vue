@@ -1,3 +1,7 @@
+<script setup>
+import "./assets/tailwind.css"
+</script>
+
 <template>
   <div class="grid grid-cols-12">
     <LeftSidebar @setupAction="eventData = $event" class="col-span-2" />
