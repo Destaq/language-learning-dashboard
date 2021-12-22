@@ -11,7 +11,6 @@ class GoalMessage(db.Model):
     """
 
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(80), nullable=False)  # 'target', 'reflection'
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     description = db.Column(db.Text)
     set_time = db.Column(
@@ -20,10 +19,8 @@ class GoalMessage(db.Model):
     completed = db.Column(db.Boolean, nullable=False, default=False)
     deadline = db.Column(db.DateTime, nullable=True)  # null if a reflection
 
-    def __init__(self, type, user_id, description, set_time, completed, deadline=None):
-        self.type = type
+    def __init__(self, user_id, description, completed=False, deadline=None):
         self.user_id = user_id
         self.description = description
-        self.set_time = set_time
         self.completed = completed
         self.deadline = deadline

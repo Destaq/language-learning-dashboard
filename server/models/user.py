@@ -16,6 +16,37 @@ class User(db.Model):
     def __init__(self, username):
         self.username = username
 
+    def get_goals(self):
+        resp = {}
+        for goal in self.goals:
+            resp[goal.id] = {
+                "description": goal.description,
+                "set_time": goal.set_time,
+                "completed": goal.completed,
+                "deadline": goal.deadline,
+                "id": goal.id
+            }
+        return resp
+
+    def get_milestones(self):
+        resp = {}
+        for milestone in self.milestones:
+            resp[milestone.id] = {
+                "description": milestone.description,
+                "set_time": milestone.set_time,
+                "completed": milestone.completed,
+            }
+        return resp
+
+    def get_notes(self):
+        resp = {}
+        for note in self.notes:
+            resp[note.id] = {
+                "description": note.description,
+                "set_time": note.set_time,
+                "completed": note.completed,
+            }
+
     def get_actions(self):
         # return a dictionary of possible quick log actions
         # TODO: this would be an individual database for every user

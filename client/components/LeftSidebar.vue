@@ -3,7 +3,7 @@
     <p class="text-xl">Menu Button</p>
     <LeftSidebarDailyGrouping @setupAction="emitFurther" />
     <LeftSidebarWeeklyGoals />
-    <img src="@/assets/thoughts.svg" class="absolute bottom-0" />
+    <!-- <img src="@/assets/thoughts.svg" class="absolute bottom-0" /> -->
   </div>
 </template>
 
