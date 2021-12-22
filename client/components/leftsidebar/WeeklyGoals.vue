@@ -2,12 +2,16 @@
   <div>
     <p>Weekly Goals</p>
     <div v-for="(goal, index) in goals" :key="index" class="card">
-      <div class="card-body font-semibold">
+      <div
+        class="card-body font-semibold"
+        :class="new Date(goal.deadline) < new Date() ? 'bg-red-500' : ''"
+      >
         <!-- strikethrough and increase opacity if completed -->
         <div :class="goal.completed ? 'line-through' : ''">
           <input
             type="checkbox"
             class="checkbox checkbox-sm"
+            @change="editGoalMessage(goal)"
             v-model="goal.completed"
           />
           <div class="text-sm inline">{{ goal.description }}</div>
@@ -121,10 +125,11 @@ export default {
       $fetch("http://127.0.0.1:5000/weekly-goals")
     );
 
-    if (data.value.goals === undefined) {
-      data.value.goals = [];
+    if (data.value == undefined) {
+      data.value = {
+        goals: [],
+      };
     }
-
 
     // sortUndone is a function that sorts the goals, setting those which have completed to be true to the at the bottom
     const sortUndone = (goals) => {
@@ -206,7 +211,9 @@ export default {
         }),
       })
         .then(() => {
-          goals.value = goals.value.filter((innerGoal) => innerGoal.id !== goal.id);
+          goals.value = goals.value.filter(
+            (innerGoal) => innerGoal.id !== goal.id
+          );
         })
         .catch((err) => {
           console.log(err);

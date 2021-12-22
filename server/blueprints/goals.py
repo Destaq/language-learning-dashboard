@@ -9,7 +9,7 @@ goal_bp = Blueprint("goal", __name__)
 @goal_bp.route("/weekly-goals", methods=["GET"])
 def display_user_goals():
     user = User.query.filter_by(id=1).first()
-    return jsonify(goals=user.get_goals())
+    return jsonify(goals=user.get_active_goals())
 
 
 @goal_bp.route("/submit-new-goal", methods=["POST"])

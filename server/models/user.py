@@ -1,5 +1,5 @@
 from extensions import db
-
+from datetime import datetime
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -16,16 +16,17 @@ class User(db.Model):
     def __init__(self, username):
         self.username = username
 
-    def get_goals(self):
+    def get_active_goals(self):
         resp = {}
         for goal in self.goals:
-            resp[goal.id] = {
-                "description": goal.description,
-                "set_time": goal.set_time,
-                "completed": goal.completed,
-                "deadline": goal.deadline,
-                "id": goal.id
-            }
+            if (goal.deadline < datetime.now()) or (goal.deadline > datetime.now() and goal.completed == False):
+                resp[goal.id] = {
+                    "description": goal.description,
+                    "set_time": goal.set_time,
+                    "completed": goal.completed,
+                    "deadline": goal.deadline,
+                    "id": goal.id
+                }
         return resp
 
     def get_milestones(self):

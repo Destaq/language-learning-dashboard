@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-3 items-center">
     <div class="chinese text-3xl">{{ data.chengyu.word }}</div>
-    <div class="text-xl mx-auto underline">LingoJot</div>
+    <div class="text-xl mx-auto underline">JotLingo</div>
     <div class="text-right">{{ today }}</div>
   </div>
   <!-- progress bar -->
