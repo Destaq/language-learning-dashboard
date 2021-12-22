@@ -2,12 +2,10 @@
   <div>
     <!-- put on the daily chengyu (left-aligned, with the chinese class) and today's date (right-aligned, detailed) -->
     <HolderTopInfo />
-    <div class="grid grid-cols-2 gap-2">
-      <HolderCustomLog class="inline" :log="log" />
-      <HolderStatisticLog class="inline" />
-    </div>
+    <HolderCustomLog class="inline" :log="log" />
+    <HolderStatisticLog class="inline" />
     <HolderHistoryChart />
-    <div class="grid grid-cols-2">
+    <div class="grid grid-cols-2 -mt-6">
       <HolderPieChart />
       <HolderLevelsRadar />
     </div>

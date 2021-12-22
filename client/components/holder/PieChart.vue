@@ -81,6 +81,6 @@ export default defineComponent({
 
 <style scoped>
 .chart {
-  height: 50vh;
+  height: 25vh;
 }
 </style>

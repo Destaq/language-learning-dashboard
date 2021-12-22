@@ -1,33 +1,46 @@
 <template>
   <div>
-    <p>Custom Log</p>
-    <div class="form-control">
-      <label class="label">
-        <span class="label-text">Title</span>
-      </label>
-      <input type="text" class="input input-bordered" v-model="logTitle" />
-      <label class="label">
-        <span class="label-text">Description</span>
-      </label>
-      <textarea
-        class="input input-bordered h-20"
-        cols="30"
-        rows="10"
-        v-model="logDescription"
-      ></textarea>
-      <select class="select select-bordered w-full max-w-xs" v-model="logType">
-        <option disabled selected>Type</option>
-        <option>Reading</option>
-        <option>Writing</option>
-        <option>Speaking</option>
-        <option>Listening</option>
-      </select>
-
-      <label for="minutes">Length: </label>
-      <input type="number" name="minutes" id="minutes" v-model="logLength" />
-      <button type="submit" class="btn btn-success" @click="submitCustomLog">
-        Submit
-      </button>
+    <div class="form-control grid grid-cols-2 gap-x-2">
+      <div>
+        <textarea
+          class="input input-bordered w-full m-1"
+          cols="30"
+          placeholder="Your description here..."
+          v-model="logDescription"
+        ></textarea>
+      </div>
+      <div>
+        <input
+          type="text"
+          class="input input-bordered"
+          placeholder="Title"
+          v-model="logTitle"
+        />
+        <p class="font-bold inline">Custom Log</p>
+        <div class="grid grid-cols-2 gap-2 mt-1">
+          <select
+            class="inline select select-bordered w-full max-w-xs"
+            v-model="logType"
+          >
+            <option disabled selected>Type</option>
+            <option>Reading</option>
+            <option>Writing</option>
+            <option>Speaking</option>
+            <option>Listening</option>
+            <option>Other</option>
+          </select>
+          <input
+            type="number"
+            name="minutes"
+            id="minutes"
+            v-model="logLength"
+            class="inline"
+          />
+        </div>
+        <button type="submit" class="inline-block btn btn-success w-full flex mx-auto bg-purple-400 text-center rounded-sm" @click="submitCustomLog">
+          Submit
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -50,14 +63,17 @@ export default {
     var logType = ref("");
     var logLength = ref(0);
 
-    watch(() => props.log, (value) => {
-      if (value) {
-        logTitle.value = value.title;
-        logDescription.value = value.text;
-        logType.value = value.type[0].toUpperCase() + value.type.slice(1);
-        logLength.value = value.length;
+    watch(
+      () => props.log,
+      (value) => {
+        if (value) {
+          logTitle.value = value.title;
+          logDescription.value = value.text;
+          logType.value = value.type[0].toUpperCase() + value.type.slice(1);
+          logLength.value = value.length;
+        }
       }
-    });
+    );
 
     async function submitCustomLog() {
       fetch("http://127.0.0.1:5000/submit-custom-log", {

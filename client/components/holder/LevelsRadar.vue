@@ -4,7 +4,7 @@
     <client-only>
       <v-chart class="chart" :option="option" />
     </client-only>
-    <button>Edit</button>
+    <!-- <button>Edit</button> -->
   </div>
 </template>
 
@@ -106,6 +106,6 @@ export default defineComponent({
 
 <style scoped>
 .chart {
-  height: 50vh;
+  height: 25vh;
 }
 </style>
