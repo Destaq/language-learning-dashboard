@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- Displays a graph of the users total hours -->
+    <p class="mx-auto text-center w-full">Ability Breakdown</p>
     <client-only>
       <v-chart class="chart" :option="option" />
     </client-only>
@@ -40,7 +41,8 @@ export default defineComponent({
     const option = ref({
       title: {
         text: "Ability Breakdown",
-        left: "0%",
+        left: "center",
+        show: false
       },
       tooltip: {
         trigger: "axis",
@@ -48,6 +50,7 @@ export default defineComponent({
       legend: {
         data: ["Current Ability", "End of 2020"],
         right: "0%",
+        orient: "vertical"
       },
       radar: [
         {
@@ -57,6 +60,9 @@ export default defineComponent({
             { text: "Speaking", max: 100 },
             { text: "Writing", max: 100 },
           ],
+          axisName: {
+            padding: [-8, -8, -8, -8], // move closer to the graph
+          }
         },
       ],
       series: [

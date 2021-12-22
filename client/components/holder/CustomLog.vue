@@ -1,7 +1,13 @@
 <template>
   <div>
-    <div class="form-control grid grid-cols-2 gap-x-2">
-      <div>
+    <div class="form-control grid grid-cols-3 gap-x-2">
+      <div class="col-span-2">
+        <input
+          type="text"
+          class="input input-bordered w-full input-sm"
+          placeholder="Title"
+          v-model="logTitle"
+        />
         <textarea
           class="input input-bordered w-full m-1"
           cols="30"
@@ -10,13 +16,6 @@
         ></textarea>
       </div>
       <div>
-        <input
-          type="text"
-          class="input input-bordered"
-          placeholder="Title"
-          v-model="logTitle"
-        />
-        <p class="font-bold inline">Custom Log</p>
         <div class="grid grid-cols-2 gap-2 mt-1">
           <select
             class="inline select select-bordered w-full max-w-xs"
@@ -34,11 +33,11 @@
             name="minutes"
             id="minutes"
             v-model="logLength"
-            class="inline"
+            class="inline input input-bordered"
           />
         </div>
-        <button type="submit" class="inline-block btn btn-success w-full flex mx-auto bg-purple-400 text-center rounded-sm" @click="submitCustomLog">
-          Submit
+        <button type="submit" class="btn btn-success btn-sm w-full flex mx-auto text-center rounded-sm" @click="submitCustomLog">
+          Submit Custom Log
         </button>
       </div>
     </div>
@@ -66,6 +65,7 @@ export default {
     watch(
       () => props.log,
       (value) => {
+        console.log("updated!")
         if (value) {
           logTitle.value = value.title;
           logDescription.value = value.text;

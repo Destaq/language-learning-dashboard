@@ -6,17 +6,15 @@
   </div>
   <!-- progress bar -->
   <div class="mx-2">
-    <div class="w-full stats rounded-none">
-      <div class="stat">
+    <div class="w-full rounded-none">
+      <div>
         <!-- <div class="stat-value text-lg">4,724/5,000</div>
         <div class="stat-title opacity-100">Vocabulary Size</div> -->
-        <div class="stat-desc">
-          <progress
-            :value="(4724 / 5000) * 100"
-            max="100"
-            class="progress w-full h-2.5 rounded-xl"
-          ></progress>
-        </div>
+        <progress
+          :value="(4724 / 5000) * 100"
+          max="100"
+          class="progress w-full h-2.5 rounded-xl"
+        ></progress>
       </div>
     </div>
   </div>

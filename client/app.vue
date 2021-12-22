@@ -1,7 +1,3 @@
-<script setup>
-import "./assets/tailwind.css"
-</script>
-
 <template>
   <div class="grid grid-cols-12">
     <LeftSidebar @setupAction="eventData = $event" class="col-span-2" />
@@ -27,6 +23,8 @@ export default {
 </script>
 
 <style>
+@import "./assets/tailwind.css";
+
 @font-face {
   font-family: "Ma Shan Zheng";
   src: local("Ma Shan Zheng"),

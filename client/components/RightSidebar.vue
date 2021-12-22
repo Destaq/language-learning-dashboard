@@ -20,7 +20,9 @@
         ></path>
       </svg>
     </p>
+    <!-- the below has stats too -->
     <RightSidebarUserProfile />
+    <RightSidebarStatisticLog />
     <RightSidebarRecentActivity />
     <RightSidebarAllMilestones />
   </div>

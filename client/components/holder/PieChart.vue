@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- Displays the users total history -->
+    <p class="mx-auto text-center w-full">Time Breakdown</p>
     <client-only>
       <v-chart class="chart" :option="option" />
     </client-only>
@@ -48,13 +49,13 @@ export default defineComponent({
       title: {
         text: "Time Breakdown",
         left: "center",
+        show: false
       },
       tooltip: {
         trigger: "item",
       },
       legend: {
-        top: "7%",
-        left: "center",
+        right: "0%",
       },
       series: [
         {
