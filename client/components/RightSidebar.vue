@@ -23,7 +23,6 @@
     <!-- the below has stats too -->
     <RightSidebarUserProfile />
     <RightSidebarStatisticLog />
-    <RightSidebarAllMilestones />
-    <!-- image? -->
+    <RightSidebarUserGoals />
   </div>
 </template>

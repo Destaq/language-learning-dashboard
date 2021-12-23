@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 from extensions import db
 from models.user import User
 from models.log import Log
+from dateutil import parser
+import datetime
 
 statistics_bp = Blueprint("statistic", __name__)
 
@@ -11,17 +13,22 @@ def fetch_statistics():
     # this returns interesting tidbits: characters read, chapters read, books read, # of shows + movies watched, all-time study hours, vocab size
     # the user levels are currently hardcoded, may be changed later, but for now simple like this
     user = User.query.filter_by(id=1).first()
+    total_hours = sum(
+        [log.length / 60 for log in Log.query.filter_by(user_id=user.id).all()]
+    )
+
+    first_log_date = (
+        Log.query.filter_by(user_id=user.id).order_by(Log.date.asc()).first().date
+    )
+
+    # calculate days since first log
+    today = datetime.datetime.now()
+    days_since_first_log = (today - first_log_date).days + 1
+
     return jsonify(
         statistics=[
-            {
-                "name": "All-Time Study Hours",
-                "value": sum(
-                    [
-                        log.length / 60
-                        for log in Log.query.filter_by(user_id=user.id).all()
-                    ]
-                ),
-            },
+            {"name": "All-Time Study Hours", "value": total_hours},
+            {"name": "Daily Average", "value": round(total_hours / days_since_first_log, 2)},
             {"name": "Vocab Size", "value": user.vocab_size},
             {"name": "Characters Read", "value": user.characters_read},
             {"name": "Chapters Read", "value": user.chapters_read},

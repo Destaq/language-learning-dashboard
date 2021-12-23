@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-3 items-center">
     <div class="chinese text-3xl">{{ data.data.value.chengyu.word }}</div>
-    <div class="text-xl mx-auto underline">TraceLang</div>
+    <div class="text-xl mx-auto underline">LingoJot</div>
     <div class="text-right">{{ today }}</div>
   </div>
   <!-- progress bar -->
@@ -9,7 +9,6 @@
     <div>
       <div class="stat-desc mx-auto w-full">
         <div class="mx-auto flex items-center content-center">
-          <span class="ml-1">0</span>
           <progress
             :value="
               (vocabData.data.value.vocab_size /

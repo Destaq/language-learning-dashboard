@@ -169,11 +169,67 @@ def historical_breakdown():
     return jsonify(time_breakdown=time_breakdown)
 
 
-# HELPER FUNCTIONS - READ ANKI + PLECO TO GET HISTORY
-# ANKI OR PLECO OR SCREEN TIME CUSTOM FILE
+# PLECO OR STATS UPDATE FILE
 def parse_and_use_file(file):
+    """
+    Add in information in a file format.
+    ---
+    Custom Stats update file format:
+    [name] [increment value]
+    ...for example: [books_read] [1]
+    ...or equally [chapters_read] [20]
+
+    Books read and shows watched are updated randomly whenever finished reading or watching a show.
+    Chapters read and characters read are updated weekly, with a notification sent to the user.
+
+    This file can have any name.
+
+    Supports:
+    - characters_read
+    - chapters_read
+    - shows_watched
+    - books_read
+    ---
+    Vocab size is incremented through a Pleco export file. Just export *all* the flashcards in a long file,
+    remove duplicates, and count the number of lines. This file will be called `pleco.txt`.
+    """
     # parse the file (file.read())
     # use the data to create a new log
     # NOTE: custom file upload is for VOCAB TRACKING ONLY
     # to track time, upload screen time to the custom log
-    pass
+
+    user = User.query.filter_by(id=1).first()  # NOTE: hardcode...
+    
+    # check if file is called pleco.txt
+    if file.filename == "pleco.txt":
+        # get the number of lines in the file
+        lines = file.readlines()
+        # remove duplicate lines
+        lines = list(set(lines))
+        user.vocab_size = len(lines)
+        db.session.commit()
+
+    else:
+        # parse the file
+        lines = file.readlines()
+
+        # remove the newline character
+        lines = [line.rstrip() for line in lines]
+
+        # divide up each line into a list of the form [name, value]
+        lines = [line.decode().split("\t") for line in lines]
+        
+        for line in lines:
+            if line[0] == "books_read":
+                user.books_read += int(line[1])
+            elif line[0] == "chapters_read":
+                user.chapters_read += int(line[1])
+            elif line[0] == "shows_watched":
+                user.shows_watched += int(line[1])
+            elif line[0] == "characters_read":
+                user.characters_read += int(line[1])
+
+        db.session.commit()
+
+    return jsonify(success=True)
+

@@ -1,5 +1,14 @@
 <template>
-  <input ref="file" v-on:change="handleFileUpload()" type="file" id="customFile" />
+  <div class="border-t border-b pb-16">
+    <p>File Log</p>
+    <p>Supported formats: Pleco, Stats</p>
+    <input
+      ref="file"
+      v-on:change="handleFileUpload()"
+      type="file"
+      id="customFile"
+    />
+  </div>
 </template>
 <script>
 import { ref } from "vue";
