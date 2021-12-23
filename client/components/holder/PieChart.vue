@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- Displays the users total history -->
-    <p class="mx-auto text-center">Time Breakdown</p>
     <client-only>
       <v-chart class="chart" :option="option" :theme="theme" />
     </client-only>
@@ -103,7 +102,7 @@ export default defineComponent({
       title: {
         text: "Time Breakdown",
         left: "center",
-        show: false,
+        show: true,
       },
       tooltip: {
         trigger: "item",
@@ -117,13 +116,16 @@ export default defineComponent({
         {
           name: "Hours spent",
           type: "pie",
-          radius: ["50%", "70%"],
-          avoidLabelOverlap: false,
+          radius: ["50%", "66%"],
+          label: {
+            show: false,
+          },
           itemStyle: {
             borderRadius: 10,
             borderColor: "#fff",
             borderWidth: 2,
           },
+          center: ["50%", "55%"],
           data: allLogData.data.value.time_breakdown,
         },
       ],
@@ -136,6 +138,6 @@ export default defineComponent({
 
 <style scoped>
 .chart {
-  height: 25vh;
+  height: 29vh;
 }
 </style>

@@ -300,16 +300,16 @@ export default defineComponent({
                 max: parseFloat(
                   Math.max(
                     ...allLogDataFinal.data.value.information.Total
-                  ).toFixed(3)
+                  ).toFixed(2)
                 ),
                 interval: parseFloat(
                   (
                     parseFloat(
                       Math.max(
                         ...allLogDataFinal.data.value.information.Total
-                      ).toFixed(3)
+                      ).toFixed(2)
                     ) / 5
-                  ).toFixed(3)
+                  ).toFixed(2)
                 ),
                 axisLabel: {
                   formatter: "{value} h",
@@ -319,11 +319,11 @@ export default defineComponent({
                 type: "value",
                 name: "Cumulative Hours",
                 min: 0,
-                max: parseFloat(cumulativeDataSum.Total.at(-1).toFixed(3)),
+                max: parseFloat(cumulativeDataSum.Total.at(-1).toFixed(2)),
                 interval: parseFloat(
                   (
-                    parseFloat(cumulativeDataSum.Total.at(-1).toFixed(3)) / 5
-                  ).toFixed(3)
+                    parseFloat(cumulativeDataSum.Total.at(-1).toFixed(2)) / 5
+                  ).toFixed(2)
                 ),
                 axisLabel: {
                   formatter: "{value} h",
@@ -493,12 +493,18 @@ export default defineComponent({
           name: "Period Hours",
           min: 0,
           max: parseFloat(
-            Math.max(...allLogDataFinal.data.value.information.Total).toFixed(3)
+            Math.max(...allLogDataFinal.data.value.information.Total).toFixed(2)
           ),
           interval:
-            Math.max(...allLogDataFinal.data.value.information.Total).toFixed(
-              2
-            ) / 5,
+            parseFloat(
+                  (
+                    parseFloat(
+                      Math.max(
+                        ...allLogDataFinal.data.value.information.Total
+                      ).toFixed(2)
+                    ) / 5
+                  ).toFixed(2)
+                ),
           axisLabel: {
             formatter: "{value} h",
           },
@@ -507,10 +513,10 @@ export default defineComponent({
           type: "value",
           name: "Cumulative Hours",
           min: 0,
-          max: parseFloat(cumulativeDataSum.Total.at(-1).toFixed(3)),
+          max: parseFloat(cumulativeDataSum.Total.at(-1).toFixed(2)),
           interval: parseFloat(
-            (parseFloat(cumulativeDataSum.Total.at(-1).toFixed(3)) / 5).toFixed(
-              3
+            (parseFloat(cumulativeDataSum.Total.at(-1).toFixed(2)) / 5).toFixed(
+              2
             )
           ),
           axisLabel: {

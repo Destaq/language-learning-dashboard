@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- Displays a graph of the users total hours -->
-    <p class="mx-auto text-center w-full bg-pink-500 z-50">Ability Breakdown</p>
     <client-only>
       <v-chart class="chart" :option="option" :theme="theme" />
     </client-only>
@@ -19,7 +18,7 @@ import {
   LegendComponent,
 } from "echarts/components";
 import VChart from "vue-echarts";
-import { ref, defineComponent, computed } from "vue";
+import { ref, defineComponent } from "vue";
 
 use([
   CanvasRenderer,
@@ -45,7 +44,8 @@ export default defineComponent({
       title: {
         text: "Ability Breakdown",
         left: "center",
-        show: false,
+        show: true,
+        top: "0%"
       },
       tooltip: {
         trigger: "axis",
@@ -66,6 +66,8 @@ export default defineComponent({
           axisName: {
             padding: [-8, -8, -8, -8], // move closer to the graph
           },
+          radius: "66%",
+          center: ["50%", "55%"],
         },
       ],
       series: [
@@ -115,6 +117,6 @@ export default defineComponent({
 
 <style scoped>
 .chart {
-  height: 25vh;
+  height: 29vh;
 }
 </style>
