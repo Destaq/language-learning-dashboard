@@ -2,13 +2,16 @@
   <div>
     <!-- put on the daily chengyu (left-aligned, with the chinese class) and today's date (right-aligned, detailed) -->
     <HolderTopInfo />
-    <HolderCustomLog :log="log" />
+    <HolderCustomLog :log="log" @refreshCharts="toggler = $event" />
+    <!-- NOTE: toggler is used for when there is a new log added -->
     <HolderHistoryChart
       @updateStartingDate="starting_date = $event"
       @updatePeriod="period = $event"
+      @updateDefaultView="isDefaultView = $event"
+      :toggler="toggler"
     />
     <div class="grid grid-cols-2 -mt-8">
-      <HolderPieChart :starting_date="starting_date" :period="period" />
+      <HolderPieChart :starting_date="starting_date" :isDefaultView="isDefaultView" :period="period" :toggler="toggler" />
       <HolderLevelsRadar />
     </div>
   </div>
@@ -37,10 +40,14 @@ export default {
         .slice(0, 10)
     );
     const period = ref("week");
+    const isDefaultView = ref(true);
+    const toggler = ref(true);
 
     return {
       starting_date,
       period,
+      toggler,
+      isDefaultView
     };
   },
 };

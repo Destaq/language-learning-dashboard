@@ -19,5 +19,9 @@ def serialize(chengyu_object):
 @chengyu_bp.route("/random-chengyu", methods=["GET"])
 def random_chengyu():
     # pick a random chengyu from the database
-    chengyu = Chengyu.query.order_by(db.func.random()).first()
+    chengyu = "1234567"
+    itslength = len(chengyu)
+    while itslength > 6:
+        chengyu = Chengyu.query.order_by(db.func.random()).first()
+        itslength = len(chengyu.word)
     return jsonify({"chengyu": serialize(chengyu)})

@@ -45,6 +45,14 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    isDefaultView: {
+      type: Boolean,
+      required: true,
+    },
+    toggler: {
+      type: Boolean,
+      required: true,
+    },
   },
   async setup(props) {
     const tempPeriod = ref("week");
@@ -60,19 +68,21 @@ export default defineComponent({
         .toISOString()
         .slice(0, 10)
     );
+    const tempDefaultView = ref(true);
 
     const allLogData = await useAsyncData("pieChart", () =>
       $fetch(
-        `http://127.0.0.1:5000/historical-breakdown?period=${tempPeriod.value}&starting_date=${tempStartingDate.value}`
+        `http://127.0.0.1:5000/historical-breakdown?period=${tempPeriod.value}&starting_date=${tempStartingDate.value}&default_view=${tempDefaultView.value}`
       )
     );
 
     watch(
-      () => [props.starting_date, props.period],
-      (new_val, old_val) => {
-        console.log(new_val, old_val);
+      () => [props.starting_date, props.period, props.isDefaultView, props.toggler],
+      (new_val, _old_val) => {
+        console.log("it has been toggled")
         tempStartingDate.value = new_val[0];
         tempPeriod.value = new_val[1];
+        tempDefaultView.value = new_val[2];
         allLogData.refresh().then(() => {
           option.value.series[0].data = allLogData.data.value.time_breakdown;
         });
@@ -91,6 +101,7 @@ export default defineComponent({
       },
       tooltip: {
         trigger: "item",
+        formatter: "{a} <br/>{b} : {c} ({d}%)",
       },
       legend: {
         right: "0%",

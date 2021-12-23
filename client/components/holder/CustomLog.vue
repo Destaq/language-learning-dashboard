@@ -44,9 +44,9 @@
 </template>
 
 <script>
-import { watch } from "vue";
+import { watch, defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   props: {
     // the data for the custom log
     log: {
@@ -54,12 +54,13 @@ export default {
       required: false,
     },
   },
-  async setup(props) {
+  async setup(props, { emit }) {
     // create the submitCustomLog function, sending the above data to the 127.0.0.1:5000/submit-custom-log route
     var logTitle = ref("");
     var logType = ref("");
     var logLength = ref(0);
     var logDate = ref(new Date().toISOString().slice(0, 10));
+    var toggler = ref(true);
 
     watch(
       () => props.log,
@@ -68,7 +69,7 @@ export default {
           logTitle.value = value.title;
           logType.value = value.type[0].toUpperCase() + value.type.slice(1);
           logLength.value = value.length;
-          logDate.value = new Date().toISOString().slice(0, 10)
+          logDate.value = new Date().toISOString().slice(0, 10);
         }
       }
     );
@@ -92,6 +93,10 @@ export default {
           logType.value = "";
           logLength.value = "";
           logDate.value = new Date().toISOString().slice(0, 10);
+
+          // emit the event to refresh the charts
+          toggler.value = !toggler.value;
+          emit("refreshCharts", toggler.value);
         })
         .catch((err) => {
           console.log(err);
@@ -103,8 +108,9 @@ export default {
       logTitle,
       logType,
       logLength,
-      logDate
+      logDate,
+      toggler,
     };
   },
-};
+});
 </script>

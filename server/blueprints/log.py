@@ -51,13 +51,7 @@ def hours_by_period():
     period = request.args.get("period")
     # request.args starting_date is in the format: YYYY-MM-DD
     starting_date = parse(request.args.get("starting_date"))
-    information = {
-        "Reading": [],
-        "Writing": [],
-        "Listening": [],
-        "Speaking": [],
-        "Other": [],
-    }
+    is_default_view = request.args.get("default_view") == "true"  # this is whether we are displaying type or resource
 
     if period == "week":
         ending_date = relativedelta(days=7) + starting_date
@@ -69,40 +63,59 @@ def hours_by_period():
         ending_date = relativedelta(years=1) + starting_date
         periods = 12
 
-    for i in range(periods):
-        information["Reading"].append(0)
-        information["Writing"].append(0)
-        information["Listening"].append(0)
-        information["Speaking"].append(0)
-        information["Other"].append(0)
-
     # get the logs within the two time periods
     logs = Log.query.filter(Log.date >= starting_date, Log.date < ending_date).all()
+
+    if is_default_view:
+        information = {
+            "Reading": [],
+            "Writing": [],
+            "Listening": [],
+            "Speaking": [],
+            "Other": [],
+        }
+
+        for i in range(periods):
+            information["Reading"].append(0)
+            information["Writing"].append(0)
+            information["Listening"].append(0)
+            information["Speaking"].append(0)
+            information["Other"].append(0)
+    else:
+        # information is all possible titles in the logs in the time period
+        information = {}
+        for log in logs:
+            if log.title not in information:
+                information[log.title] = [0] * periods
 
     dates = []
 
     if periods != 12:
         # now fill out the information container, with each list item representing a consecutive date
         # we are going day-by-day since it is less than or equal to one month in length
-        for log in logs:
-            if log.type == "Reading":
-                information["Reading"][(log.date - starting_date).days] += (
-                    log.length / 60
-                )
-            elif log.type == "Writing":
-                information["Writing"][(log.date - starting_date).days] += (
-                    log.length / 60
-                )
-            elif log.type == "Listening":
-                information["Listening"][(log.date - starting_date).days] += (
-                    log.length / 60
-                )
-            elif log.type == "Speaking":
-                information["Speaking"][(log.date - starting_date).days] += (
-                    log.length / 60
-                )
-            else:
-                information["Other"][(log.date - starting_date).days] += log.length / 60
+        if is_default_view:
+            for log in logs:
+                if log.type == "Reading":
+                    information["Reading"][(log.date - starting_date).days] += (
+                        log.length / 60
+                    )
+                elif log.type == "Writing":
+                    information["Writing"][(log.date - starting_date).days] += (
+                        log.length / 60
+                    )
+                elif log.type == "Listening":
+                    information["Listening"][(log.date - starting_date).days] += (
+                        log.length / 60
+                    )
+                elif log.type == "Speaking":
+                    information["Speaking"][(log.date - starting_date).days] += (
+                        log.length / 60
+                    )
+                else:
+                    information["Other"][(log.date - starting_date).days] += log.length / 60
+        else:
+            for log in logs:
+                information[log.title][(log.date - starting_date).days] += log.length / 60
 
         for i in range(periods):
             that_date = starting_date + relativedelta(days=i)
@@ -114,29 +127,38 @@ def hours_by_period():
         for log in logs:
             # get the month that the log was written
             month = log.date.month - 1
-            if log.type == "Reading":
-                information["Reading"][month] += log.length / 60
-            elif log.type == "Writing":
-                information["Writing"][month] += log.length / 60
-            elif log.type == "Listening":
-                information["Listening"][month] += log.length / 60
-            elif log.type == "Speaking":
-                information["Speaking"][month] += log.length / 60
+
+            if is_default_view:
+                if log.type == "Reading":
+                    information["Reading"][month] += log.length / 60
+                elif log.type == "Writing":
+                    information["Writing"][month] += log.length / 60
+                elif log.type == "Listening":
+                    information["Listening"][month] += log.length / 60
+                elif log.type == "Speaking":
+                    information["Speaking"][month] += log.length / 60
+                else:
+                    information["Other"][month] += log.length / 60
             else:
-                information["Other"][month] += log.length / 60
+                information[log.title][month] += log.length / 60
 
         for i in range(periods):
             # append the month to dates, where the month is in the format 'Jan '19', and starts at starting_date month
             dates.append(
                 (starting_date + relativedelta(months=i)).strftime("%b '%y")
             )
-            
+
+    for (key, value) in information.items():
+        information[key] = [round(x, 3) for x in value]  
+
     return jsonify(information=information, dates=dates)
 
 @log_bp.route("/historical-breakdown", methods=["GET"])
 def historical_breakdown():
     period = request.args.get("period")
     starting_date = parse(request.args.get("starting_date"))
+    is_default_view = request.args.get("default_view") == "true"
+
     if period == "week":
         ending_date = relativedelta(days=7) + starting_date
     elif period == "month":
@@ -144,27 +166,47 @@ def historical_breakdown():
     elif period == "year":
         ending_date = relativedelta(years=1) + starting_date
 
-    time_breakdown = [
-        {"value": 0, "name": "Reading"},
-        {"value": 0, "name": "Writing"},
-        {"value": 0, "name": "Listening"},
-        {"value": 0, "name": "Speaking"},
-        {"value": 0, "name": "Other"},
-    ]
-
     # add up all log length values in the time period
     logs = Log.query.filter(Log.date >= starting_date, Log.date < ending_date).all()
-    for log in logs:
-        if log.type == "Reading":
-            time_breakdown[0]["value"] += log.length / 60
-        elif log.type == "Writing":
-            time_breakdown[1]["value"] += log.length / 60
-        elif log.type == "Listening":
-            time_breakdown[2]["value"] += log.length / 60
-        elif log.type == "Speaking":
-            time_breakdown[3]["value"] += log.length / 60
-        else:
-            time_breakdown[4]["value"] += log.length / 60
+
+    if is_default_view:
+        time_breakdown = [
+            {"value": 0, "name": "Reading"},
+            {"value": 0, "name": "Writing"},
+            {"value": 0, "name": "Listening"},
+            {"value": 0, "name": "Speaking"},
+            {"value": 0, "name": "Other"},
+        ]
+
+        for log in logs:
+            if log.type == "Reading":
+                time_breakdown[0]["value"] += log.length / 60
+            elif log.type == "Writing":
+                time_breakdown[1]["value"] += log.length / 60
+            elif log.type == "Listening":
+                time_breakdown[2]["value"] += log.length / 60
+            elif log.type == "Speaking":
+                time_breakdown[3]["value"] += log.length / 60
+            else:
+                time_breakdown[4]["value"] += log.length / 60
+    else:
+        time_breakdown = []
+        # create unique time_breakdown list
+        used_titles = set()
+        for log in logs:
+            if log.title not in used_titles:
+                time_breakdown.append({"value": 0, "name": log.title})
+                used_titles.add(log.title)
+
+        for log in logs:
+            # find index of the title in the time_breakdown list
+            index = time_breakdown.index(
+                [x for x in time_breakdown if x["name"] == log.title][0]
+            )
+            time_breakdown[index]["value"] += log.length / 60
+
+    for element in time_breakdown:
+        element["value"] = round(element["value"], 3)
 
     return jsonify(time_breakdown=time_breakdown)
 
