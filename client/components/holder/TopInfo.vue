@@ -1,20 +1,26 @@
 <template>
   <div class="grid grid-cols-3 items-center">
-    <div class="chinese text-3xl">{{ data.chengyu.word }}</div>
-    <div class="text-xl mx-auto underline">JotLingo</div>
+    <div class="chinese text-3xl">{{ data.data.value.chengyu.word }}</div>
+    <div class="text-xl mx-auto underline">TraceLang</div>
     <div class="text-right">{{ today }}</div>
   </div>
   <!-- progress bar -->
-  <div class="mx-2">
-    <div class="w-full rounded-none">
-      <div>
-        <!-- <div class="stat-value text-lg">4,724/5,000</div>
-        <div class="stat-title opacity-100">Vocabulary Size</div> -->
-        <progress
-          :value="(4724 / 5000) * 100"
-          max="100"
-          class="progress w-full h-2.5 rounded-xl"
-        ></progress>
+  <div class="border border-base-300">
+    <div>
+      <div class="stat-desc mx-auto w-full">
+        <div class="mx-auto flex items-center content-center">
+          <span class="ml-1">0</span>
+          <progress
+            :value="
+              (vocabData.data.value.vocab_size /
+                vocabData.data.value.milestone) *
+                100
+            "
+            max="100"
+            class="progress progress-secondary mx-2"
+          ></progress>
+          <span class="mr-1">{{ vocabData.data.value.milestone }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -23,9 +29,10 @@
 <script>
 export default {
   async setup() {
-    const { data } = await useAsyncData("randomchengyu", () =>
-      $fetch("http://127.0.0.1:5000/random-chengyu")
-    );
+    const [data, vocabData] = await Promise.all([
+      useFetch(`http://127.0.0.1:5000/random-chengyu`),
+      useFetch(`http://127.0.0.1:5000/get-vocab-size-and-milestone`),
+    ]);
 
     // get today in the format: "Monday, January 1, 2020"
     const today = new Date().toLocaleDateString("en-US", {
@@ -38,6 +45,7 @@ export default {
     return {
       data,
       today,
+      vocabData,
     };
   },
 };

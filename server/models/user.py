@@ -12,6 +12,7 @@ class User(db.Model):
     notes = db.relationship("Note", backref="user", lazy=True)
     logs = db.relationship("Log", backref="user", lazy=True)
     actions = db.relationship("Action", backref="user", lazy=True)
+    vocab_size = db.Column(db.Integer, nullable=False, default=0)
 
     def __init__(self, username):
         self.username = username
