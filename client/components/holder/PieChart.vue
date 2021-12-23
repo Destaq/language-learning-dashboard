@@ -3,7 +3,7 @@
     <!-- Displays the users total history -->
     <p class="mx-auto text-center">Time Breakdown</p>
     <client-only>
-      <v-chart class="chart" :option="option" />
+      <v-chart class="chart" :option="option" :theme="theme" />
     </client-only>
   </div>
 </template>
@@ -17,7 +17,7 @@ import {
   TooltipComponent,
   LegendComponent,
 } from "echarts/components";
-import VChart, { THEME_KEY } from "vue-echarts";
+import VChart from "vue-echarts";
 import { ref, defineComponent, watch } from "vue";
 
 use([
@@ -32,9 +32,6 @@ export default defineComponent({
   name: "PieChart",
   components: {
     VChart,
-  },
-  provide: {
-    [THEME_KEY]: "light",
   },
   props: {
     starting_date: {
@@ -51,6 +48,10 @@ export default defineComponent({
     },
     toggler: {
       type: Boolean,
+      required: true,
+    },
+    theme: {
+      type: String,
       required: true,
     },
   },
@@ -77,9 +78,14 @@ export default defineComponent({
     );
 
     watch(
-      () => [props.starting_date, props.period, props.isDefaultView, props.toggler],
+      () => [
+        props.starting_date,
+        props.period,
+        props.isDefaultView,
+        props.toggler,
+      ],
       (new_val, _old_val) => {
-        console.log("it has been toggled")
+        console.log("it has been toggled");
         tempStartingDate.value = new_val[0];
         tempPeriod.value = new_val[1];
         tempDefaultView.value = new_val[2];

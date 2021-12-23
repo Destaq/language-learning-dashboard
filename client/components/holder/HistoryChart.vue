@@ -66,7 +66,13 @@
       </button>
     </div>
     <client-only>
-      <v-chart class="chart mt-4" :option="option" ref="chart" :update-options="{ notMerge: true }" />
+      <v-chart
+        class="chart mt-4"
+        :option="option"
+        ref="chart"
+        :update-options="{ notMerge: true }"
+        :theme="theme"
+      />
     </client-only>
   </div>
 </template>
@@ -80,7 +86,7 @@ import {
   TooltipComponent,
   LegendComponent,
 } from "echarts/components";
-import VChart, { THEME_KEY } from "vue-echarts";
+import VChart from "vue-echarts";
 import { ref, defineComponent, watch } from "vue";
 
 use([
@@ -97,13 +103,14 @@ export default defineComponent({
   components: {
     VChart,
   },
-  provide: {
-    [THEME_KEY]: "light",
-  },
   props: {
     toggler: {
       type: Boolean,
       required: false,
+    },
+    theme: {
+      type: String,
+      required: true,
     },
   },
   async setup(props, { emit }) {

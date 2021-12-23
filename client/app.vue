@@ -1,23 +1,27 @@
 <template>
-  <div class="grid grid-cols-12">
-    <LeftSidebar @setupAction="eventData = $event" class="col-span-2" />
-    <MainHolder class="bg-gray-300 border-r border-l border-black col-span-7" :log="eventData"/>
-    <RightSidebar class="col-span-3" />
-  </div>
+  <Html :data-theme="theme">
+    <div class="grid grid-cols-12">
+      <LeftSidebar @setupAction="eventData = $event" class="col-span-2" />
+      <MainHolder
+        class="bg-gray-300 border-r border-l border-black col-span-7"
+        :log="eventData"
+        :theme="theme"
+      />
+      <RightSidebar class="col-span-3" @newTheme="theme = $event" />
+    </div>
+  </Html>
 </template>
 
 <script>
+import { useCookie } from "#app";
+
 export default {
   setup() {
     const eventData = ref(null);
 
-    useMeta({
-      htmlAttrs: {
-        "data-theme": "light",
-      },
-    });
+    const theme = useCookie("theme") || "light";
 
-    return { eventData };
+    return { eventData, theme };
   },
 };
 </script>

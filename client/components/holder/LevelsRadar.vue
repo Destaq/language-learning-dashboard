@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- Displays a graph of the users total hours -->
-    <p class="mx-auto text-center w-full">Ability Breakdown</p>
+    <p class="mx-auto text-center w-full bg-pink-500 z-50">Ability Breakdown</p>
     <client-only>
-      <v-chart class="chart" :option="option" />
+      <v-chart class="chart" :option="option" :theme="theme" />
     </client-only>
     <!-- <button>Edit</button> -->
   </div>
@@ -18,8 +18,8 @@ import {
   TooltipComponent,
   LegendComponent,
 } from "echarts/components";
-import VChart, { THEME_KEY } from "vue-echarts";
-import { ref, defineComponent } from "vue";
+import VChart from "vue-echarts";
+import { ref, defineComponent, computed } from "vue";
 
 use([
   CanvasRenderer,
@@ -34,15 +34,18 @@ export default defineComponent({
   components: {
     VChart,
   },
-  provide: {
-    [THEME_KEY]: "light",
+  props: {
+    theme: {
+      type: String,
+      required: true,
+    },
   },
   async setup() {
     const option = ref({
       title: {
         text: "Ability Breakdown",
         left: "center",
-        show: false
+        show: false,
       },
       tooltip: {
         trigger: "axis",
@@ -50,7 +53,7 @@ export default defineComponent({
       legend: {
         data: ["Current Ability", "End of 2020"],
         right: "0%",
-        orient: "vertical"
+        orient: "vertical",
       },
       radar: [
         {
@@ -62,7 +65,7 @@ export default defineComponent({
           ],
           axisName: {
             padding: [-8, -8, -8, -8], // move closer to the graph
-          }
+          },
         },
       ],
       series: [

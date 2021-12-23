@@ -9,10 +9,11 @@
       @updatePeriod="period = $event"
       @updateDefaultView="isDefaultView = $event"
       :toggler="toggler"
+      :theme="theme"
     />
     <div class="grid grid-cols-2 -mt-8">
-      <HolderPieChart :starting_date="starting_date" :isDefaultView="isDefaultView" :period="period" :toggler="toggler" />
-      <HolderLevelsRadar />
+      <HolderPieChart :starting_date="starting_date" :isDefaultView="isDefaultView" :period="period" :toggler="toggler" :theme="theme" />
+      <HolderLevelsRadar :theme="theme" />
     </div>
   </div>
 </template>
@@ -25,6 +26,10 @@ export default {
     log: {
       type: Object,
       required: false,
+    },
+    theme: {
+      type: String,
+      required: true,
     },
   },
   setup() {

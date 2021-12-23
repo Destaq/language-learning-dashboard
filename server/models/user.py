@@ -61,14 +61,14 @@ class User(db.Model):
         # NOTE: can also input manually and then subtract from file
         return {
             "show": {
-                "title": "Watched Show",
+                "title": "TV",
                 "length": 15,
                 "type": "listening",
                 "language": "zh",
                 "user_id": self.id
             },
             "chinese_class": {
-                "title": "Chinese Class",
+                "title": "Class",
                 "length": 60,
                 "type": "listening",
                 "language": "zh",
