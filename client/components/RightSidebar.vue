@@ -20,9 +20,19 @@
         ></path>
       </svg>
     </p>
-    <!-- the below has stats too -->
-    <RightSidebarUserProfile />
-    <RightSidebarStatisticLog />
+    <!-- sibling component communication -->
+    <RightSidebarUserProfile :refreshIt="toggle" />
+    <!-- the below has stats -->
+    <RightSidebarStatisticLog @refreshStats="toggle = !toggle" />
     <RightSidebarUserGoals />
   </div>
 </template>
+
+<script>
+export default {
+  setup() {
+    const toggle = ref(false);
+    return { toggle };
+  },
+};
+</script>

@@ -14,7 +14,7 @@
 import { ref } from "vue";
 
 export default {
-  async setup() {
+  async setup(_, { emit }) {
     const file = ref(null);
 
     const handleFileUpload = async () => {
@@ -24,6 +24,8 @@ export default {
         method: "POST",
         body: formData,
       });
+
+      emit("refreshStats");
     };
 
     return {
