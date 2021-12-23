@@ -6,7 +6,7 @@ from models.user import User
 log_bp = Blueprint("log", __name__)
 
 
-@log_bp.route("/submit-custom-log", methods=["POST", "OPTIONS"])
+@log_bp.route("/submit-custom-log", methods=["POST"])
 def submit_custom_log():
     # get the data from the request
     data = request.get_json()
@@ -19,6 +19,7 @@ def submit_custom_log():
         type=data["type"],
         language="zh",  # NOTE: hardcoded for prototype
     )
+    log.date = data["date"]
 
     # add the log to the database
     db.session.add(log)
@@ -33,6 +34,7 @@ def upload_log_file():
     file = request.files["file"]
     parse_and_use_file(file)
     return jsonify(success=True)
+
 
 @log_bp.route("/possible-daily-actions", methods=["GET"])
 def action_templater():

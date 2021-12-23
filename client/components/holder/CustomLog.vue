@@ -8,6 +8,7 @@
           placeholder="Title"
           v-model="logTitle"
         />
+        <input type="date" v-model="logDate" />
       </div>
       <div>
         <div class="grid grid-cols-2 gap-2 mt-1">
@@ -30,7 +31,11 @@
             class="inline input input-bordered"
           />
         </div>
-        <button type="submit" class="btn btn-success btn-sm w-full flex mx-auto text-center rounded-sm" @click="submitCustomLog">
+        <button
+          type="submit"
+          class="btn btn-success btn-sm w-full flex mx-auto text-center rounded-sm"
+          @click="submitCustomLog"
+        >
           Submit Custom Log
         </button>
       </div>
@@ -54,6 +59,7 @@ export default {
     var logTitle = ref("");
     var logType = ref("");
     var logLength = ref(0);
+    var logDate = ref(new Date().toISOString().slice(0, 10));
 
     watch(
       () => props.log,
@@ -62,6 +68,7 @@ export default {
           logTitle.value = value.title;
           logType.value = value.type[0].toUpperCase() + value.type.slice(1);
           logLength.value = value.length;
+          logDate.value = new Date().toISOString().slice(0, 10)
         }
       }
     );
@@ -73,9 +80,10 @@ export default {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          logTitle: logTitle.value,
-          logType: logType.value,
-          logLength: logLength.value,
+          title: logTitle.value,
+          type: logType.value,
+          length: logLength.value,
+          date: logDate.value,
         }),
       })
         .then(() => {
@@ -83,6 +91,7 @@ export default {
           logTitle.value = "";
           logType.value = "";
           logLength.value = "";
+          logDate.value = new Date().toISOString().slice(0, 10);
         })
         .catch((err) => {
           console.log(err);
@@ -94,6 +103,7 @@ export default {
       logTitle,
       logType,
       logLength,
+      logDate
     };
   },
 };
