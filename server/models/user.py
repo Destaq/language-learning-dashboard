@@ -14,6 +14,11 @@ class User(db.Model):
     actions = db.relationship("Action", backref="user", lazy=True)
     vocab_size = db.Column(db.Integer, nullable=False, default=0)
 
+    characters_read = db.Column(db.Integer, nullable=False, default=0)
+    chapters_read = db.Column(db.Integer, nullable=False, default=0)
+    books_read = db.Column(db.Integer, nullable=False, default=0)
+    shows_watched = db.Column(db.Integer, nullable=False, default=0)
+
     def __init__(self, username):
         self.username = username
 

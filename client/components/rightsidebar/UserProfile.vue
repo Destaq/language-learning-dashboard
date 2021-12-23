@@ -9,7 +9,7 @@
     </div>
     <p>Mythaar</p>
     <ul>
-      <li v-for="(statistic, index) in statistics">
+      <li v-for="(statistic, index) in statistics" :key="index">
         <span class="text-gray-600">{{ statistic.name }}</span>
         <span class="text-gray-600">{{ statistic.value }}</span>
       </li>
@@ -20,18 +20,12 @@
 <script>
 export default {
   async setup() {
-    const { data } = await useAsyncData("fetchlevels", () =>
-      $fetch("http://127.0.0.1:5000/fetch-levels")
+    const { data } = await useAsyncData("fetchstats", () =>
+      $fetch("http://127.0.0.1:5000/fetch-statistics")
     );
 
-    if (data.statistics == undefined) {
-      return {
-        statistics: [],
-      };
-    }
-
     return {
-      statistics: data.statistics,
+      statistics: data.value.statistics,
     };
   },
 };

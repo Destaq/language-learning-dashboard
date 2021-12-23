@@ -10,6 +10,7 @@ from blueprints.chengyu import chengyu_bp
 from blueprints.log import log_bp
 from blueprints.goals import goal_bp
 from blueprints.milestones import milestone_bp
+from blueprints.statistics import statistics_bp
 
 # MODEL IMPORTS FOR FLASK-MIGRATE
 from models.chengyu import Chengyu
@@ -42,5 +43,6 @@ def create_app():
     app.register_blueprint(log_bp)
     app.register_blueprint(goal_bp)
     app.register_blueprint(milestone_bp)
+    app.register_blueprint(statistics_bp)
 
     return app
