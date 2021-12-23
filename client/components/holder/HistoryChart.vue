@@ -1,60 +1,72 @@
 <template>
   <div>
-    <!-- Displays a graph of the users total hours -->
-    <button
-      class="btn btn-xs inline btn-primary"
-      @click="fetchUserData('week', null)"
-    >
-      Week
-    </button>
-    <button
-      class="btn btn-xs inline btn-primary"
-      @click="fetchUserData('month', null)"
-    >
-      Month
-    </button>
-    <button
-      class="btn btn-xs inline btn-primary"
-      @click="fetchUserData('year', null)"
-    >
-      Year
-    </button>
-    <!-- left arrow -->
-    <button class="inline btn btn-xs" @click="fetchUserData(null, -1)">
-      <svg
-        class="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
+    <div>
+      <!-- Displays a graph of the users total hours -->
+      <button
+        class="btn btn-xs inline btn-primary"
+        @click="fetchUserData('week', null, null)"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M10 19l-7-7m0 0l7-7m-7 7h18"
-        ></path>
-      </svg>
-    </button>
-    <!-- right arrow -->
-    <button class="btn btn-xs inline" @click="fetchUserData(null, 1)">
-      <svg
-        class="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
+        Week
+      </button>
+      <button
+        class="btn btn-xs inline btn-primary"
+        @click="fetchUserData('month', null, null)"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M14 5l7 7m0 0l-7 7m7-7H3"
-        ></path>
-      </svg>
-    </button>
+        Month
+      </button>
+      <button
+        class="btn btn-xs inline btn-primary"
+        @click="fetchUserData('year', null, null)"
+      >
+        Year
+      </button>
+      <button
+        class="btn btn-xs inline btn-secondary"
+        @click="
+          isDefaultView = !isDefaultView;
+          fetchUserData(null, null, isDefaultView);
+        "
+      >
+        <!-- display by title instead -->
+        Switch View
+      </button>
+      <!-- left arrow -->
+      <button class="inline btn btn-xs" @click="fetchUserData(null, -1, null)">
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          ></path>
+        </svg>
+      </button>
+      <!-- right arrow -->
+      <button class="btn btn-xs inline" @click="fetchUserData(null, 1)">
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M14 5l7 7m0 0l-7 7m7-7H3"
+          ></path>
+        </svg>
+      </button>
+    </div>
     <client-only>
-      <v-chart class="chart mt-4" :option="option" />
+      <v-chart class="chart mt-4" :option="option" ref="chart" :update-options="{ notMerge: true }" />
     </client-only>
   </div>
 </template>
@@ -68,12 +80,8 @@ import {
   TooltipComponent,
   LegendComponent,
 } from "echarts/components";
-import VChart, {
-  LOADING_OPTIONS_KEY,
-  THEME_KEY,
-  UPDATE_OPTIONS_KEY,
-} from "vue-echarts";
-import { ref, defineComponent } from "vue";
+import VChart, { THEME_KEY } from "vue-echarts";
+import { ref, defineComponent, watch } from "vue";
 
 use([
   CanvasRenderer,
@@ -92,7 +100,13 @@ export default defineComponent({
   provide: {
     [THEME_KEY]: "light",
   },
-  async setup(_, { emit }) {
+  props: {
+    toggler: {
+      type: Boolean,
+      required: false,
+    },
+  },
+  async setup(props, { emit }) {
     const findCumulativeSum = (arr) => {
       const creds = arr.reduce(
         (acc, val) => {
@@ -109,6 +123,16 @@ export default defineComponent({
       return creds.res;
     };
 
+    watch(
+      () => props.toggler,
+      (_value) => {
+        // there was a new log uploaded
+        // refresh this data accordingly
+        fetchUserData();
+      }
+    );
+
+    const chart = ref(null);
     const period = ref("week");
     const totalShift = ref(0);
     // set starting date to the closest elapsed monday
@@ -123,18 +147,27 @@ export default defineComponent({
         .toISOString()
         .slice(0, 10)
     );
+    const isDefaultView = ref(true); // showing the types (e.g. listening, speaking), instead of the titles
 
     // NOTE: options: 'week', 'month', 'year'
     const allLogData = await useAsyncData("allUserData", () =>
       $fetch(
-        `http://127.0.0.1:5000/hours-by-period?period=${period.value}&starting_date=${starting_date.value}`
+        `http://127.0.0.1:5000/hours-by-period?period=${period.value}&starting_date=${starting_date.value}&default_view=${isDefaultView.value}`
       )
     );
 
+    // get all the keys (e.g. listening, speaking) from allLogData
+    var theKeys = Object.keys(allLogData.data.value.information);
+
     async function fetchUserData(
       newPeriodValue = null,
-      startingValueShift = null
+      startingValueShift = null,
+      newIsDefaultView = null
     ) {
+      if (newIsDefaultView !== null) {
+        isDefaultView.value = newIsDefaultView;
+      }
+
       // updates if new period value is passed in
       if (newPeriodValue) {
         period.value = newPeriodValue;
@@ -198,14 +231,26 @@ export default defineComponent({
 
       emit("updateStartingDate", starting_date.value);
       emit("updatePeriod", period.value);
+      emit("updateDefaultView", isDefaultView.value);
 
       fetch(
-        `http://127.0.0.1:5000/hours-by-period?period=${period.value}&starting_date=${starting_date.value}`
+        `http://127.0.0.1:5000/hours-by-period?period=${period.value}&starting_date=${starting_date.value}&default_view=${isDefaultView.value}`
       )
         .then((res) => res.json())
         .then((data) => {
           allLogData.data.value = data;
-          const cumulativeDataSum = prepareOptions();
+
+          var theKeys = Object.keys(allLogData.data.value.information);
+          let temp = prepareOptions(theKeys);
+
+          const cumulativeDataSum = temp[0];
+          var cumulativeDataSumSeries = temp[1];
+          const allLogDataFinal = temp[2];
+
+          if (cumulativeDataSum.Total.length === 0) {
+            // if there is no data, set the total to 0
+            cumulativeDataSum.Total = [0, 0, 0, 0, 0, 0, 0];
+          }
 
           option.value = {
             tooltip: {
@@ -227,18 +272,14 @@ export default defineComponent({
             },
             legend: {
               data: [
-                "Reading",
-                "Listening",
-                "Writing",
-                "Speaking",
-                "Other",
+                ...theKeys.filter((item) => item !== "Total"),
                 "Cumulative Sum",
               ],
             },
             xAxis: [
               {
                 type: "category",
-                data: allLogData.data.value.dates,
+                data: allLogDataFinal.data.value.dates,
                 axisPointer: {
                   type: "shadow",
                 },
@@ -249,9 +290,20 @@ export default defineComponent({
                 type: "value",
                 name: "Period Hours",
                 min: 0,
-                max: Math.max(...allLogData.data.value.information.Total),
-                interval:
-                  Math.max(...allLogData.data.value.information.Total) / 5,
+                max: parseFloat(
+                  Math.max(
+                    ...allLogDataFinal.data.value.information.Total
+                  ).toFixed(3)
+                ),
+                interval: parseFloat(
+                  (
+                    parseFloat(
+                      Math.max(
+                        ...allLogDataFinal.data.value.information.Total
+                      ).toFixed(3)
+                    ) / 5
+                  ).toFixed(3)
+                ),
                 axisLabel: {
                   formatter: "{value} h",
                 },
@@ -260,71 +312,41 @@ export default defineComponent({
                 type: "value",
                 name: "Cumulative Hours",
                 min: 0,
-                max: cumulativeDataSum.Total.at(-1),
-                interval: cumulativeDataSum.Total.at(-1) / 5,
+                max: parseFloat(cumulativeDataSum.Total.at(-1).toFixed(3)),
+                interval: parseFloat(
+                  (
+                    parseFloat(cumulativeDataSum.Total.at(-1).toFixed(3)) / 5
+                  ).toFixed(3)
+                ),
                 axisLabel: {
                   formatter: "{value} h",
                 },
               },
             ],
             series: [
+              ...cumulativeDataSumSeries,
               {
                 name: "Cumulative Sum",
                 type: "line",
                 yAxisIndex: 1,
                 data: cumulativeDataSum.Total,
               },
-              {
-                name: "Reading",
-                type: "bar",
-                stack: "total",
-                emphasis: {
-                  focus: "series",
-                },
-                data: allLogData.data.value.information.Reading,
-              },
-              {
-                name: "Listening",
-                type: "bar",
-                stack: "total",
-                emphasis: {
-                  focus: "series",
-                },
-                data: allLogData.data.value.information.Listening,
-              },
-              {
-                name: "Speaking",
-                type: "bar",
-                stack: "total",
-                emphasis: {
-                  focus: "series",
-                },
-                data: allLogData.data.value.information.Speaking,
-              },
-              {
-                name: "Writing",
-                type: "bar",
-                stack: "total",
-                emphasis: {
-                  focus: "series",
-                },
-                data: allLogData.data.value.information.Writing,
-              },
-              {
-                name: "Other",
-                type: "bar",
-                stack: "total",
-                emphasis: {
-                  focus: "series",
-                },
-                data: allLogData.data.value.information.Other,
-              },
             ],
           };
+          // const newSeries = [
+          //   ...cumulativeDataSumSeries,
+          //   {
+          //     name: "Cumulative Sum",
+          //     type: "line",
+          //     yAxisIndex: 1,
+          //     data: cumulativeDataSum.Total,
+          //   },
+          // ];
+          // chart.setOption({series: newSeries}, { replaceMerge: ['series']});
         });
     }
 
-    function prepareOptions() {
+    function prepareOptions(correct_keys) {
       // create a cumulative sum of reading, speaking, listening, writing, and other from the above data
       // in the format: {
       //   Reading: [5, 8, 9, 12.5, 14.5],
@@ -332,13 +354,42 @@ export default defineComponent({
       //   ...
       // }
       const cumulativeDataSum = {
-        Reading: [],
-        Speaking: [],
-        Listening: [],
-        Writing: [],
-        Other: [],
         Total: [],
       };
+
+      for (const key of correct_keys) {
+        cumulativeDataSum[key] = [];
+      }
+
+      /* 
+      Create list of below such objects:
+      {
+        name: Key,
+        type: "bar",
+        stack: "total",
+        emphasis: {
+          focus: "series",
+        },
+          data: allLogData.data.value.information.Key,
+      }
+      for every key in correct_keys
+      */
+      var cumulativeDataSumSeries = correct_keys.map((key) => {
+        return {
+          name: key,
+          type: "bar",
+          stack: "total",
+          emphasis: {
+            focus: "series",
+          },
+          data: allLogData.data.value.information[key],
+        };
+      });
+
+      // remove whichever object in cumulativeDataSumSeries that has a name of "Total"
+      cumulativeDataSumSeries = cumulativeDataSumSeries.filter(
+        (series) => series.name !== "Total"
+      );
 
       Object.keys(allLogData.data.value.information).forEach((key) => {
         cumulativeDataSum[key] = findCumulativeSum(
@@ -348,34 +399,58 @@ export default defineComponent({
 
       // now get the total for each day
       // e.g. [5, 8, 10, 12, 15], [5, 8, 10, 12, 15] -> [10, 18, 20, 24, 30]
-      cumulativeDataSum.Total = cumulativeDataSum.Reading.map((reading, i) => {
-        return (
-          reading +
-          cumulativeDataSum.Speaking[i] +
-          cumulativeDataSum.Listening[i] +
-          cumulativeDataSum.Writing[i] +
-          cumulativeDataSum.Other[i]
-        );
-      });
+      /*
+      We start with an object like this:
+      {
+        key1: [5, 8, 9, 12.5, 14.5],
+        key2: [5, 8, 10, 12, 15],
+        ...
+      }
 
-      allLogData.data.value.information.Total = allLogData.data.value.information.Reading.map(
-        (reading, i) => {
-          return (
-            reading +
-            allLogData.data.value.information.Speaking[i] +
-            allLogData.data.value.information.Listening[i] +
-            allLogData.data.value.information.Writing[i] +
-            allLogData.data.value.information.Other[i]
+      We want to add up all arrays in the object into one array
+      [10, 16, 19, 24.5, 29.5]
+
+      The output array should be the same length as the input ones!
+      */
+      function sumArrays(...arrays) {
+        try {
+          const n = arrays.reduce((max, xs) => Math.max(max, xs.length), 0);
+          const result = Array.from({ length: n });
+          return result.map((_, i) =>
+            arrays.map((xs) => xs[i] || 0).reduce((sum, x) => sum + x, 0)
           );
+        } catch {
+          return [];
         }
-      );
+      }
 
-      return cumulativeDataSum;
+      let inputArrays = [];
+      for (const key of correct_keys.filter((item) => item !== "Total")) {
+        inputArrays.push(cumulativeDataSum[key]);
+      }
+
+      cumulativeDataSum.Total = sumArrays(...inputArrays);
+
+      // clear inputArrays
+      inputArrays = [];
+      // repeat for allLogData.data.value.information
+      for (const key of correct_keys.filter((item) => item !== "Total")) {
+        inputArrays.push(allLogData.data.value.information[key]);
+      }
+
+      allLogData.data.value.information.Total = sumArrays(...inputArrays);
+
+      return [cumulativeDataSum, cumulativeDataSumSeries, allLogData];
     }
 
-    const cumulativeDataSum = prepareOptions();
+    let response = prepareOptions(theKeys);
+
+    const cumulativeDataSum = response[0];
+    const cumulativeDataSumSeries = response[1];
+    const allLogDataFinal = response[2];
 
     const option = ref({
+      notMerge: true,
       tooltip: {
         trigger: "axis",
         axisPointer: {
@@ -394,19 +469,12 @@ export default defineComponent({
         },
       },
       legend: {
-        data: [
-          "Reading",
-          "Listening",
-          "Writing",
-          "Speaking",
-          "Other",
-          "Cumulative Sum",
-        ],
+        data: [...theKeys.filter((item) => item !== "Total"), "Cumulative Sum"],
       },
       xAxis: [
         {
           type: "category",
-          data: allLogData.data.value.dates,
+          data: allLogDataFinal.data.value.dates,
           axisPointer: {
             type: "shadow",
           },
@@ -417,8 +485,13 @@ export default defineComponent({
           type: "value",
           name: "Period Hours",
           min: 0,
-          max: Math.max(...allLogData.data.value.information.Total),
-          interval: Math.max(...allLogData.data.value.information.Total) / 5,
+          max: parseFloat(
+            Math.max(...allLogDataFinal.data.value.information.Total).toFixed(3)
+          ),
+          interval:
+            Math.max(...allLogDataFinal.data.value.information.Total).toFixed(
+              2
+            ) / 5,
           axisLabel: {
             formatter: "{value} h",
           },
@@ -427,69 +500,38 @@ export default defineComponent({
           type: "value",
           name: "Cumulative Hours",
           min: 0,
-          max: cumulativeDataSum.Total.at(-1),
-          interval: cumulativeDataSum.Total.at(-1) / 5,
+          max: parseFloat(cumulativeDataSum.Total.at(-1).toFixed(3)),
+          interval: parseFloat(
+            (parseFloat(cumulativeDataSum.Total.at(-1).toFixed(3)) / 5).toFixed(
+              3
+            )
+          ),
           axisLabel: {
             formatter: "{value} h",
           },
         },
       ],
       series: [
+        ...cumulativeDataSumSeries,
         {
           name: "Cumulative Sum",
           type: "line",
           yAxisIndex: 1,
           data: cumulativeDataSum.Total,
         },
-        {
-          name: "Reading",
-          type: "bar",
-          stack: "total",
-          emphasis: {
-            focus: "series",
-          },
-          data: allLogData.data.value.information.Reading,
-        },
-        {
-          name: "Listening",
-          type: "bar",
-          stack: "total",
-          emphasis: {
-            focus: "series",
-          },
-          data: allLogData.data.value.information.Listening,
-        },
-        {
-          name: "Speaking",
-          type: "bar",
-          stack: "total",
-          emphasis: {
-            focus: "series",
-          },
-          data: allLogData.data.value.information.Speaking,
-        },
-        {
-          name: "Writing",
-          type: "bar",
-          stack: "total",
-          emphasis: {
-            focus: "series",
-          },
-          data: allLogData.data.value.information.Writing,
-        },
-        {
-          name: "Other",
-          type: "bar",
-          stack: "total",
-          emphasis: {
-            focus: "series",
-          },
-          data: allLogData.data.value.information.Other,
-        },
       ],
     });
 
-    return { option, fetchUserData, starting_date, period, allLogData, totalShift };
+    return {
+      option,
+      fetchUserData,
+      starting_date,
+      period,
+      allLogData,
+      totalShift,
+      isDefaultView,
+      chart,
+    };
   },
 });
 </script>
