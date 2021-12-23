@@ -133,6 +133,41 @@ def hours_by_period():
             
     return jsonify(information=information, dates=dates)
 
+@log_bp.route("/historical-breakdown", methods=["GET"])
+def historical_breakdown():
+    period = request.args.get("period")
+    starting_date = parse(request.args.get("starting_date"))
+    if period == "week":
+        ending_date = relativedelta(days=7) + starting_date
+    elif period == "month":
+        ending_date = relativedelta(months=1) + starting_date
+    elif period == "year":
+        ending_date = relativedelta(years=1) + starting_date
+
+    time_breakdown = [
+        {"value": 0, "name": "Reading"},
+        {"value": 0, "name": "Writing"},
+        {"value": 0, "name": "Listening"},
+        {"value": 0, "name": "Speaking"},
+        {"value": 0, "name": "Other"},
+    ]
+
+    # add up all log length values in the time period
+    logs = Log.query.filter(Log.date >= starting_date, Log.date < ending_date).all()
+    for log in logs:
+        if log.type == "Reading":
+            time_breakdown[0]["value"] += log.length / 60
+        elif log.type == "Writing":
+            time_breakdown[1]["value"] += log.length / 60
+        elif log.type == "Listening":
+            time_breakdown[2]["value"] += log.length / 60
+        elif log.type == "Speaking":
+            time_breakdown[3]["value"] += log.length / 60
+        else:
+            time_breakdown[4]["value"] += log.length / 60
+
+    return jsonify(time_breakdown=time_breakdown)
+
 
 # HELPER FUNCTIONS - READ ANKI + PLECO TO GET HISTORY
 # ANKI OR PLECO OR SCREEN TIME CUSTOM FILE

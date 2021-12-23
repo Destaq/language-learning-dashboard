@@ -3,9 +3,12 @@
     <!-- put on the daily chengyu (left-aligned, with the chinese class) and today's date (right-aligned, detailed) -->
     <HolderTopInfo />
     <HolderCustomLog :log="log" />
-    <HolderHistoryChart />
+    <HolderHistoryChart
+      @updateStartingDate="starting_date = $event"
+      @updatePeriod="period = $event"
+    />
     <div class="grid grid-cols-2 -mt-8">
-      <HolderPieChart />
+      <HolderPieChart :starting_date="starting_date" :period="period" />
       <HolderLevelsRadar />
     </div>
   </div>
@@ -21,5 +24,24 @@ export default {
       required: false,
     },
   },
-}
+  setup() {
+    const starting_date = ref(
+      new Date(
+        new Date().setDate(
+          new Date().getDate() -
+            new Date().getDay() +
+            (new Date().getDay() === 0 ? -6 : 1)
+        )
+      )
+        .toISOString()
+        .slice(0, 10)
+    );
+    const period = ref("week");
+
+    return {
+      starting_date,
+      period,
+    };
+  },
+};
 </script>

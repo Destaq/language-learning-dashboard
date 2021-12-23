@@ -92,7 +92,7 @@ export default defineComponent({
   provide: {
     [THEME_KEY]: "light",
   },
-  async setup() {
+  async setup(_, { emit }) {
     const findCumulativeSum = (arr) => {
       const creds = arr.reduce(
         (acc, val) => {
@@ -195,6 +195,10 @@ export default defineComponent({
             .slice(0, 10);
         }
       }
+
+      emit("updateStartingDate", starting_date.value);
+      emit("updatePeriod", period.value);
+
       fetch(
         `http://127.0.0.1:5000/hours-by-period?period=${period.value}&starting_date=${starting_date.value}`
       )
