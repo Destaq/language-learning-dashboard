@@ -1,13 +1,19 @@
 <template>
-  <div>
-    <div class="avatar">
-      <div class="mb-2 rounded-btn w-24 h-24">
+  <div
+    class="grid items-center p-4 shadow-xl place-items-center flex-shrink-0 col-span-3 row-span-3"
+  >
+    <div class="avatar mx-auto online">
+      <div
+        class="w-20 h-20 p-px mask mask-squircle bg-base-content bg-opacity-10"
+      >
         <img
-          src="https://i.pinimg.com/736x/64/e0/3c/64e03c70778b113427fb39c4bdbf3b59.jpg"
+          src="https://i.ibb.co/X85vC9M/prof.jpg"
+          class="mask mask-squircle"
         />
       </div>
     </div>
-    <p>Mythaar</p>
+
+    <p class="mx-auto font-bold">Mythaar</p>
     <ul>
       <li v-for="statistic in statistics" :key="statistic.value">
         <span class="text-gray-600">{{ statistic.name }}</span>

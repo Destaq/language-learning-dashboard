@@ -1,10 +1,10 @@
 <template>
   <div class="grid grid-cols-3 items-center">
-    <div class="chinese text-xl italic mt-1">
+    <div class="chinese text-xl mt-1">
       {{ data.data.value.chengyu.word }}
     </div>
     <h2 class="mx-auto text-xl mt-1">Chinese Learning Dashboard</h2>
-    <div class="text-right italic font-light mt-1">{{ today }}</div>
+    <div class="text-right italic font-light mt-1 font-serif">{{ today }}</div>
   </div>
   <!-- progress bar -->
   <div class="-mt-1">

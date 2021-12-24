@@ -8,13 +8,14 @@
       <div
         v-for="(action, index) in actions"
         :key="index"
-        class="card glass lg:card-side text-neutral-content shadow-none w-3/4"
+        class="card glass lg:card-side text-neutral-content shadow-none w-3/4 cursor-pointer"
+        @click="setupAction(action)"
       >
         <div class="max-w-md card-body">
           <h2 class="card-title text-center">
-            <button class="" @click="setupAction(action)">
+            <p>
               {{ action.title }}
-            </button>
+            </p>
           </h2>
         </div>
       </div>

@@ -321,6 +321,12 @@ export default defineComponent({
                 axisLabel: {
                   formatter: "{value} h",
                 },
+                splitLine: {
+                  show: true,
+                  lineStyle: {
+                    width: 0.5,
+                  },
+                },
               },
               {
                 type: "value",
@@ -335,6 +341,12 @@ export default defineComponent({
                 axisLabel: {
                   formatter: "{value} h",
                 },
+                splitLine: {
+                  show: true,
+                  lineStyle: {
+                    width: 0.5,
+                  },
+                },
               },
             ],
             series: [
@@ -344,19 +356,10 @@ export default defineComponent({
                 type: "line",
                 yAxisIndex: 1,
                 data: cumulativeDataSum.Total,
+                smooth: true,
               },
             ],
           };
-          // const newSeries = [
-          //   ...cumulativeDataSumSeries,
-          //   {
-          //     name: "Cumulative Sum",
-          //     type: "line",
-          //     yAxisIndex: 1,
-          //     data: cumulativeDataSum.Total,
-          //   },
-          // ];
-          // chart.setOption({series: newSeries}, { replaceMerge: ['series']});
         });
     }
 
@@ -517,6 +520,12 @@ export default defineComponent({
           axisLabel: {
             formatter: "{value} h",
           },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              width: 0.5,
+            },
+          },
         },
         {
           type: "value",
@@ -531,6 +540,12 @@ export default defineComponent({
           axisLabel: {
             formatter: "{value} h",
           },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              width: 0.5,
+            },
+          },
         },
       ],
       series: [
@@ -540,6 +555,7 @@ export default defineComponent({
           type: "line",
           yAxisIndex: 1,
           data: cumulativeDataSum.Total,
+          smooth: true,
         },
       ],
     });

@@ -109,11 +109,12 @@ export default defineComponent({
       },
       tooltip: {
         trigger: "item",
-        formatter: "{a} <br/>{b} : {c} ({d}%)",
+        formatter: "{b}: {c} hrs ({d}%)",
       },
       legend: {
         right: "0%",
         orient: "vertical",
+        show: true,
         textStyle: {
           color: props.theme === "forest" ? "white" : "black",
         },
@@ -122,16 +123,16 @@ export default defineComponent({
         {
           name: "Hours spent",
           type: "pie",
-          radius: ["50%", "66%"],
+          radius: ["40%", "66%"],
           label: {
             show: false,
-            position: "inside"
+            position: "outside"
           },
-          itemStyle: {
-            borderRadius: 10,
-            borderColor: "#fff",
-            borderWidth: 2,
-          },
+          // itemStyle: {
+          //   borderRadius: 10,
+          //   borderColor: "#fff",
+          //   borderWidth: 2,
+          // },
           center: ["50%", "55%"],
           data: allLogData.data.value.time_breakdown,
         },
