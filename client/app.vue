@@ -5,8 +5,9 @@
       class="col-span-7"
       :log="eventData"
       :theme="theme"
+      @refreshCharts="statUpdateToggler = !statUpdateToggler"
     />
-    <RightSidebar class="col-span-3" @newTheme="theme = $event" />
+    <RightSidebar class="col-span-3" @newTheme="theme = $event" :refreshIt="statUpdateToggler" />
   </div>
 </template>
 
@@ -18,6 +19,7 @@ export default {
     const eventData = ref(null);
 
     const theme = useCookie("theme") || "garden";
+    const statUpdateToggler = ref(true);
 
     useMeta({
       htmlAttrs: {
@@ -25,7 +27,7 @@ export default {
       },
     });
 
-    return { eventData, theme };
+    return { eventData, theme, statUpdateToggler };
   },
 };
 </script>

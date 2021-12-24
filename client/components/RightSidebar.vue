@@ -51,15 +51,28 @@
 
 <script>
 import { useCookie } from "#app";
+import { watch } from "vue";
 
 export default {
-  setup(_, { emit }) {
+  props: {
+    refreshIt: {
+      type: Boolean,
+    }
+  },
+  setup(props, { emit }) {
     const toggle = ref(false);
     const theme = useCookie("theme") || "garden";
     function switchTheme(newTheme) {
       theme.value = newTheme;
       emit("newTheme", newTheme);
     }
+
+    watch(
+      () => props.refreshIt,
+      (_newVal) => {
+        toggle.value = !toggle.value;
+      }
+    );
 
     return { toggle, theme, switchTheme };
   },

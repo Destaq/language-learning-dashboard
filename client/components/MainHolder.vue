@@ -2,7 +2,7 @@
   <div class="bg-base-200 px-4">
     <!-- put on the daily chengyu (left-aligned, with the chinese class) and today's date (right-aligned, detailed) -->
     <HolderTopInfo :theme="theme" />
-    <HolderCustomLog :log="log" @refreshCharts="toggler = $event" :theme="theme" class="mt-1" />
+    <HolderCustomLog :log="log" @refreshCharts="refreshAndPropagate" :theme="theme" class="mt-1" />
     <!-- NOTE: toggler is used for when there is a new log added -->
     <div class="my-4"></div>
     <HolderHistoryChart
@@ -33,7 +33,7 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(_props, { emit }) {
     const starting_date = ref(
       new Date(
         new Date().setDate(
@@ -49,11 +49,17 @@ export default {
     const isDefaultView = ref(true);
     const toggler = ref(true);
 
+    function refreshAndPropagate($event) {
+      toggler.value = $event;
+      emit("refreshCharts");
+    }
+
     return {
       starting_date,
       period,
       toggler,
       isDefaultView,
+      refreshAndPropagate
     };
   },
 };

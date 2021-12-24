@@ -88,10 +88,10 @@ class User(db.Model):
                 "language": "zh",
                 "user_id": self.id
             },
-            "workbook": {
-                "title": "Workbook",
-                "length": 45,
-                "type": "other",
+            "hellotalk": {
+                "title": "HelloTalk",
+                "length": 30,
+                "type": "speaking",
                 "language": "zh",
                 "user_id": self.id
             }
