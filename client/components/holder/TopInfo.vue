@@ -3,16 +3,14 @@
     <div class="chinese text-xl mt-1">
       {{ data.data.value.chengyu.word }}
     </div>
-    <h2 class="mx-auto text-xl mt-1">Chinese Learning Dashboard</h2>
+    <h2 class="mx-auto text-xl mt-1 font-mediu">Chinese Learning Dashboard</h2>
     <div class="text-right italic font-light mt-1 font-serif">{{ today }}</div>
   </div>
   <!-- progress bar -->
   <div class="-mt-1">
     <div>
       <div class="mx-auto w-full">
-        <div
-          class="mx-auto flex items-center content-center"
-        >
+        <div class="mx-auto flex items-center content-center">
           <progress
             :value="
               (vocabData.data.value.vocab_size /
@@ -21,9 +19,9 @@
             "
             max="100"
             class="progress h-1 mr-2 ml-1"
-            :class="theme === 'forest' ? 'reverse-progress' : ''"
+            :class="theme === 'dark' ? 'reverse-progress' : ''"
           ></progress>
-          <span class="mr-1">{{ vocabData.data.value.milestone }}</span>
+          <span class="mr-1 font-serif">{{ vocabData.data.value.milestone }}</span>
         </div>
       </div>
     </div>

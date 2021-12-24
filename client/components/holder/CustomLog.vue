@@ -1,6 +1,8 @@
 <template>
   <div class="card shadow-lg bg-base-100 rounded-md">
-    <div class="form-control grid grid-cols-2 gap-x-4 card-body rounded-md py-4 px-4" :class="theme === 'forest' ? 'bg-gray-900' : ''">
+    <div
+      class="form-control grid grid-cols-2 gap-x-4 card-body rounded-md py-4 px-4"
+    >
       <div class="grid grid-rows-2 items-center gap-2">
         <input
           type="text"
@@ -12,7 +14,7 @@
           type="date"
           v-model="logDate"
           class="input input-bordered input-xs w-full inline-block"
-          :id="theme === 'forest' ? 'invertIcon' : ''"
+          :id="theme === 'dark' ? 'invertIcon' : ''"
         />
       </div>
       <div class="grid grid-rows-2 gap-2 items-center">

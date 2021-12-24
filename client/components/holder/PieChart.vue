@@ -90,8 +90,10 @@ export default defineComponent({
         tempDefaultView.value = new_val[2];
         allLogData.refresh().then(() => {
           option.value.series[0].data = allLogData.data.value.time_breakdown;
-          option.value.title.textStyle.color = props.theme === "forest" ? "white" : "black";
-          option.value.legend.textStyle.color = props.theme === "forest" ? "white" : "black";
+          option.value.title.textStyle.color =
+            props.theme === "dark" ? "white" : "black";
+          option.value.legend.textStyle.color =
+            props.theme === "dark" ? "white" : "black";
         });
       }
     );
@@ -105,7 +107,7 @@ export default defineComponent({
         text: "Time Breakdown",
         left: "center",
         show: true,
-        textStyle: { color: props.theme === "forest" ? "white" : "black" },
+        textStyle: { color: props.theme === "dark" ? "white" : "black" },
       },
       tooltip: {
         trigger: "item",
@@ -116,7 +118,7 @@ export default defineComponent({
         orient: "vertical",
         show: true,
         textStyle: {
-          color: props.theme === "forest" ? "white" : "black",
+          color: props.theme === "dark" ? "white" : "black",
         },
       },
       series: [
@@ -126,7 +128,7 @@ export default defineComponent({
           radius: ["40%", "66%"],
           label: {
             show: false,
-            position: "outside"
+            position: "outside",
           },
           // itemStyle: {
           //   borderRadius: 10,

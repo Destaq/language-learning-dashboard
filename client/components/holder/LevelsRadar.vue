@@ -43,10 +43,9 @@ export default defineComponent({
     watch(
       () => props.theme,
       (value) => {
-        option.value.title.textStyle.color =
-          value === "forest" ? "#fff" : "#000";
+        option.value.title.textStyle.color = value === "dark" ? "#fff" : "#000";
         option.value.legend.textStyle.color =
-          value === "forest" ? "#fff" : "#000";
+          value === "dark" ? "#fff" : "#000";
       }
     );
 
@@ -57,7 +56,7 @@ export default defineComponent({
         show: true,
         top: "0%",
         textStyle: {
-          color: props.theme === "forest" ? "#fff" : "#000",
+          color: props.theme === "dark" ? "#fff" : "#000",
         },
       },
       tooltip: {
@@ -68,7 +67,7 @@ export default defineComponent({
         right: "0%",
         orient: "vertical",
         textStyle: {
-          color: props.theme === "forest" ? "#fff" : "#000",
+          color: props.theme === "dark" ? "#fff" : "#000",
         },
       },
       radar: [

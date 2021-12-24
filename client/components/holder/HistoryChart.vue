@@ -4,11 +4,11 @@
       <div class="btn-group">
         <!-- left arrow -->
         <button
-          class="inline btn btn-xs"
+          class="inline btn btn-xs w-10"
           @click="fetchUserData(null, -1, null)"
         >
           <svg
-            class="w-6 h-6"
+            class="w-4 h-4 mx-auto"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -42,9 +42,9 @@
           Year
         </button>
         <!-- right arrow -->
-        <button class="btn btn-xs inline" @click="fetchUserData(null, 1)">
+        <button class="btn btn-xs inline w-10" @click="fetchUserData(null, 1)">
           <svg
-            class="w-6 h-6"
+            class="w-4 h-4 mx-auto"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -287,7 +287,7 @@ export default defineComponent({
                 "Cumulative Sum",
               ],
               textStyle: {
-                color: props.theme === "forest" ? "white" : "black",
+                color: props.theme === "dark" ? "white" : "black",
               },
             },
             xAxis: [
@@ -488,7 +488,7 @@ export default defineComponent({
       legend: {
         data: [...theKeys.filter((item) => item !== "Total"), "Cumulative Sum"],
         textStyle: {
-          color: props.theme === "forest" ? "white" : "black",
+          color: props.theme === "dark" ? "white" : "black",
         },
       },
       xAxis: [

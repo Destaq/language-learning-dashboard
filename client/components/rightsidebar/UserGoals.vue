@@ -1,33 +1,59 @@
 <template>
-  <div>
-    <p>Weekly Goals</p>
-    <div v-for="(goal, index) in goals" :key="index" class="card">
+  <div class="h-64 overflow-y-scroll">
+    <p class="text-lg font-semibold text-center mt-2">Goals</p>
+    <div
+      v-for="(goal, index) in goals"
+      :key="index"
+      class="card rounded-none"
+    >
       <div
-        class="card-body font-semibold"
-        :class="new Date(goal.deadline) < new Date() ? 'bg-red-500' : ''"
+        class="card-body font-semibold py-1 rounded-none"
+        :class="
+          new Date(goal.deadline) < new Date()
+            ? 'alert alert-error bg-base-100'
+            : ''
+        "
       >
         <!-- strikethrough and increase opacity if completed -->
-        <div :class="goal.completed ? 'line-through' : ''">
+        <div
+          :class="
+            goal.completed
+              ? 'line-through form-control grid grid-cols-6'
+              : 'form-control grid grid-cols-12'
+          "
+        >
           <input
             type="checkbox"
-            class="checkbox checkbox-sm"
+            class="checkbox checkbox-sm self-end"
             @change="editGoalMessage(goal)"
             v-model="goal.completed"
           />
-          <div class="text-sm inline">{{ goal.description }}</div>
-          <div class="text-sm inline">
-            {{ new Date(goal.deadline).toDateString() }}
+          <div class="inline col-span-11 self-end">
+            <span class="label-text inline ml-3">{{ goal.description }}</span>
+            <div class="text-sm inline-flex">
+              <span class="inline-block font-normal ml-2">{{
+                new Date(goal.deadline).toDateString()
+              }}</span>
+            </div>
+            <label
+              :for="'manage-goal-modal-' + goal.id"
+              class="modal-button inline cursor-pointer ml-4 text-base-content"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 inline"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+                /></svg
+            ></label>
           </div>
         </div>
-        <label
-          :for="'manage-goal-modal-' + goal.id"
-          class="btn btn-primary modal-button"
-          >Edit</label
-        >
         <input
           type="checkbox"
           :id="'manage-goal-modal-' + goal.id"
-          class="modal-toggle"
+          class="modal-toggle inline"
         />
         <div class="modal">
           <div class="modal-box">
@@ -78,7 +104,20 @@
         </div>
       </div>
     </div>
-    <label for="new-goal-modal" class="btn btn-primary modal-button"
+    <label
+      for="new-goal-modal"
+      class="btn btn-primary modal-button text-white absolute bottom-0 btn-sm w-3/12 rounded-none"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5 mr-1.5"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+          clip-rule="evenodd"
+        /></svg
       >New Goal</label
     >
     <input type="checkbox" id="new-goal-modal" class="modal-toggle" />
@@ -174,7 +213,7 @@ export default {
           goals.value = sortUndone(Object.values(goals.value)); // rearrange if ticked
 
           // update user profile
-          emit("refreshStats")
+          emit("refreshStats");
         })
         .catch((err) => {
           console.log(err);

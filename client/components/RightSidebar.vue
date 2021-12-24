@@ -4,7 +4,7 @@
     <button
       class="btn btn-square btn-ghost absolute top-2 right-4"
       v-if="theme === 'garden'"
-      @click="switchTheme('forest')"
+      @click="switchTheme('dark')"
     >
       <svg
         class="w-6 h-6"
