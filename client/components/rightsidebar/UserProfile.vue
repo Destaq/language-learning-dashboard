@@ -13,13 +13,17 @@
       </div>
     </div>
 
-    <p class="mx-auto font-bold">Mythaar</p>
-    <ul>
-      <li v-for="statistic in statistics" :key="statistic.value">
-        <span class="text-gray-600">{{ statistic.name }}</span>
-        <span class="text-gray-600">{{ statistic.value }}</span>
-      </li>
-    </ul>
+    <p class="mx-auto font-bold mt-2 text-xl mb-2">Mythaar</p>
+    <div class="grid grid-cols-2 w-full">
+      <div
+        class="stat w-full p-0 border-none mt-2"
+        v-for="statistic in statistics"
+        :key="statistic.value"
+      >
+        <div class="stat-title text-sm text-center border-none">{{ statistic.name }}</div>
+        <div class="stat-value text-2xl text-center border-none">{{ statistic.value }}</div>
+      </div>
+    </div>
   </div>
 </template>
 

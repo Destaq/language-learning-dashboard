@@ -119,7 +119,7 @@
 
 <script>
 export default {
-  async setup() {
+  async setup(_, { emit }) {
     // probably going to be in checklist format
     const { data } = await useAsyncData("weeklychecklist", () =>
       $fetch("http://127.0.0.1:5000/weekly-goals")
@@ -172,6 +172,9 @@ export default {
           goalObject.description = goalObject.tempDescription;
           goalObject.deadline = goalObject.tempDeadline;
           goals.value = sortUndone(Object.values(goals.value)); // rearrange if ticked
+
+          // update user profile
+          emit("refreshStats")
         })
         .catch((err) => {
           console.log(err);

@@ -45,7 +45,7 @@
     <RightSidebarUserProfile :refreshIt="toggle" class="mt-7" />
     <!-- the below has stats -->
     <RightSidebarStatisticLog @refreshStats="toggle = !toggle" />
-    <RightSidebarUserGoals />
+    <RightSidebarUserGoals @refreshStats="toggle = !toggle" />
   </div>
 </template>
 

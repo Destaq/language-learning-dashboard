@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from extensions import db
 from models.user import User
 from models.log import Log
+from models.goal_message import GoalMessage
 from dateutil import parser
 import datetime
 
@@ -25,14 +26,18 @@ def fetch_statistics():
     today = datetime.datetime.now()
     days_since_first_log = (today - first_log_date).days + 1
 
+    goals_completed = GoalMessage.query.filter_by(user_id=user.id, completed=True).count()
+
+
     return jsonify(
         statistics=[
-            {"name": "All-Time Study Hours", "value": round(total_hours, 2)},
+            {"name": "Total Study Hours", "value": round(total_hours, 2)},
             {"name": "Daily Average", "value": round(total_hours / days_since_first_log, 2)},
             {"name": "Vocab Size", "value": user.vocab_size},
             {"name": "Characters Read", "value": user.characters_read},
             {"name": "Chapters Read", "value": user.chapters_read},
             {"name": "Books Read", "value": user.books_read},
             {"name": "Shows/Movies Watched", "value": user.shows_watched},
+            {"name": "Goals Completed", "value": goals_completed},
         ]
     )
