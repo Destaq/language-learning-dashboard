@@ -1,6 +1,5 @@
 <template>
   <div class="h-screen relative">
-    <p class="text-xl">Menu Button</p>
     <LeftSidebarDailyGrouping @setupAction="emitFurther" />
     <!-- <img src="@/assets/thoughts.svg" class="absolute bottom-0" /> -->
   </div>
