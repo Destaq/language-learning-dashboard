@@ -6,12 +6,15 @@
     "start": "node .output/server/index.mjs"
   },
   "dependencies": {
-    "nuxt3": "latest",
     "autoprefixer": "^10.3.7",
     "daisyui": "^1.14.5",
     "echarts": "^5.2.2",
-    "vue-echarts": "^6.0.0",
+    "nuxt3": "latest",
     "postcss": "^8.3.9",
-    "tailwindcss": "^2.2.17"
+    "tailwindcss": "^2.2.17",
+    "vue-echarts": "^6.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.4.1"
   }
 }

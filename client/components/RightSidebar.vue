@@ -7,8 +7,8 @@
       <!-- switch theme icon svg -->
       <svg
         class="w-6 h-6"
-        v-if="theme === 'light'"
-        @click="switchTheme('dark')"
+        v-if="theme === 'garden'"
+        @click="switchTheme('forest')"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -27,7 +27,7 @@
         stroke="currentColor"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
-        @click="switchTheme('light')"
+        @click="switchTheme('garden')"
         v-else
       >
         <path
@@ -52,7 +52,7 @@ import { useCookie } from "#app";
 export default {
   setup(_, { emit }) {
     const toggle = ref(false);
-    const theme = useCookie("theme") || "light";
+    const theme = useCookie("theme") || "garden";
     function switchTheme(newTheme) {
       theme.value = newTheme;
       emit("newTheme", newTheme)

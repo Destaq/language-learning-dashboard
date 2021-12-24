@@ -1,14 +1,18 @@
 <template>
   <div class="grid grid-cols-3 items-center">
-    <div class="chinese text-3xl">{{ data.data.value.chengyu.word }}</div>
-    <div class="text-xl mx-auto underline">LingoJot</div>
-    <div class="text-right">{{ today }}</div>
+    <div class="chinese text-xl italic mt-2">
+      {{ data.data.value.chengyu.word }}
+    </div>
+    <h2 class="mx-auto text-xl mt-1.5">Chinese Learning Dashboard</h2>
+    <div class="text-right italic font-light mt-2">{{ today }}</div>
   </div>
   <!-- progress bar -->
-  <div class="border border-base-300">
+  <div>
     <div>
-      <div class="stat-desc mx-auto w-full">
-        <div class="mx-auto flex items-center content-center">
+      <div class="mx-auto w-full">
+        <div
+          class="mx-auto flex items-center content-center"
+        >
           <progress
             :value="
               (vocabData.data.value.vocab_size /
@@ -16,7 +20,8 @@
                 100
             "
             max="100"
-            class="progress progress-secondary mx-2"
+            class="progress mr-2 ml-1"
+            :class="theme === 'forest' ? 'reverse-progress' : ''"
           ></progress>
           <span class="mr-1">{{ vocabData.data.value.milestone }}</span>
         </div>
@@ -27,6 +32,12 @@
 
 <script>
 export default {
+  props: {
+    theme: {
+      type: String,
+      default: "garden",
+    },
+  },
   async setup() {
     const [data, vocabData] = await Promise.all([
       useFetch(`http://127.0.0.1:5000/random-chengyu`),
@@ -49,3 +60,21 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.reverse-progress::-moz-progress-bar {
+  --tw-bg-opacity: 1;
+  background-color: rgb(125, 125, 125);
+}
+.reverse-progress::-webkit-progress-bar {
+  --tw-bg-opacity: 1;
+  --tw-bg-opacity: 0.2;
+  background-color: rgb(125, 125, 125);
+  border-radius: var(--rounded-box, 1rem);
+}
+.reverse-progress::-webkit-progress-value {
+  --tw-bg-opacity: 1;
+  background-color: #fff;
+  border-radius: var(--rounded-box, 1rem);
+}
+</style>

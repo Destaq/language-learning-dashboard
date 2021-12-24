@@ -9,6 +9,7 @@ module.exports = {
     "./app.vue",
   ],
   plugins: [
+    require('@tailwindcss/typography'),
     require("daisyui"),
   ],
 }
