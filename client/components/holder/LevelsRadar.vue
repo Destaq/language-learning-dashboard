@@ -2,7 +2,7 @@
   <div>
     <!-- Displays a graph of the users total hours -->
     <client-only>
-      <v-chart class="chart" :option="option" :theme="theme" />
+      <v-chart class="chart" :option="option" />
     </client-only>
     <!-- <button>Edit</button> -->
   </div>

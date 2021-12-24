@@ -1,13 +1,9 @@
 <template>
   <div class="h-64 overflow-y-scroll">
     <p class="text-lg font-semibold text-center mt-2">Goals</p>
-    <div
-      v-for="(goal, index) in goals"
-      :key="index"
-      class="card rounded-none"
-    >
+    <div v-for="(goal, index) in goals" :key="index" class="card rounded-none">
       <div
-        class="card-body font-semibold py-1 rounded-none"
+        class="card-body font-semibold py-1 rounded-none grid grid-cols-12"
         :class="
           new Date(goal.deadline) < new Date()
             ? 'alert alert-error bg-base-100'
@@ -16,10 +12,11 @@
       >
         <!-- strikethrough and increase opacity if completed -->
         <div
+          class="form-control col-span-11 grid grid-cols-12"
           :class="
             goal.completed
-              ? 'line-through form-control grid grid-cols-6'
-              : 'form-control grid grid-cols-12'
+              ? 'line-through'
+              : ''
           "
         >
           <input
@@ -35,21 +32,21 @@
                 new Date(goal.deadline).toDateString()
               }}</span>
             </div>
-            <label
-              :for="'manage-goal-modal-' + goal.id"
-              class="modal-button inline cursor-pointer ml-4 text-base-content"
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 inline"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
-                /></svg
-            ></label>
           </div>
         </div>
+        <label
+          :for="'manage-goal-modal-' + goal.id"
+          class="modal-button inline cursor-pointer ml-4 text-base-content"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 inline"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+            /></svg
+        ></label>
         <input
           type="checkbox"
           :id="'manage-goal-modal-' + goal.id"
@@ -59,7 +56,7 @@
           <div class="modal-box">
             <div class="form-control">
               <label class="label">
-                <span class="label-text">Description</span>
+                <span class="label-text font-normal">Description</span>
               </label>
               <input
                 type="text"
@@ -67,12 +64,16 @@
                 v-model="goal.tempDescription"
                 class="input input-bordered"
               />
-              <label for="start">Deadline:</label>
+              <label class="label">
+                <span class="label-text font-normal">Deadline</span>
+              </label>
               <input
                 type="date"
                 id="start"
                 name="trip-start"
                 v-model="goal.tempDeadline"
+                class="input input-bordered"
+                :class="theme === 'dark' ? 'invertIconModal' : ''"
                 :min="new Date().toISOString().split('T')[0]"
               />
             </div>
@@ -133,12 +134,14 @@
             v-model="newGoalDescription"
             class="input input-bordered"
           />
-          <label for="start">Deadline:</label>
+          <label class="label">
+            <span class="label-text">Deadline</span>
+          </label>
           <input
             type="date"
-            id="start"
-            name="trip-start"
             v-model="newGoalDeadline"
+            class="input input-bordered w-full inline-block"
+            :class="theme === 'dark' ? 'invertIconModal' : ''"
             :min="new Date().toISOString().split('T')[0]"
           />
         </div>
@@ -158,6 +161,12 @@
 
 <script>
 export default {
+  props: {
+    theme: {
+      type: String,
+      required: true,
+    },
+  },
   async setup(_, { emit }) {
     // probably going to be in checklist format
     const { data } = await useAsyncData("weeklychecklist", () =>
@@ -274,3 +283,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+input.invertIconModal::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+</style>

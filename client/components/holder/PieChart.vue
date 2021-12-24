@@ -2,7 +2,7 @@
   <div>
     <!-- Displays the users total history -->
     <client-only>
-      <v-chart class="chart" :option="option" :theme="theme" />
+      <v-chart class="chart" :option="option" />
     </client-only>
   </div>
 </template>
