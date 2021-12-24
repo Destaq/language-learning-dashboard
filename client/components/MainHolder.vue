@@ -2,7 +2,7 @@
   <div class="bg-base-200 px-4">
     <!-- put on the daily chengyu (left-aligned, with the chinese class) and today's date (right-aligned, detailed) -->
     <HolderTopInfo :theme="theme" />
-    <HolderCustomLog :log="log" @refreshCharts="toggler = $event" />
+    <HolderCustomLog :log="log" @refreshCharts="toggler = $event" :theme="theme" />
     <!-- NOTE: toggler is used for when there is a new log added -->
     <HolderHistoryChart
       @updateStartingDate="starting_date = $event"
@@ -52,7 +52,7 @@ export default {
       starting_date,
       period,
       toggler,
-      isDefaultView
+      isDefaultView,
     };
   },
 };

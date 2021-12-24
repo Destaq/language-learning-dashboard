@@ -1,22 +1,27 @@
 <template>
-  <div>
-    <div class="form-control grid grid-cols-3 gap-x-2">
-      <div class="col-span-2">
+  <div class="card shadow-lg bg-base-100 rounded-md">
+    <div class="form-control grid grid-cols-2 gap-x-4 card-body py-4 px-4">
+      <div class="grid grid-rows-2 items-center gap-2" id="parentDiv">
         <input
           type="text"
-          class="input input-bordered w-full input-sm"
-          placeholder="Title"
+          class="input input-bordered w-full input-xs"
+          placeholder="Log Title"
           v-model="logTitle"
         />
-        <input type="date" v-model="logDate" />
+        <input
+          type="date"
+          v-model="logDate"
+          class="input input-bordered input-xs w-full inline-block"
+          :id="theme === 'forest' ? 'invertIcon' : ''"
+        />
       </div>
-      <div>
-        <div class="grid grid-cols-2 gap-2 mt-1">
+      <div class="grid grid-rows-2 gap-2 items-center">
+        <div class="grid grid-cols-2 gap-2 items-center">
           <select
-            class="inline select select-bordered w-full max-w-xs"
+            class="inline select select-xs select-bordered w-full max-w-xs"
             v-model="logType"
           >
-            <option disabled selected>Type</option>
+            <option disabled="disabled" selected="selected">Type</option>
             <option>Reading</option>
             <option>Writing</option>
             <option>Speaking</option>
@@ -28,12 +33,12 @@
             name="minutes"
             id="minutes"
             v-model="logLength"
-            class="inline input input-bordered"
+            class="inline input input-bordered input-xs"
           />
         </div>
         <button
           type="submit"
-          class="btn btn-success btn-sm w-full flex mx-auto text-center rounded-sm"
+          class="btn btn-success btn-xs w-full flex mx-auto text-center rounded-lg text-primary-content"
           @click="submitCustomLog"
         >
           Submit Custom Log
@@ -53,11 +58,17 @@ export default defineComponent({
       type: Object,
       required: false,
     },
+    // the theme for the custom log
+    theme: {
+      type: String,
+      required: false,
+      default: "garden",
+    },
   },
   async setup(props, { emit }) {
     // create the submitCustomLog function, sending the above data to the 127.0.0.1:5000/submit-custom-log route
     var logTitle = ref("");
-    var logType = ref("");
+    var logType = ref("Type");
     var logLength = ref(0);
     var logDate = ref(new Date().toISOString().slice(0, 10));
     var toggler = ref(true);
@@ -114,3 +125,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+input#invertIcon::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+</style>
