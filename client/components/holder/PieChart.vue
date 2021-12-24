@@ -82,14 +82,16 @@ export default defineComponent({
         props.period,
         props.isDefaultView,
         props.toggler,
+        props.theme,
       ],
       (new_val, _old_val) => {
-        console.log("it has been toggled");
         tempStartingDate.value = new_val[0];
         tempPeriod.value = new_val[1];
         tempDefaultView.value = new_val[2];
         allLogData.refresh().then(() => {
           option.value.series[0].data = allLogData.data.value.time_breakdown;
+          option.value.title.textStyle.color = props.theme === "forest" ? "white" : "black";
+          option.value.legend.textStyle.color = props.theme === "forest" ? "white" : "black";
         });
       }
     );
@@ -103,6 +105,7 @@ export default defineComponent({
         text: "Time Breakdown",
         left: "center",
         show: true,
+        textStyle: { color: props.theme === "forest" ? "white" : "black" },
       },
       tooltip: {
         trigger: "item",
@@ -111,6 +114,9 @@ export default defineComponent({
       legend: {
         right: "0%",
         orient: "vertical",
+        textStyle: {
+          color: props.theme === "forest" ? "white" : "black",
+        },
       },
       series: [
         {
@@ -119,6 +125,7 @@ export default defineComponent({
           radius: ["50%", "66%"],
           label: {
             show: false,
+            position: "inside"
           },
           itemStyle: {
             borderRadius: 10,

@@ -39,13 +39,26 @@ export default defineComponent({
       required: true,
     },
   },
-  async setup() {
+  async setup(props) {
+    watch(
+      () => props.theme,
+      (value) => {
+        option.value.title.textStyle.color =
+          value === "forest" ? "#fff" : "#000";
+        option.value.legend.textStyle.color =
+          value === "forest" ? "#fff" : "#000";
+      }
+    );
+
     const option = ref({
       title: {
         text: "Ability Breakdown",
         left: "center",
         show: true,
-        top: "0%"
+        top: "0%",
+        textStyle: {
+          color: props.theme === "forest" ? "#fff" : "#000",
+        },
       },
       tooltip: {
         trigger: "axis",
@@ -54,6 +67,9 @@ export default defineComponent({
         data: ["Current Ability", "End of 2020"],
         right: "0%",
         orient: "vertical",
+        textStyle: {
+          color: props.theme === "forest" ? "#fff" : "#000",
+        },
       },
       radar: [
         {
@@ -63,11 +79,12 @@ export default defineComponent({
             { text: "Speaking", max: 100 },
             { text: "Writing", max: 100 },
           ],
-          axisName: {
-            padding: [-8, -8, -8, -8], // move closer to the graph
-          },
           radius: "66%",
           center: ["50%", "55%"],
+          axisName: {
+            padding: [-6, -6, -6, -6], // move closer to the graph
+            color: "#888",
+          },
         },
       ],
       series: [

@@ -76,7 +76,6 @@
         :option="option"
         ref="chart"
         :update-options="{ notMerge: true }"
-        :theme="theme"
       />
     </client-only>
   </div>
@@ -136,7 +135,7 @@ export default defineComponent({
     };
 
     watch(
-      () => props.toggler,
+      () => [props.toggler, props.theme],
       (_value) => {
         // there was a new log uploaded
         // refresh this data accordingly
@@ -287,6 +286,9 @@ export default defineComponent({
                 ...theKeys.filter((item) => item !== "Total"),
                 "Cumulative Sum",
               ],
+              textStyle: {
+                color: props.theme === "forest" ? "white" : "black",
+              },
             },
             xAxis: [
               {
@@ -482,6 +484,9 @@ export default defineComponent({
       },
       legend: {
         data: [...theKeys.filter((item) => item !== "Total"), "Cumulative Sum"],
+        textStyle: {
+          color: props.theme === "forest" ? "white" : "black",
+        },
       },
       xAxis: [
         {
