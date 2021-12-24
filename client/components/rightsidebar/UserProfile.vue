@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid items-center p-4 shadow-xl place-items-center flex-shrink-0 col-span-3 row-span-3"
+    class="grid items-center p-4 place-items-center flex-shrink-0 col-span-3 row-span-3"
   >
     <div class="avatar mx-auto online">
       <div
