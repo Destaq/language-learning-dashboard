@@ -1,7 +1,7 @@
 <template>
   <div class="card shadow-lg bg-base-100 rounded-md">
-    <div class="form-control grid grid-cols-2 gap-x-4 card-body py-4 px-4">
-      <div class="grid grid-rows-2 items-center gap-2" id="parentDiv">
+    <div class="form-control grid grid-cols-2 gap-x-4 card-body rounded-md py-4 px-4" :class="theme === 'forest' ? 'bg-gray-900' : ''">
+      <div class="grid grid-rows-2 items-center gap-2">
         <input
           type="text"
           class="input input-bordered w-full input-xs"

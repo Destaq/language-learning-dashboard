@@ -1,13 +1,13 @@
 <template>
   <div class="grid grid-cols-3 items-center">
-    <div class="chinese text-xl italic mt-2">
+    <div class="chinese text-xl italic mt-1">
       {{ data.data.value.chengyu.word }}
     </div>
-    <h2 class="mx-auto text-xl mt-1.5">Chinese Learning Dashboard</h2>
-    <div class="text-right italic font-light mt-2">{{ today }}</div>
+    <h2 class="mx-auto text-xl mt-1">Chinese Learning Dashboard</h2>
+    <div class="text-right italic font-light mt-1">{{ today }}</div>
   </div>
   <!-- progress bar -->
-  <div>
+  <div class="-mt-1">
     <div>
       <div class="mx-auto w-full">
         <div
@@ -20,7 +20,7 @@
                 100
             "
             max="100"
-            class="progress mr-2 ml-1"
+            class="progress h-1 mr-2 ml-1"
             :class="theme === 'forest' ? 'reverse-progress' : ''"
           ></progress>
           <span class="mr-1">{{ vocabData.data.value.milestone }}</span>

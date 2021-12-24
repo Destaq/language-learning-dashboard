@@ -1,27 +1,66 @@
 <template>
   <div>
-    <div>
-      <!-- Displays a graph of the users total hours -->
+    <div class="grid grid-cols-2">
+      <div class="btn-group">
+        <!-- left arrow -->
+        <button
+          class="inline btn btn-xs"
+          @click="fetchUserData(null, -1, null)"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            ></path>
+          </svg>
+        </button>
+        <!-- Displays a graph of the users total hours -->
+        <button
+          class="btn btn-xs inline btn-primary"
+          @click="fetchUserData('week', null, null)"
+        >
+          Week
+        </button>
+        <button
+          class="btn btn-xs inline btn-primary"
+          @click="fetchUserData('month', null, null)"
+        >
+          Month
+        </button>
+        <button
+          class="btn btn-xs inline btn-primary"
+          @click="fetchUserData('year', null, null)"
+        >
+          Year
+        </button>
+        <!-- right arrow -->
+        <button class="btn btn-xs inline" @click="fetchUserData(null, 1)">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            ></path>
+          </svg>
+        </button>
+      </div>
       <button
-        class="btn btn-xs inline btn-primary"
-        @click="fetchUserData('week', null, null)"
-      >
-        Week
-      </button>
-      <button
-        class="btn btn-xs inline btn-primary"
-        @click="fetchUserData('month', null, null)"
-      >
-        Month
-      </button>
-      <button
-        class="btn btn-xs inline btn-primary"
-        @click="fetchUserData('year', null, null)"
-      >
-        Year
-      </button>
-      <button
-        class="btn btn-xs inline btn-secondary"
+        class="btn btn-xs btn-secondary w-32 justify-self-end"
         @click="
           isDefaultView = !isDefaultView;
           fetchUserData(null, null, isDefaultView);
@@ -30,44 +69,10 @@
         <!-- display by title instead -->
         Switch View
       </button>
-      <!-- left arrow -->
-      <button class="inline btn btn-xs" @click="fetchUserData(null, -1, null)">
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M10 19l-7-7m0 0l7-7m-7 7h18"
-          ></path>
-        </svg>
-      </button>
-      <!-- right arrow -->
-      <button class="btn btn-xs inline" @click="fetchUserData(null, 1)">
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M14 5l7 7m0 0l-7 7m7-7H3"
-          ></path>
-        </svg>
-      </button>
     </div>
     <client-only>
       <v-chart
-        class="chart mt-4"
+        class="chart mt-2"
         :option="option"
         ref="chart"
         :update-options="{ notMerge: true }"
@@ -495,16 +500,15 @@ export default defineComponent({
           max: parseFloat(
             Math.max(...allLogDataFinal.data.value.information.Total).toFixed(2)
           ),
-          interval:
-            parseFloat(
-                  (
-                    parseFloat(
-                      Math.max(
-                        ...allLogDataFinal.data.value.information.Total
-                      ).toFixed(2)
-                    ) / 5
-                  ).toFixed(2)
-                ),
+          interval: parseFloat(
+            (
+              parseFloat(
+                Math.max(
+                  ...allLogDataFinal.data.value.information.Total
+                ).toFixed(2)
+              ) / 5
+            ).toFixed(2)
+          ),
           axisLabel: {
             formatter: "{value} h",
           },
