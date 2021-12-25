@@ -1,7 +1,6 @@
 # both automatic vocab and manual user milestones are implemented in this blueprint.
 from flask import Blueprint, request, jsonify
 from extensions import db
-from models.milestone import Milestone
 from models.user import User
 
 milestone_bp = Blueprint("milestone", __name__)

@@ -16,7 +16,6 @@ from blueprints.statistics import statistics_bp
 from models.chengyu import Chengyu
 from models.goal_message import GoalMessage
 from models.log import Log
-from models.milestone import Milestone
 from models.note import Note
 from models.user import User
 from models.action import Action
