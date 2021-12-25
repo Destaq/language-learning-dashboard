@@ -33,11 +33,13 @@ def fetch_statistics():
         statistics=[
             {"name": "Total Study Hours", "value": round(total_hours, 2)},
             {"name": "Daily Average", "value": round(total_hours / days_since_first_log, 2)},
-            {"name": "Vocab Size", "value": user.vocab_size},
+            {"name": "Vocab Size (Words)", "value": user.vocab_size},
             {"name": "Characters Read", "value": user.characters_read},
             {"name": "Chapters Read", "value": user.chapters_read},
             {"name": "Books Read", "value": user.books_read},
             {"name": "Shows/Movies Watched", "value": user.shows_watched},
             {"name": "Goals Completed", "value": goals_completed},
-        ]
+        ],
+        character_vocab_size=user.character_size,
+        word_vocab_size=user.vocab_size,
     )

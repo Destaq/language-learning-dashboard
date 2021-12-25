@@ -457,6 +457,20 @@ export default defineComponent({
 
       allLogData.data.value.information.Total = sumArrays(...inputArrays);
 
+      // round every item in cumulative data sum to 2 decimal places
+      for (const key of correct_keys) {
+        cumulativeDataSum[key] = cumulativeDataSum[key].map(
+          (item) => parseFloat(item.toFixed(2))
+        );
+      }
+
+      // same thing for the .data attribute on every element in cumulativeDataSumSeries
+      for (const key of correct_keys) {
+        cumulativeDataSumSeries.forEach((series) => {
+          series.data = series.data.map((item) => parseFloat(item.toFixed(2)));
+        });
+      }
+
       return [cumulativeDataSum, cumulativeDataSumSeries, allLogData];
     }
 

@@ -13,11 +13,7 @@
         <!-- strikethrough and increase opacity if completed -->
         <div
           class="form-control col-span-11 grid grid-cols-12"
-          :class="
-            goal.completed
-              ? 'line-through'
-              : ''
-          "
+          :class="goal.completed ? 'line-through' : ''"
         >
           <input
             type="checkbox"
@@ -26,7 +22,9 @@
             v-model="goal.completed"
           />
           <div class="inline col-span-11 self-end">
-            <span class="label-text inline ml-3">{{ goal.description }}</span>
+            <span class="label-text inline ml-3">{{
+              truncate(goal.description, 18)
+            }}</span>
             <div class="text-sm inline-flex">
               <span class="inline-block font-normal ml-2">{{
                 new Date(goal.deadline).toDateString()
@@ -272,6 +270,19 @@ export default {
         });
     }
 
+    function truncate(str, n) {
+      if (str.length <= n) {
+        return str;
+      }
+      var subString = str.substr(0, n - 1); // the original check
+      if (subString.at(-1) === " ") {
+        subString = str.substr(0, n)
+      }
+      return (
+        subString + "..."
+      );
+    }
+
     return {
       goals,
       newGoalDeadline,
@@ -279,6 +290,7 @@ export default {
       createNewGoalMessage,
       editGoalMessage,
       deleteGoalMessage,
+      truncate,
     };
   },
 };

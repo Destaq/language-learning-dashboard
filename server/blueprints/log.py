@@ -1,3 +1,4 @@
+import re
 from flask import Blueprint, request, jsonify
 from extensions import db
 from models.log import Log
@@ -249,6 +250,14 @@ def parse_and_use_file(file):
         # remove duplicate lines
         lines = list(set(lines))
         user.vocab_size = len(lines)
+
+        # calculate total character size
+        joined = "".join([line.decode() for line in lines])
+        only_chinese = re.findall(r'[\u4e00-\u9fff]+', joined)
+        only_chinese = "".join(only_chinese)
+
+        user.character_size = len(set(only_chinese))
+
         db.session.commit()
 
     else:
