@@ -37,7 +37,7 @@ def fetch_statistics():
             {"name": "Characters Read", "value": user.characters_read},
             {"name": "Chapters Read", "value": user.chapters_read},
             {"name": "Books Read", "value": user.books_read},
-            {"name": "Shows/Movies Watched", "value": user.shows_watched},
+            {"name": "Episodes/Movies Watched", "value": user.shows_watched},
             {"name": "Goals Completed", "value": goals_completed},
         ],
         character_vocab_size=user.character_size,

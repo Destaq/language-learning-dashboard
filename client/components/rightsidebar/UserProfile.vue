@@ -101,17 +101,20 @@ export default defineComponent({
     function formatStatistic(some_number) {
       // if the number is less than one thousand, return the number
       // otherwise, format it to be a decimal with the indicator of degree
-      // for example, 1427 = 1.43K, 55000 = 55K, 32431000 = 3.24M, etc.
+      // for example, 1427 = 1.43K, 55000 = 55.0K, 32431000 = 3.24M, etc.
       // go up to the billions
-      // always display two decimal places
+      // always display with three figures, regardless of decimal point placement
+      // it will always be rounded to three significant figures
       if (some_number < 1000) {
         return some_number;
       } else if (some_number < 1000000) {
-        return (some_number / 1000).toFixed(2) + "K";
+        return (some_number / 1000).toPrecision(3) + "K";
       } else if (some_number < 1000000000) {
-        return (some_number / 1000000).toFixed(2) + "M";
+        return (some_number / 1000000).toPrecision(3) + "M";
+      } else if (some_number < 1000000000000) {
+        return (some_number / 1000000000).toPrecision(3) + "B";
       } else {
-        return (some_number / 1000000000).toFixed(2) + "B";
+        return (some_number / 1000000000000).toPrecision(3) + "T";
       }
     }
 

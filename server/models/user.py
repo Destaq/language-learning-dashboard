@@ -70,7 +70,7 @@ class User(db.Model):
             "chinese_class": {
                 "title": "Class",
                 "length": 60,
-                "type": "listening",
+                "type": "other",
                 "language": "zh",
                 "user_id": self.id
             },

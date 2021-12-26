@@ -73,6 +73,7 @@ def hours_by_period():
             "Writing": [],
             "Listening": [],
             "Speaking": [],
+            "Flashcards": [],
             "Other": [],
         }
 
@@ -81,6 +82,7 @@ def hours_by_period():
             information["Writing"].append(0)
             information["Listening"].append(0)
             information["Speaking"].append(0)
+            information["Flashcards"].append(0)
             information["Other"].append(0)
     else:
         # information is all possible titles in the logs in the time period
@@ -112,6 +114,10 @@ def hours_by_period():
                     information["Speaking"][(log.date - starting_date).days] += (
                         log.length / 60
                     )
+                elif log.type == "Flashcards":
+                    information["Flashcards"][(log.date - starting_date).days] += (
+                        log.length / 60
+                    )
                 else:
                     information["Other"][(log.date - starting_date).days] += log.length / 60
         else:
@@ -138,6 +144,8 @@ def hours_by_period():
                     information["Listening"][month] += log.length / 60
                 elif log.type == "Speaking":
                     information["Speaking"][month] += log.length / 60
+                elif log.type == "Flashcards":
+                    information["Flashcards"][month] += log.length / 60
                 else:
                     information["Other"][month] += log.length / 60
             else:
@@ -176,6 +184,7 @@ def historical_breakdown():
             {"value": 0, "name": "Writing"},
             {"value": 0, "name": "Listening"},
             {"value": 0, "name": "Speaking"},
+            {"value": 0, "name": "Flashcards"},
             {"value": 0, "name": "Other"},
         ]
 
@@ -188,8 +197,10 @@ def historical_breakdown():
                 time_breakdown[2]["value"] += log.length / 60
             elif log.type == "Speaking":
                 time_breakdown[3]["value"] += log.length / 60
-            else:
+            elif log.type == "Flashcards":
                 time_breakdown[4]["value"] += log.length / 60
+            else:
+                time_breakdown[5]["value"] += log.length / 60
     else:
         time_breakdown = []
         # create unique time_breakdown list
@@ -275,7 +286,7 @@ def parse_and_use_file(file):
                 user.books_read += int(line[1])
             elif line[0] == "chapters_read":
                 user.chapters_read += int(line[1])
-            elif line[0] == "shows_watched":
+            elif line[0] == "episodes_watched":
                 user.shows_watched += int(line[1])
             elif line[0] == "characters_read":
                 user.characters_read += int(line[1])

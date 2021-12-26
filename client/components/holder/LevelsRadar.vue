@@ -63,7 +63,7 @@ export default defineComponent({
         trigger: "axis",
       },
       legend: {
-        data: ["Current Ability", "End of 2020"],
+        data: ["End of 2021", "End of 2020"],
         right: "0%",
         orient: "vertical",
         textStyle: {
@@ -96,12 +96,12 @@ export default defineComponent({
           data: [
             {
               value: [
-                Math.round((4 / 6) * 100),
-                Math.round((3.7 / 6) * 100),
+                Math.round((3.8 / 6) * 100),
+                Math.round((3.6 / 6) * 100),
                 Math.round((2.8 / 6) * 100),
-                Math.round((2 / 6) * 100),
+                Math.round((1.9 / 6) * 100),
               ],
-              name: "Current Ability",
+              name: "End of 2021",
             },
           ],
         },
@@ -114,10 +114,10 @@ export default defineComponent({
           data: [
             {
               value: [
-                Math.round((2.3 / 6) * 100),
-                Math.round((2.1 / 6) * 100),
+                Math.round((2.2 / 6) * 100),
+                Math.round((1.9 / 6) * 100),
+                Math.round((1.4 / 6) * 100),
                 Math.round((1.2 / 6) * 100),
-                Math.round((1.7 / 6) * 100),
               ],
               name: "End of 2020",
             },

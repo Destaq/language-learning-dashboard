@@ -40,7 +40,7 @@
         </div>
         <button
           type="submit"
-          class="btn btn-success btn-xs w-full flex mx-auto text-center rounded-lg text-primary-content"
+          class="btn btn-primary btn-xs w-full flex mx-auto text-center rounded-lg text-primary-content"
           @click="submitCustomLog"
         >
           Submit Custom Log
