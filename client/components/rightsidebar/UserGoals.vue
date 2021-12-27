@@ -21,13 +21,13 @@
             @change="editGoalMessage(goal)"
             v-model="goal.completed"
           />
-          <div class="inline col-span-11 self-end">
-            <span class="label-text inline ml-3">{{
-              truncate(goal.description, 18)
+          <div class="grid col-span-11 self-end grid-cols-4">
+            <span class="label-text inline ml-3 col-span-3 truncate whitespace-nowrap">{{
+              goal.description
             }}</span>
             <div class="text-sm inline-flex">
               <span class="inline-block font-normal ml-2">{{
-                new Date(goal.deadline).toDateString()
+                new Date(goal.deadline).toLocaleString("default", { month: "short" }) + ' ' + new Date(goal.deadline).getDate()
               }}</span>
             </div>
           </div>
@@ -243,6 +243,8 @@ export default {
             .then((response) => response.json())
             .then((newInfo) => {
               goals.value = sortUndone(Object.values(newInfo.goals));
+              newGoalDeadline.value = "";
+              newGoalDescription.value = "";
             });
         })
         .catch((err) => {
@@ -270,19 +272,6 @@ export default {
         });
     }
 
-    function truncate(str, n) {
-      if (str.length <= n) {
-        return str;
-      }
-      var subString = str.substr(0, n - 1); // the original check
-      if (subString.at(-1) === " ") {
-        subString = str.substr(0, n)
-      }
-      return (
-        subString + "..."
-      );
-    }
-
     return {
       goals,
       newGoalDeadline,
@@ -290,7 +279,6 @@ export default {
       createNewGoalMessage,
       editGoalMessage,
       deleteGoalMessage,
-      truncate,
     };
   },
 };

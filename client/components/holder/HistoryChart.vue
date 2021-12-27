@@ -263,6 +263,8 @@ export default defineComponent({
             cumulativeDataSum.Total = [0, 0, 0, 0, 0, 0, 0];
           }
 
+          totalShift.value = 0;
+
           option.value = {
             tooltip: {
               trigger: "axis",

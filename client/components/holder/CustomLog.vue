@@ -28,6 +28,7 @@
             <option>Writing</option>
             <option>Speaking</option>
             <option>Listening</option>
+            <option>Flashcards</option>
             <option>Other</option>
           </select>
           <input
