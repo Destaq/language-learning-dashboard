@@ -359,6 +359,7 @@ export default defineComponent({
                 yAxisIndex: 1,
                 data: cumulativeDataSum.Total,
                 smooth: true,
+                color: props.theme === 'dark' ? 'white' : 'gray',
               },
             ],
           };
@@ -572,6 +573,7 @@ export default defineComponent({
           yAxisIndex: 1,
           data: cumulativeDataSum.Total,
           smooth: true,
+          color: props.theme === 'dark' ? 'white' : 'gray'
         },
       ],
     });
