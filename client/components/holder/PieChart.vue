@@ -53,6 +53,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    correctKeys: {
+      type: Array,
+      required: false,
+    },
   },
   async setup(props) {
     const tempPeriod = ref("week");
@@ -76,6 +80,41 @@ export default defineComponent({
       )
     );
 
+    // now rearrange allData.data.value.time_breakdown, so that the 'name' follows the order of props.correctKeys
+    function sortTheData(data) {
+      const comparisonArray = props.correctKeys.filter(
+        (item) => item !== "Total"
+      );
+
+      /*
+      Rearrange data so that it follows the order of comparisonArray.
+
+      Example:
+      comparisonArray = ['dog', 'cat', 'bug']
+      data = [
+        {
+          name: 'dog',
+          value: 10
+        },
+        {
+          name: 'cat',
+          value: 20
+        },
+        {
+          name: 'bug',
+          value: 30
+        },
+      ]
+
+      Note how the name attribute of the data is in the same order as it is listed in comparisonArray
+      */
+      data.sort(function(a, b) {
+        return comparisonArray.indexOf(a.name) - comparisonArray.indexOf(b.name);
+      });
+
+      return data;
+    }
+
     watch(
       () => [
         props.starting_date,
@@ -83,12 +122,16 @@ export default defineComponent({
         props.isDefaultView,
         props.toggler,
         props.theme,
+        props.correctKeys,
       ],
       (new_val, _old_val) => {
         tempStartingDate.value = new_val[0];
         tempPeriod.value = new_val[1];
         tempDefaultView.value = new_val[2];
         allLogData.refresh().then(() => {
+          allLogData.data.value.time_breakdown = sortTheData(
+            allLogData.data.value.time_breakdown
+          );
           option.value.series[0].data = allLogData.data.value.time_breakdown;
           option.value.title.textStyle.color =
             props.theme === "dark" ? "white" : "black";

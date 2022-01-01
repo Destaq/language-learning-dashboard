@@ -9,11 +9,12 @@
       @updateStartingDate="starting_date = $event"
       @updatePeriod="period = $event"
       @updateDefaultView="isDefaultView = $event"
+      @updateCorrectKeys="correctKeys = $event"
       :toggler="toggler"
       :theme="theme"
     />
     <div class="grid grid-cols-2 -mt-8">
-      <HolderPieChart :starting_date="starting_date" :isDefaultView="isDefaultView" :period="period" :toggler="toggler" :theme="theme" />
+      <HolderPieChart :starting_date="starting_date" :correctKeys="correctKeys" :isDefaultView="isDefaultView" :period="period" :toggler="toggler" :theme="theme" />
       <HolderLevelsRadar :theme="theme" />
     </div>
   </div>
@@ -48,6 +49,7 @@ export default {
     const period = ref("week");
     const isDefaultView = ref(true);
     const toggler = ref(true);
+    const correctKeys = ref([]);
 
     function refreshAndPropagate($event) {
       toggler.value = $event;
@@ -59,7 +61,8 @@ export default {
       period,
       toggler,
       isDefaultView,
-      refreshAndPropagate
+      refreshAndPropagate,
+      correctKeys
     };
   },
 };

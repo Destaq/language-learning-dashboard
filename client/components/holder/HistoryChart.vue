@@ -252,6 +252,10 @@ export default defineComponent({
           allLogData.data.value = data;
 
           var theKeys = Object.keys(allLogData.data.value.information);
+
+          emit("updateCorrectKeys", theKeys);
+
+
           let temp = prepareOptions(theKeys);
 
           const cumulativeDataSum = temp[0];
@@ -365,6 +369,13 @@ export default defineComponent({
           };
         });
     }
+
+    // watch correct_keys for changes, and emit those changes
+    watch(() => theKeys, (newValue, oldValue) => {
+      if (newValue !== oldValue) {
+        emit("updateCorrectKeys", newValue);
+      }
+    });
 
     function prepareOptions(correct_keys) {
       // create a cumulative sum of reading, speaking, listening, writing, and other from the above data
@@ -482,6 +493,8 @@ export default defineComponent({
     const cumulativeDataSum = response[0];
     const cumulativeDataSumSeries = response[1];
     const allLogDataFinal = response[2];
+
+    emit("updateCorrectKeys", theKeys);
 
     const option = ref({
       notMerge: true,
