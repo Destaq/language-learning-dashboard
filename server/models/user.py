@@ -88,8 +88,8 @@ class User(db.Model):
                 "language": "zh",
                 "user_id": self.id
             },
-            "talk": {
-                "title": "Talk",
+            "chat": {
+                "title": "Chat",
                 "length": 30,
                 "type": "speaking",
                 "language": "zh",
