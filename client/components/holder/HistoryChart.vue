@@ -290,7 +290,7 @@ export default defineComponent({
             legend: {
               data: [
                 ...theKeys.filter((item) => item !== "Total"),
-                "Cumulative Sum",
+                "Sum",
               ],
               textStyle: {
                 color: props.theme === "dark" ? "white" : "black",
@@ -358,7 +358,7 @@ export default defineComponent({
             series: [
               ...cumulativeDataSumSeries,
               {
-                name: "Cumulative Sum",
+                name: "Sum",
                 type: "line",
                 yAxisIndex: 1,
                 data: cumulativeDataSum.Total,
@@ -516,7 +516,7 @@ export default defineComponent({
         },
       },
       legend: {
-        data: [...theKeys.filter((item) => item !== "Total"), "Cumulative Sum"],
+        data: [...theKeys.filter((item) => item !== "Total"), "Sum"],
         textStyle: {
           color: props.theme === "dark" ? "white" : "black",
         },
@@ -581,7 +581,7 @@ export default defineComponent({
       series: [
         ...cumulativeDataSumSeries,
         {
-          name: "Cumulative Sum",
+          name: "Sum",
           type: "line",
           yAxisIndex: 1,
           data: cumulativeDataSum.Total,
