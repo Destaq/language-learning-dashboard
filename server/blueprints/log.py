@@ -241,7 +241,7 @@ def parse_and_use_file(file):
     Supports:
     - characters_read
     - chapters_read
-    - shows_watched
+    - episodes_watched
     - books_read
     ---
     Vocab size is incremented through a Pleco export file. Just export *all* the flashcards in a long file,
