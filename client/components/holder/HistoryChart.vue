@@ -267,7 +267,7 @@ export default defineComponent({
             cumulativeDataSum.Total = [0, 0, 0, 0, 0, 0, 0];
           }
 
-          totalShift.value = 0;
+          // totalShift.value = 0;
 
           option.value = {
             tooltip: {
@@ -361,7 +361,7 @@ export default defineComponent({
                 name: "Sum",
                 type: "line",
                 yAxisIndex: 1,
-                data: parseFloat(cumulativeDataSum.Total).toFixed(2),
+                data: cumulativeDataSum.Total.map((item) => parseFloat(item).toFixed(2)),
                 smooth: true,
                 color: props.theme === 'dark' ? 'white' : 'gray',
               },
@@ -584,7 +584,7 @@ export default defineComponent({
           name: "Sum",
           type: "line",
           yAxisIndex: 1,
-          data: parseFloat(cumulativeDataSum.Total).toFixed(2),
+          data: cumulativeDataSum.Total.map((item) => parseFloat(item.toFixed(2))),
           smooth: true,
           color: props.theme === 'dark' ? 'white' : 'gray'
         },
