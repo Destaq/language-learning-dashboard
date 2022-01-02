@@ -218,7 +218,7 @@ def historical_breakdown():
             time_breakdown[index]["value"] += log.length / 60
 
     for element in time_breakdown:
-        element["value"] = round(element["value"], 3)
+        element["value"] = round(element["value"], 2)
 
     return jsonify(time_breakdown=time_breakdown)
 

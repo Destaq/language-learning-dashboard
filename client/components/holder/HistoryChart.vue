@@ -361,7 +361,7 @@ export default defineComponent({
                 name: "Sum",
                 type: "line",
                 yAxisIndex: 1,
-                data: cumulativeDataSum.Total,
+                data: parseFloat(cumulativeDataSum.Total).toFixed(2),
                 smooth: true,
                 color: props.theme === 'dark' ? 'white' : 'gray',
               },
@@ -584,7 +584,7 @@ export default defineComponent({
           name: "Sum",
           type: "line",
           yAxisIndex: 1,
-          data: cumulativeDataSum.Total,
+          data: parseFloat(cumulativeDataSum.Total).toFixed(2),
           smooth: true,
           color: props.theme === 'dark' ? 'white' : 'gray'
         },
