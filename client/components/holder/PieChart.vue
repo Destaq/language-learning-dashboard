@@ -154,7 +154,21 @@ export default defineComponent({
       },
       tooltip: {
         trigger: "item",
-        formatter: "{b}: {c} hrs ({d}%)",
+        // formatter: "{b}: {c} hrs ({d}%)"
+        formatter: function (params) {
+          // convert params.value, which is originally a decimal hour value (such as 0.33)
+          // into a string of hours:minutes, such as "0:20", as .33 is 1/3 of an hour, which has 60 minutes
+          // other examples: 1.5 -> 1:30, 2.20 -> 2.12, 5.75 -> 5:45
+          const hours = Math.floor(params.value);
+          var minutes = Math.round((params.value - hours) * 60);
+
+          // now ensure that minutes are always shown to the tens place, so that it is always 2 digits
+          // example: 0:20 -> 0:20, 0:10 -> 0:10, 0:0 -> 0:00
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          return `${params.marker}<span class='mr-3 ml-1'>${params.name}</span><strong>${hours}h ${minutes}m (${
+            params.percent
+          }%)</strong>`;
+        },
       },
       legend: {
         right: "0%",

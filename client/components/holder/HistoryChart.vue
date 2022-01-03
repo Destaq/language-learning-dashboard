@@ -254,7 +254,6 @@ export default defineComponent({
 
           emit("updateCorrectKeys", theKeys);
 
-
           let temp = prepareOptions(theKeys);
 
           const cumulativeDataSum = temp[0];
@@ -271,6 +270,24 @@ export default defineComponent({
           option.value = {
             tooltip: {
               trigger: "axis",
+              formatter: function(params) {
+                // convert params.value, which is originally a decimal hour value (such as 0.33)
+                // into a string of hours:minutes, such as "0:20", as .33 is 1/3 of an hour, which has 60 minutes
+                // other examples: 1.5 -> 1:30, 2.20 -> 2.12, 5.75 -> 5:45
+                var finalString = `<p class='h-2'>${params[0].axisValueLabel}</p><br>`;
+                // loop through element of params
+                for (var i = 0; i < params.length; i++) {
+                  const hours = Math.floor(params[i].value);
+                  var minutes = Math.round((params[i].value - hours) * 60);
+                  // now ensure that minutes are always shown to the tens place, so that it is always 2 digits
+                  // example: 0:20 -> 0:20, 0:10 -> 0:10, 0:0 -> 0:00
+                  minutes = minutes < 10 ? "0" + minutes : minutes;
+                  if (params[i].value > 0) {
+                    finalString += `${params[i].marker}<span class='mr-16 ml-1'>${params[i].seriesName}</span><strong class="absolute right-2">${hours}h ${minutes}m</strong><br>`;
+                  }
+                }
+                return finalString;
+              },
               axisPointer: {
                 type: "cross",
                 crossStyle: {
@@ -287,10 +304,7 @@ export default defineComponent({
               },
             },
             legend: {
-              data: [
-                ...theKeys.filter((item) => item !== "Total"),
-                "Sum",
-              ],
+              data: [...theKeys.filter((item) => item !== "Total"), "Sum"],
               textStyle: {
                 color: props.theme === "dark" ? "white" : "black",
               },
@@ -309,20 +323,15 @@ export default defineComponent({
                 type: "value",
                 name: "Period Hours",
                 min: 0,
-                max: parseFloat(
-                  Math.max(
-                    ...allLogDataFinal.data.value.information.Total
-                  ).toFixed(2)
+                max: Math.ceil(
+                  Math.max(...allLogDataFinal.data.value.information.Total)
                 ),
-                interval: parseFloat(
-                  (
-                    parseFloat(
-                      Math.max(
-                        ...allLogDataFinal.data.value.information.Total
-                      ).toFixed(2)
-                    ) / 5
-                  ).toFixed(2)
-                ),
+                // automatic does it best
+                // interval: Math.ceil(
+                //   Math.max(
+                //     ...allLogDataFinal.data.value.information.Total
+                //   )
+                // ) / 5,
                 axisLabel: {
                   formatter: "{value} h",
                 },
@@ -347,7 +356,7 @@ export default defineComponent({
                   formatter: "{value} h",
                 },
                 splitLine: {
-                  show: true,
+                  show: false,
                   lineStyle: {
                     width: 0.5,
                   },
@@ -360,9 +369,11 @@ export default defineComponent({
                 name: "Sum",
                 type: "line",
                 yAxisIndex: 1,
-                data: cumulativeDataSum.Total.map((item) => parseFloat(item).toFixed(2)),
+                data: cumulativeDataSum.Total.map((item) =>
+                  parseFloat(item).toFixed(2)
+                ),
                 smooth: true,
-                color: props.theme === 'dark' ? 'white' : 'gray',
+                color: props.theme === "dark" ? "white" : "gray",
               },
             ],
           };
@@ -370,11 +381,14 @@ export default defineComponent({
     }
 
     // watch correct_keys for changes, and emit those changes
-    watch(() => theKeys, (newValue, oldValue) => {
-      if (newValue !== oldValue) {
-        emit("updateCorrectKeys", newValue);
+    watch(
+      () => theKeys,
+      (newValue, oldValue) => {
+        if (newValue !== oldValue) {
+          emit("updateCorrectKeys", newValue);
+        }
       }
-    });
+    );
 
     function prepareOptions(correct_keys) {
       // create a cumulative sum of reading, speaking, listening, writing, and other from the above data
@@ -472,8 +486,8 @@ export default defineComponent({
 
       // round every item in cumulative data sum to 2 decimal places
       for (const key of correct_keys) {
-        cumulativeDataSum[key] = cumulativeDataSum[key].map(
-          (item) => parseFloat(item.toFixed(2))
+        cumulativeDataSum[key] = cumulativeDataSum[key].map((item) =>
+          parseFloat(item.toFixed(2))
         );
       }
 
@@ -499,6 +513,25 @@ export default defineComponent({
       notMerge: true,
       tooltip: {
         trigger: "axis",
+        formatter: function(params) {
+          // convert params.value, which is originally a decimal hour value (such as 0.33)
+          // into a string of hours:minutes, such as "0:20", as .33 is 1/3 of an hour, which has 60 minutes
+          // other examples: 1.5 -> 1:30, 2.20 -> 2.12, 5.75 -> 5:45
+          var finalString = `<p class='h-2'>${params[0].axisValueLabel}</p><br>`;
+          // loop through element of params
+          for (var i = 0; i < params.length; i++) {
+            const hours = Math.floor(params[i].value);
+            var minutes = Math.round((params[i].value - hours) * 60);
+            // now ensure that minutes are always shown to the tens place, so that it is always 2 digits
+            // example: 0:20 -> 0:20, 0:10 -> 0:10, 0:0 -> 0:00
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+
+            if (params[i].value > 0) {
+              finalString += `${params[i].marker}<span class='mr-16 ml-1'>${params[i].seriesName}</span><strong class="absolute right-2">${hours}h ${minutes}m</strong><br>`;
+            }
+          }
+          return finalString;
+        },
         axisPointer: {
           type: "cross",
           crossStyle: {
@@ -534,18 +567,10 @@ export default defineComponent({
           type: "value",
           name: "Period Hours",
           min: 0,
-          max: parseFloat(
-            Math.max(...allLogDataFinal.data.value.information.Total).toFixed(2)
+          max: Math.ceil(
+            Math.max(...allLogDataFinal.data.value.information.Total)
           ),
-          interval: parseFloat(
-            (
-              parseFloat(
-                Math.max(
-                  ...allLogDataFinal.data.value.information.Total
-                ).toFixed(2)
-              ) / 5
-            ).toFixed(2)
-          ),
+          // interval: 1,
           axisLabel: {
             formatter: "{value} h",
           },
@@ -570,7 +595,7 @@ export default defineComponent({
             formatter: "{value} h",
           },
           splitLine: {
-            show: true,
+            show: false,
             lineStyle: {
               width: 0.5,
             },
@@ -583,9 +608,11 @@ export default defineComponent({
           name: "Sum",
           type: "line",
           yAxisIndex: 1,
-          data: cumulativeDataSum.Total.map((item) => parseFloat(item.toFixed(2))),
+          data: cumulativeDataSum.Total.map((item) =>
+            parseFloat(item.toFixed(2))
+          ),
           smooth: true,
-          color: props.theme === 'dark' ? 'white' : 'gray'
+          color: props.theme === "dark" ? "white" : "gray",
         },
       ],
     });

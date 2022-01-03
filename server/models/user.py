@@ -67,10 +67,10 @@ class User(db.Model):
                 "language": "zh",
                 "user_id": self.id
             },
-            "chinese_class": {
-                "title": "Class",
-                "length": 60,
-                "type": "other",
+            "book": {
+                "title": "Book",
+                "length": 10,
+                "type": "reading",
                 "language": "zh",
                 "user_id": self.id
             },
