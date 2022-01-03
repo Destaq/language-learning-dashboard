@@ -25,6 +25,7 @@ export default {
       htmlAttrs: {
         "data-theme": theme,
       },
+      title: "Chinese Learning Dashboard"
     });
 
     return { eventData, theme, statUpdateToggler };

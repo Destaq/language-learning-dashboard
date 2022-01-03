@@ -184,6 +184,7 @@ export default defineComponent({
         period.value = newPeriodValue;
         totalShift.value = 0;
       }
+
       if (period.value === "week") {
         starting_date.value = new Date(
           new Date().setDate(
@@ -207,37 +208,35 @@ export default defineComponent({
       }
 
       // updates if a left-right button is pressed
-      if (startingValueShift) {
-        totalShift.value += startingValueShift;
-        startingValueShift = totalShift.value;
-        if (period.value === "week") {
-          // move starting_date by startingValueShift weeks
-          starting_date.value = new Date(
-            new Date(starting_date.value).setDate(
-              new Date(starting_date.value).getDate() + startingValueShift * 7
-            )
+      totalShift.value += startingValueShift;
+      startingValueShift = totalShift.value;
+      if (period.value === "week") {
+        // move starting_date by startingValueShift weeks
+        starting_date.value = new Date(
+          new Date(starting_date.value).setDate(
+            new Date(starting_date.value).getDate() + startingValueShift * 7
           )
-            .toISOString()
-            .slice(0, 10);
-        } else if (period.value === "month") {
-          // move starting_date by startingValueShift months
-          starting_date.value = new Date(
-            new Date(starting_date.value).setMonth(
-              new Date(starting_date.value).getMonth() + startingValueShift
-            )
+        )
+          .toISOString()
+          .slice(0, 10);
+      } else if (period.value === "month") {
+        // move starting_date by startingValueShift months
+        starting_date.value = new Date(
+          new Date(starting_date.value).setMonth(
+            new Date(starting_date.value).getMonth() + startingValueShift
           )
-            .toISOString()
-            .slice(0, 10);
-        } else if (period.value === "year") {
-          // move starting_date by startingValueShift years
-          starting_date.value = new Date(
-            new Date(starting_date.value).setFullYear(
-              new Date(starting_date.value).getFullYear() + startingValueShift
-            )
+        )
+          .toISOString()
+          .slice(0, 10);
+      } else if (period.value === "year") {
+        // move starting_date by startingValueShift years
+        starting_date.value = new Date(
+          new Date(starting_date.value).setFullYear(
+            new Date(starting_date.value).getFullYear() + startingValueShift
           )
-            .toISOString()
-            .slice(0, 10);
-        }
+        )
+          .toISOString()
+          .slice(0, 10);
       }
 
       emit("updateStartingDate", starting_date.value);
