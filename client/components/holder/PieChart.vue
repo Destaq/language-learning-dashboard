@@ -109,7 +109,9 @@ export default defineComponent({
       Note how the name attribute of the data is in the same order as it is listed in comparisonArray
       */
       data.sort(function(a, b) {
-        return comparisonArray.indexOf(a.name) - comparisonArray.indexOf(b.name);
+        return (
+          comparisonArray.indexOf(a.name) - comparisonArray.indexOf(b.name)
+        );
       });
 
       return data;
@@ -137,6 +139,10 @@ export default defineComponent({
             props.theme === "dark" ? "white" : "black";
           option.value.legend.textStyle.color =
             props.theme === "dark" ? "white" : "black";
+          option.value.legend.pageIconColor =
+            props.theme === "dark" ? "white" : "black";
+          option.value.legend.pageTextStyle.color =
+            props.theme === "dark" ? "white" : "black";
         });
       }
     );
@@ -155,7 +161,7 @@ export default defineComponent({
       tooltip: {
         trigger: "item",
         // formatter: "{b}: {c} hrs ({d}%)"
-        formatter: function (params) {
+        formatter: function(params) {
           // convert params.value, which is originally a decimal hour value (such as 0.33)
           // into a string of hours:minutes, such as "0:20", as .33 is 1/3 of an hour, which has 60 minutes
           // other examples: 1.5 -> 1:30, 2.20 -> 2.12, 5.75 -> 5:45
@@ -165,14 +171,17 @@ export default defineComponent({
           // now ensure that minutes are always shown to the tens place, so that it is always 2 digits
           // example: 0:20 -> 0:20, 0:10 -> 0:10, 0:0 -> 0:00
           minutes = minutes < 10 ? "0" + minutes : minutes;
-          return `${params.marker}<span class='mr-3 ml-1'>${params.name}</span><strong>${hours}h ${minutes}m (${
-            params.percent
-          }%)</strong>`;
+          return `${params.marker}<span class='mr-3 ml-1'>${params.name}</span><strong>${hours}h ${minutes}m (${params.percent}%)</strong>`;
         },
       },
       legend: {
         right: "0%",
         orient: "vertical",
+        type: "scroll",
+        pageIconColor: props.theme === "dark" ? "#fff" : "#000",
+        pageTextStyle: {
+          color: props.theme === "dark" ? "#fff" : "#000",
+        },
         show: true,
         textStyle: {
           color: props.theme === "dark" ? "white" : "black",

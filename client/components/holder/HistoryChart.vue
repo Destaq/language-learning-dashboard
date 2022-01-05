@@ -304,6 +304,12 @@ export default defineComponent({
               },
             },
             legend: {
+              type: "scroll",
+              width: "87.5%",
+              pageIconColor: props.theme === "dark" ? "#fff" : "#000",
+              pageTextStyle: {
+                color: props.theme === "dark" ? "#fff" : "#000",
+              },
               data: [...theKeys.filter((item) => item !== "Total"), "Sum"],
               textStyle: {
                 color: props.theme === "dark" ? "white" : "black",
@@ -346,11 +352,8 @@ export default defineComponent({
                 type: "value",
                 name: "Cumulative Hours",
                 min: 0,
-                max: parseFloat(cumulativeDataSum.Total.at(-1).toFixed(2)),
-                interval: parseFloat(
-                  (
-                    parseFloat(cumulativeDataSum.Total.at(-1).toFixed(2)) / 5
-                  ).toFixed(2)
+                max: Math.ceil(
+                  parseFloat(cumulativeDataSum.Total.at(-1).toFixed(2))
                 ),
                 axisLabel: {
                   formatter: "{value} h",
@@ -548,6 +551,12 @@ export default defineComponent({
         },
       },
       legend: {
+        type: "scroll",
+        width: "87.5%",
+        pageIconColor: props.theme === "dark" ? "#fff" : "#000",
+        pageTextStyle: {
+          color: props.theme === "dark" ? "#fff" : "#000",
+        },
         data: [...theKeys.filter((item) => item !== "Total"), "Sum"],
         textStyle: {
           color: props.theme === "dark" ? "white" : "black",
@@ -585,12 +594,7 @@ export default defineComponent({
           type: "value",
           name: "Cumulative Hours",
           min: 0,
-          max: parseFloat(cumulativeDataSum.Total.at(-1).toFixed(2)),
-          interval: parseFloat(
-            (parseFloat(cumulativeDataSum.Total.at(-1).toFixed(2)) / 5).toFixed(
-              2
-            )
-          ),
+          max: Math.ceil(parseFloat(cumulativeDataSum.Total.at(-1).toFixed(2))),
           axisLabel: {
             formatter: "{value} h",
           },

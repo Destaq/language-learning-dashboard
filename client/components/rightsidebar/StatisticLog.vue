@@ -53,6 +53,8 @@ export default {
         body: formData,
       });
 
+      document.getElementById("customFile").value = "";
+
       emit("refreshStats");
     };
 
