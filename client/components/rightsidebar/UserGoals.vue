@@ -1,5 +1,5 @@
 <template>
-  <div class="h-64 overflow-y-scroll">
+  <div class="h-64 overflow-y-auto">
     <p class="text-lg font-semibold text-center mt-2">Goals</p>
     <div v-for="(goal, index) in goals" :key="index" class="card rounded-none">
       <div
@@ -22,12 +22,17 @@
             v-model="goal.completed"
           />
           <div class="grid col-span-11 self-end grid-cols-4">
-            <span class="label-text inline ml-3 col-span-3 truncate whitespace-nowrap">{{
-              goal.description
-            }}</span>
+            <span
+              class="label-text inline ml-3 col-span-3 truncate whitespace-nowrap"
+              >{{ goal.description }}</span
+            >
             <div class="text-sm inline-flex">
               <span class="inline-block font-normal ml-2">{{
-                new Date(goal.deadline).toLocaleString("default", { month: "short" }) + ' ' + new Date(goal.deadline).getDate()
+                new Date(goal.deadline).toLocaleString("default", {
+                  month: "short",
+                }) +
+                  " " +
+                  new Date(goal.deadline).getDate()
               }}</span>
             </div>
           </div>
@@ -150,7 +155,15 @@
             @click="createNewGoalMessage"
             >Create</label
           >
-          <label for="new-goal-modal" class="btn">Cancel</label>
+          <label
+            for="new-goal-modal"
+            class="btn"
+            @click="
+              newGoalDeadline = '';
+              newGoalDescription = '';
+            "
+            >Cancel</label
+          >
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@
     <div class="chinese text-xl mt-1">
       {{ data.data.value.chengyu.word }}
     </div>
-    <h2 class="mx-auto text-xl mt-1 font-mediu">Chinese Learning Dashboard</h2>
+    <h2 class="mx-auto text-xl mt-1">Chinese Learning Dashboard</h2>
     <div class="text-right italic font-light mt-1 font-serif">{{ today }}</div>
   </div>
   <!-- progress bar -->
