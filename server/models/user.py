@@ -13,6 +13,7 @@ class User(db.Model):
     actions = db.relationship("Action", backref="user", lazy=True)
     vocab_size = db.Column(db.Integer, nullable=False, default=0)
     character_size = db.Column(db.Integer, nullable=False, default=0)
+    statistic_snapshots = db.relationship("StatisticSnapshot", backref="user", lazy=True)
 
     characters_read = db.Column(db.Integer, nullable=False, default=0)
     chapters_read = db.Column(db.Integer, nullable=False, default=0)

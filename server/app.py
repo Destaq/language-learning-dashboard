@@ -19,6 +19,7 @@ from models.log import Log
 from models.note import Note
 from models.user import User
 from models.action import Action
+from models.statistic import StatisticSnapshot
 
 load_dotenv()
 

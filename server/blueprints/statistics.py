@@ -9,6 +9,8 @@ import datetime
 statistics_bp = Blueprint("statistic", __name__)
 
 
+# NOTE: updating user statistics occurs from withing the `log` blueprint (a bit counterintuitively, update?)
+
 @statistics_bp.route("/fetch-statistics", methods=["GET"])
 def fetch_statistics():
     # this returns interesting tidbits: characters read, chapters read, books read, # of shows + movies watched, all-time study hours, vocab size

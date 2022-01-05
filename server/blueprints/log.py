@@ -2,6 +2,7 @@ import re
 from flask import Blueprint, request, jsonify
 from extensions import db
 from models.log import Log
+from models.statistic import StatisticSnapshot
 from models.user import User
 from dateutil.parser import parse
 from dateutil.relativedelta import relativedelta
@@ -52,7 +53,9 @@ def hours_by_period():
     period = request.args.get("period")
     # request.args starting_date is in the format: YYYY-MM-DD
     starting_date = parse(request.args.get("starting_date"))
-    is_default_view = request.args.get("default_view") == "true"  # this is whether we are displaying type or resource
+    is_default_view = (
+        request.args.get("default_view") == "true"
+    )  # this is whether we are displaying type or resource
 
     if period == "week":
         ending_date = relativedelta(days=7) + starting_date
@@ -119,10 +122,14 @@ def hours_by_period():
                         log.length / 60
                     )
                 else:
-                    information["Other"][(log.date - starting_date).days] += log.length / 60
+                    information["Other"][(log.date - starting_date).days] += (
+                        log.length / 60
+                    )
         else:
             for log in logs:
-                information[log.title][(log.date - starting_date).days] += log.length / 60
+                information[log.title][(log.date - starting_date).days] += (
+                    log.length / 60
+                )
 
         for i in range(periods):
             that_date = starting_date + relativedelta(days=i)
@@ -153,14 +160,13 @@ def hours_by_period():
 
         for i in range(periods):
             # append the month to dates, where the month is in the format 'Jan '19', and starts at starting_date month
-            dates.append(
-                (starting_date + relativedelta(months=i)).strftime("%b '%y")
-            )
+            dates.append((starting_date + relativedelta(months=i)).strftime("%b '%y"))
 
     for (key, value) in information.items():
-        information[key] = [round(x, 3) for x in value]  
+        information[key] = [round(x, 3) for x in value]
 
     return jsonify(information=information, dates=dates)
+
 
 @log_bp.route("/historical-breakdown", methods=["GET"])
 def historical_breakdown():
@@ -253,24 +259,30 @@ def parse_and_use_file(file):
     # to track time, upload screen time to the custom log
 
     user = User.query.filter_by(id=1).first()  # NOTE: hardcode...
-    
+
     # check if file is called pleco.txt
     if file.filename == "pleco.txt":
+        # TODO: update character_size and vocab_size to read from latest statistic in database
         # get the number of lines in the file
         lines = file.readlines()
         # remove duplicate lines
         lines = list(set(lines))
         user.vocab_size = len(lines)
+        db.session.commit()
 
         # calculate total character size
         joined = "".join([line.decode() for line in lines])
-        only_chinese = re.findall(r'[\u4e00-\u9fff]+', joined)
+        only_chinese = re.findall(r"[\u4e00-\u9fff]+", joined)
         only_chinese = "".join(only_chinese)
-
         user.character_size = len(set(only_chinese))
-
         db.session.commit()
 
+        # create the snapshots of this data
+        snapshot = StatisticSnapshot("Vocab Size (Words)", user.vocab_size)
+        db.session.add(snapshot)
+        db.session.commit()
+        snapshot = StatisticSnapshot("Vocab Size (Characters)", user.character_size)
+        db.session.add(snapshot)
     else:
         # parse the file
         lines = file.readlines()
@@ -280,18 +292,29 @@ def parse_and_use_file(file):
 
         # divide up each line into a list of the form [name, value]
         lines = [line.decode().split("\t") for line in lines]
-        
+
         for line in lines:
             if line[0] == "books_read":
                 user.books_read += int(line[1])
+                db.session.commit()
+                snapshot = StatisticSnapshot("Books Read", user.books_read)
+                db.session.add(snapshot)
             elif line[0] == "chapters_read":
                 user.chapters_read += int(line[1])
+                db.session.commit()
+                snapshot = StatisticSnapshot("Chapters Read", user.chapters_read)
+                db.session.add(snapshot)
             elif line[0] == "episodes_watched":
                 user.shows_watched += int(line[1])
+                db.session.commit()
+                snapshot = StatisticSnapshot("Episodes/Movies Watched", user.shows_watched)
+                db.session.add(snapshot)
             elif line[0] == "characters_read":
                 user.characters_read += int(line[1])
+                db.session.commit()
+                snapshot = StatisticSnapshot("Characters Read", user.characters_read)
+                db.session.add(snapshot)
 
-        db.session.commit()
+    db.session.commit()
 
     return jsonify(success=True)
-

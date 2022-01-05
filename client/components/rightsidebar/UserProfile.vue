@@ -40,7 +40,7 @@
           ></span>
         </div>
         <div class="stat-value text-2xl text-center border-none">
-          {{ formatStatistic(statistic.value) }}       
+          {{ formatStatistic(statistic.name, statistic.value) }}       
         </div>
       </div>
     </div>
@@ -98,13 +98,21 @@ export default defineComponent({
       }
     }
 
-    function formatStatistic(some_number) {
+    function formatStatistic(name, some_number) {
       // if the number is less than one thousand, return the number
       // otherwise, format it to be a decimal with the indicator of degree
       // for example, 1427 = 1.43K, 55000 = 55.0K, 32431000 = 3.24M, etc.
       // go up to the billions
       // always display with three figures, regardless of decimal point placement
       // it will always be rounded to three significant figures
+      if (name === "Total Study Hours" || name === "Daily Average") {
+        // this is an hour value, such as 3.5 -> 3h 30m
+        // return formatted as hours and minutes
+        const hours = Math.floor(some_number);
+        const minutes = Math.floor((some_number - hours) * 60);
+        return `${hours}h ${minutes}m`;
+      }
+
       if (some_number < 1000) {
         return some_number;
       } else if (some_number < 1000000) {
