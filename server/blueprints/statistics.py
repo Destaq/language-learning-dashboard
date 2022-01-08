@@ -33,7 +33,7 @@ def fetch_statistics():
 
     return jsonify(
         statistics=[
-            {"name": "Total Study Hours", "value": round(total_hours, 2)},
+            {"name": "Total Study Time", "value": round(total_hours, 2)},
             {"name": "Daily Average", "value": round(total_hours / days_since_first_log, 2)},
             {"name": "Vocab Size (Words)", "value": user.vocab_size},
             {"name": "Characters Read", "value": user.characters_read},

@@ -40,8 +40,9 @@
           ></span>
         </div>
         <div class="stat-value text-2xl text-center border-none">
-          {{ formatStatistic(statistic.name, statistic.value) }}       
+          {{ formatStatistic(statistic.name, statistic.value) }}
         </div>
+        <!-- <div class="stat-desc text-success text-center font-extrabold">+{{ Math.round(Math.random() * 1000) }}</div> -->
       </div>
     </div>
   </div>
@@ -105,7 +106,7 @@ export default defineComponent({
       // go up to the billions
       // always display with three figures, regardless of decimal point placement
       // it will always be rounded to three significant figures
-      if (name === "Total Study Hours" || name === "Daily Average") {
+      if (name === "Total Study Time" || name === "Daily Average") {
         // this is an hour value, such as 3.5 -> 3h 30m
         // return formatted as hours and minutes
         const hours = Math.floor(some_number);
@@ -131,7 +132,7 @@ export default defineComponent({
       character_vocab_size,
       flipCharsAndWords,
       onWords,
-      formatStatistic
+      formatStatistic,
     };
   },
 });
