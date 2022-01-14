@@ -18,7 +18,10 @@ export default {
   setup() {
     const eventData = ref(null);
 
-    const theme = useCookie("theme") || "garden";
+    const theme = useCookie("theme");
+    if (theme.value === undefined) {
+      theme.value = "garden";
+    }
     const statUpdateToggler = ref(true);
 
     useMeta({

@@ -388,9 +388,9 @@ export default defineComponent({
               "#3ba272",
               "#fc8452",
               "#9a60b4",
+              "#E8BEAC", // new
               "#ea7ccc",
-              // new colors from here on out
-              "#B87333",
+              "#B87333", // new
             ],
           };
         });
