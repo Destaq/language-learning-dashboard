@@ -217,6 +217,7 @@ export default defineComponent({
         "#E8BEAC", // new
         "#ea7ccc",
         "#B87333", // new
+        "#778899", // new
       ],
     });
 

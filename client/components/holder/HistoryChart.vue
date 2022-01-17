@@ -152,7 +152,7 @@ export default defineComponent({
         new Date().setDate(
           new Date().getDate() -
             new Date().getDay() +
-            (new Date().getDay() === 0 ? -6 : 1)
+            (new Date().getDay() === 0 ? -6 : 1) // NOTE: changeable here (to -1 for Saturday start; 0=Sunday)
         )
       )
         .toISOString()
@@ -190,7 +190,7 @@ export default defineComponent({
           new Date().setDate(
             new Date().getDate() -
               new Date().getDay() +
-              (new Date().getDay() === 0 ? -6 : 1)
+              (new Date().getDay() === 0 ? -6 : 1) // NOTE: changeable here (to -1 for Saturday start; 0=Sunday)
           )
         )
           .toISOString()
@@ -391,6 +391,7 @@ export default defineComponent({
               "#E8BEAC", // new
               "#ea7ccc",
               "#B87333", // new
+              "#778899", // new
             ],
           };
         });

@@ -63,7 +63,7 @@ export default defineComponent({
         trigger: "axis",
       },
       legend: {
-        data: ["End of 2021", "End of 2020"],
+        data: ["Current", "End of 2021", "End of 2020"],
         right: "0%",
         orient: "vertical",
         textStyle: {
@@ -87,6 +87,24 @@ export default defineComponent({
         },
       ],
       series: [
+        {
+          type: "radar",
+          tooltip: {
+            trigger: "item",
+          },
+          areaStyle: {},
+          data: [
+            {
+              value: [
+                Math.round((3.9 / 6) * 100),
+                Math.round((3.65 / 6) * 100),
+                Math.round((3 / 6) * 100),
+                Math.round((1.9 / 6) * 100),
+              ],
+              name: "Current",
+            },
+          ],
+        },
         {
           type: "radar",
           tooltip: {
