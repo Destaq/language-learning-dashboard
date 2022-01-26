@@ -96,10 +96,16 @@ export default defineComponent({
           data: [
             {
               value: [
-                Math.round((3.9 / 6) * 100),
-                Math.round((3.65 / 6) * 100),
-                Math.round((3 / 6) * 100),
-                Math.round((1.9 / 6) * 100),
+                /* all in CEFR levels, C2 = 6
+                HSK 3 - 1 - A1
+                HSK 4 - 2 - A2
+                HSK 5 - 3 - B1
+                HSK 6 - 4 - B2
+                */
+                Math.round((3.9 / 6) * 100), // reading
+                Math.round((3.65 / 6) * 100), // listening
+                Math.round((3 / 6) * 100), // speaking
+                Math.round((2.15 / 6) * 100), // writing (digital)
               ],
               name: "Current",
             },

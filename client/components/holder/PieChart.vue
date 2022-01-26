@@ -134,6 +134,11 @@ export default defineComponent({
           allLogData.data.value.time_breakdown = sortTheData(
             allLogData.data.value.time_breakdown
           );
+          allLogData.data.value.time_breakdown = allLogData.data.value.time_breakdown.sort(
+            function(a, b) {
+              return b.value - a.value;
+            }
+          );
           option.value.series[0].data = allLogData.data.value.time_breakdown;
           option.value.title.textStyle.color =
             props.theme === "dark" ? "white" : "black";
@@ -150,6 +155,13 @@ export default defineComponent({
     if (allLogData.data.value.time_breakdown === undefined) {
       allLogData.data.value.time_breakdown = [{ value: 0, name: "No Data" }];
     }
+
+    // sort allLogData.data.value.time_breakdown by their values descending
+    allLogData.data.value.time_breakdown = allLogData.data.value.time_breakdown.sort(
+      function(a, b) {
+        return b.value - a.value;
+      }
+    );
 
     const option = ref({
       title: {
