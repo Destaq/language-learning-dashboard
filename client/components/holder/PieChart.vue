@@ -134,11 +134,11 @@ export default defineComponent({
           allLogData.data.value.time_breakdown = sortTheData(
             allLogData.data.value.time_breakdown
           );
-          allLogData.data.value.time_breakdown = allLogData.data.value.time_breakdown.sort(
-            function(a, b) {
-              return b.value - a.value;
-            }
-          );
+          // allLogData.data.value.time_breakdown = allLogData.data.value.time_breakdown.sort(
+          //   function(a, b) {
+          //     return b.value - a.value;
+          //   }
+          // );
           option.value.series[0].data = allLogData.data.value.time_breakdown;
           option.value.title.textStyle.color =
             props.theme === "dark" ? "white" : "black";
@@ -157,11 +157,12 @@ export default defineComponent({
     }
 
     // sort allLogData.data.value.time_breakdown by their values descending
-    allLogData.data.value.time_breakdown = allLogData.data.value.time_breakdown.sort(
-      function(a, b) {
-        return b.value - a.value;
-      }
-    );
+    // allLogData.data.value.time_breakdown = allLogData.data.value.time_breakdown.sort(
+    //   function(a, b) {
+    //     return b.value - a.value;
+    //   }
+    // );
+    // issue: does not retain colors
 
     const option = ref({
       title: {

@@ -7,6 +7,7 @@ from models.user import User
 from dateutil.parser import parse
 from dateutil.relativedelta import relativedelta
 
+
 log_bp = Blueprint("log", __name__)
 
 
@@ -226,7 +227,10 @@ def historical_breakdown():
     for element in time_breakdown:
         element["value"] = round(element["value"], 2)
 
-    return jsonify(time_breakdown=time_breakdown)
+    response = jsonify(time_breakdown=time_breakdown)
+    # response.headers.add("Access-Control-Allow-Origin", "*")
+
+    return response
 
 
 # PLECO OR STATS UPDATE FILE

@@ -35,7 +35,7 @@ def create_app():
     # register blueprints
     cors.init_app(
         app,
-        resources={r"*": {"origins": "http://localhost:3000"}},
+        resources={r"*": {"origins": ["http://localhost:3000", "http://127.1.0.0.1:3000"]}},
         supports_credentials=True,
     )
 
