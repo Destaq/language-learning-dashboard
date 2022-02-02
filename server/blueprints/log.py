@@ -1,4 +1,4 @@
-import re
+import re, os, requests
 from flask import Blueprint, request, jsonify
 from extensions import db
 from models.log import Log
@@ -311,7 +311,9 @@ def parse_and_use_file(file):
             elif line[0] == "episodes_watched":
                 user.shows_watched += int(line[1])
                 db.session.commit()
-                snapshot = StatisticSnapshot("Episodes/Movies Watched", user.shows_watched)
+                snapshot = StatisticSnapshot(
+                    "Episodes/Movies Watched", user.shows_watched
+                )
                 db.session.add(snapshot)
             elif line[0] == "characters_read":
                 user.characters_read += int(line[1])
@@ -320,5 +322,144 @@ def parse_and_use_file(file):
                 db.session.add(snapshot)
 
     db.session.commit()
+
+    STATS_LOG = "2795ae914ae7433e99831b40885175e7"
+    NOTION_API_KEY = os.environ["NOTION_API_KEY"]
+
+    headers = {
+        "Accept": "application/json",
+        "Notion-Version": "2021-08-16",
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {NOTION_API_KEY}",
+    }
+
+    ############
+    # fetch and clear all rows from database
+    response = requests.request(
+        "POST",
+        "https://api.notion.com/v1/databases/" + STATS_LOG + "/query",
+        headers=headers,
+    )
+
+    # get results dictionary from response
+    results = response.json()["results"]
+
+    # get the id of every row in results
+    row_ids = [row["id"] for row in results]
+
+    def delete_row(row_id, headers):
+        url = f"https://api.notion.com/v1/pages/{row_id}"
+        payload = {"archived": True}
+
+        response = requests.request("PATCH", url, headers=headers, json=payload)
+        return response
+
+    for row_id in row_ids:
+        delete_row(row_id, headers)
+
+    ############
+    # used to add something new to the database
+    def add_new_row(headers, payload):
+        url = f"https://api.notion.com/v1/pages"
+
+        response = requests.request("POST", url, headers=headers, json=payload)
+        return response
+
+    total_hours = sum(
+        [log.length / 60 for log in Log.query.filter_by(user_id=user.id).all()]
+    )
+
+    all_payloads = [
+        {
+            "parent": {
+                "database_id": STATS_LOG,
+            },
+            "properties": {
+                "Name": {
+                    "title": [
+                        {
+                            "text": {
+                                "content": "Characters Read",
+                            }
+                        }
+                    ]
+                },
+                "Value": {"number": user.characters_read},
+            },
+        },
+        {
+            "parent": {
+                "database_id": STATS_LOG,
+            },
+            "properties": {
+                "Name": {
+                    "title": [
+                        {
+                            "text": {
+                                "content": "Chapters Read",
+                            }
+                        }
+                    ]
+                },
+                "Value": {"number": user.chapters_read},
+            },
+        },
+        {
+            "parent": {
+                "database_id": STATS_LOG,
+            },
+            "properties": {
+                "Name": {
+                    "title": [
+                        {
+                            "text": {
+                                "content": "TV Episodes/Movies Watched",
+                            }
+                        }
+                    ]
+                },
+                "Value": {"number": user.shows_watched},
+            },
+        },
+        {
+            "parent": {
+                "database_id": STATS_LOG,
+            },
+            "properties": {
+                "Name": {
+                    "title": [
+                        {
+                            "text": {
+                                "content": "Books Read",
+                            }
+                        }
+                    ]
+                },
+                "Value": {"number": user.books_read},
+            },
+        },
+        {
+            "parent": {
+                "database_id": STATS_LOG,
+            },
+            "properties": {
+                "Name": {
+                    "title": [
+                        {
+                            "text": {
+                                "content": "Study Hours (2022 onwards)",
+                            }
+                        }
+                    ]
+                },
+                "Value": {"number": round(total_hours, 2)},
+            },
+        },
+    ]
+
+    all_payloads = reversed(all_payloads)
+
+    for payload in all_payloads:
+        add_new_row(headers, payload)
 
     return jsonify(success=True)
