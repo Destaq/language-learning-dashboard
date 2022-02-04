@@ -6,6 +6,7 @@ from models.statistic import StatisticSnapshot
 from models.user import User
 from dateutil.parser import parse
 from dateutil.relativedelta import relativedelta
+from isoweek import Week
 
 
 log_bp = Blueprint("log", __name__)
@@ -58,6 +59,8 @@ def hours_by_period():
         request.args.get("default_view") == "true"
     )  # this is whether we are displaying type or resource
 
+    YEAR_PERIODS = -1
+
     if period == "week":
         ending_date = relativedelta(days=7) + starting_date
         periods = 7
@@ -66,7 +69,10 @@ def hours_by_period():
         periods = (ending_date - starting_date).days
     elif period == "year":
         ending_date = relativedelta(years=1) + starting_date
-        periods = 12
+        YEAR_PERIODS = Week.last_week_of_year(starting_date.year).week
+        periods = Week.last_week_of_year(
+            starting_date.year
+        ).week
 
     # get the logs within the two time periods
     logs = Log.query.filter(Log.date >= starting_date, Log.date < ending_date).all()
@@ -97,7 +103,7 @@ def hours_by_period():
 
     dates = []
 
-    if periods != 12:
+    if periods != YEAR_PERIODS:
         # now fill out the information container, with each list item representing a consecutive date
         # we are going day-by-day since it is less than or equal to one month in length
         if is_default_view:
@@ -138,30 +144,36 @@ def hours_by_period():
             dates.append(that_date.strftime("%m-%d"))
 
     else:
-        # this is in years format, so we will divide the data up into months
+        # this is in years format, so we will divide the data up into weeks
         for log in logs:
-            # get the month that the log was written
-            month = log.date.month - 1
+            # create a new datetime object for January 1st, current year
+            that_date = parse(f"{log.date.year}-01-01")
+            
+            # get elapsed weeks between then and the log
+            week = (log.date - that_date).days // 7
+
 
             if is_default_view:
                 if log.type == "Reading":
-                    information["Reading"][month] += log.length / 60
+                    information["Reading"][week] += log.length / 60
                 elif log.type == "Writing":
-                    information["Writing"][month] += log.length / 60
+                    information["Writing"][week] += log.length / 60
                 elif log.type == "Listening":
-                    information["Listening"][month] += log.length / 60
+                    information["Listening"][week] += log.length / 60
                 elif log.type == "Speaking":
-                    information["Speaking"][month] += log.length / 60
+                    information["Speaking"][week] += log.length / 60
                 elif log.type == "Flashcards":
-                    information["Flashcards"][month] += log.length / 60
+                    information["Flashcards"][week] += log.length / 60
                 else:
-                    information["Other"][month] += log.length / 60
+                    information["Other"][week] += log.length / 60
             else:
-                information[log.title][month] += log.length / 60
+                information[log.title][week] += log.length / 60
 
         for i in range(periods):
-            # append the month to dates, where the month is in the format 'Jan '19', and starts at starting_date month
-            dates.append((starting_date + relativedelta(months=i)).strftime("%b '%y"))
+            # append the week to dates, in the form of MM-DD
+            that_date = starting_date + relativedelta(weeks=i)
+            dates.append(that_date.strftime("%m-%d"))
+            # dates.append((starting_date + relativedelta(months=i)).strftime("%b '%y"))
 
     for (key, value) in information.items():
         information[key] = [round(x, 3) for x in value]
