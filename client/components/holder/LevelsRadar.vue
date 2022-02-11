@@ -102,10 +102,10 @@ export default defineComponent({
                 HSK 5 - 3 - B1
                 HSK 6 - 4 - B2
                 */
-                Math.round((4.10 / 6) * 100), // reading
-                Math.round((3.75 / 6) * 100), // listening
-                Math.round((3.05 / 6) * 100), // speaking
-                Math.round((2.20 / 6) * 100), // writing (digital)
+                Math.round((4.15 / 6) * 100), // reading
+                Math.round((3.85 / 6) * 100), // listening
+                Math.round((3.15 / 6) * 100), // speaking
+                Math.round((2.40 / 6) * 100), // writing (digital)
               ],
               name: "Current",
             },

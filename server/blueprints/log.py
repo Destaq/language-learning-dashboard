@@ -73,6 +73,7 @@ def hours_by_period():
         periods = Week.last_week_of_year(
             starting_date.year
         ).week
+        # periods = (ending_date - starting_date).days  # alternative to view each day
 
     # get the logs within the two time periods
     logs = Log.query.filter(Log.date >= starting_date, Log.date < ending_date).all()
