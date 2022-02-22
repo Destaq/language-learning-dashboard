@@ -70,10 +70,10 @@ def hours_by_period():
     elif period == "year":
         ending_date = relativedelta(years=1) + starting_date
         YEAR_PERIODS = Week.last_week_of_year(starting_date.year).week
-        periods = Week.last_week_of_year(
-            starting_date.year
-        ).week
-        # periods = (ending_date - starting_date).days  # alternative to view each day
+        # periods = Week.last_week_of_year(
+            # starting_date.year
+        # ).week
+        periods = (ending_date - starting_date).days  # alternative to view each day
 
     # get the logs within the two time periods
     logs = Log.query.filter(Log.date >= starting_date, Log.date < ending_date).all()
@@ -269,6 +269,21 @@ def parse_and_use_file(file):
     ---
     Vocab size is incremented through a Pleco export file. Just export *all* the flashcards in a long file,
     remove duplicates, and count the number of lines. This file will be called `pleco.txt`.
+    ---
+    Supports importing file named 'track - track.csv' from Google Sheets that looks like the following:
+
+    ```csv
+    	            02/19/22	02/20/22	02/21/22	02/22/22	02/23/22	02/24/22	02/25/22
+        Chat	    0	        0	        0	        0	        0	        0	        0
+        Class	    0	        0	        0	        0	        0	        0	        0
+        Podcast	    0	        0	        0	        0	        0	        0	        0
+        Shadowing	0	        0	        0	        0	        0	        0	        0
+        Anki	    0	        0	        0	        0	        0	        0	        0
+        TV	        0	        0	        0	        0	        0	        0	        0
+        Pleco	    0	        0	        0	        0	        0	        0	        0
+        Webnovel	0	        0	        0	        0	        0	        0	        0
+    ```
+    Where the zeros are the actual minutes for that time.
     """
     # parse the file (file.read())
     # use the data to create a new log
@@ -276,6 +291,17 @@ def parse_and_use_file(file):
     # to track time, upload screen time to the custom log
 
     user = User.query.filter_by(id=1).first()  # NOTE: hardcode...
+    action_mapping = {
+        "Chat": "Speaking",
+        "Class": "Other",
+        "Podcast": "Listening",
+        "Audiobook": "Listening",
+        "Shadowing": "Speaking",
+        "Anki": "Flashcards",
+        "Pleco": "Flashcards",
+        "Webnovel": "Reading",
+        "TV": "Listening",
+    }
 
     # check if file is called pleco.txt
     if file.filename == "pleco.txt":
@@ -300,7 +326,8 @@ def parse_and_use_file(file):
         db.session.commit()
         snapshot = StatisticSnapshot("Vocab Size (Characters)", user.character_size)
         db.session.add(snapshot)
-    else:
+
+    elif file.filename == "stats.txt":
         # parse the file
         lines = file.readlines()
 
@@ -333,6 +360,36 @@ def parse_and_use_file(file):
                 db.session.commit()
                 snapshot = StatisticSnapshot("Characters Read", user.characters_read)
                 db.session.add(snapshot)
+
+    elif file.filename == "track - track.csv":
+        # parse the file
+        lines = file.readlines()
+
+        # remove the newline character
+        lines = [line.rstrip() for line in lines]
+
+        # divide up each line into a list of the form [name, value]
+        lines = [line.decode().split(",") for line in lines]
+
+        logs_to_add = []
+
+        for line in lines[1:]:
+            for i in range(1, len(line[1:])):
+                if line[i] != "0":
+                    log = Log(
+                        title=line[0],
+                        user_id=1,  # NOTE: hardcoded for prototype
+                        length=int(line[i]),
+                        type=action_mapping[line[0]],
+                        language="zh",  # NOTE: hardcoded for prototype
+                    )
+                    log.date = parse(lines[0][i])  # follows mm-dd-yy format
+                    logs_to_add.append(log)
+
+        # add the logs to the database
+        for addable_log in logs_to_add:
+            db.session.add(addable_log)
+        db.session.commit()
 
     db.session.commit()
 

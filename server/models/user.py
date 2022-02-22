@@ -61,6 +61,20 @@ class User(db.Model):
         # TODO: set in-app Sunday evening reminder to input data (readibu, anki, pleco, hellotalk)
         # NOTE: can also input manually and then subtract from file
         return {
+            "chat": {
+                "title": "Chat",
+                "length": 60,
+                "type": "speaking",
+                "language": "zh",
+                "user_id": self.id
+            },
+            "schoolwork": {
+                "title": "Schoolwork",
+                "length": 45,
+                "type": "other",
+                "language": "zh",
+                "user_id": self.id
+            },
             "show": {
                 "title": "TV",
                 "length": 15,
@@ -68,31 +82,17 @@ class User(db.Model):
                 "language": "zh",
                 "user_id": self.id
             },
+            "workbook": {
+                "title": "Workbook",
+                "length": 40,
+                "type": "other",
+                "language": "zh",
+                "user_id": self.id
+            },
             "book": {
                 "title": "Book",
                 "length": 10,
                 "type": "reading",
-                "language": "zh",
-                "user_id": self.id
-            },
-            "podcast": {
-                "title": "Podcast",
-                "length": 30,
-                "type": "listening",
-                "language": "zh",
-                "user_id": self.id
-            },
-            "shadowing": {
-                "title": "Shadowing",
-                "length": 10,
-                "type": "speaking",
-                "language": "zh",
-                "user_id": self.id
-            },
-            "chat": {
-                "title": "Chat",
-                "length": 30,
-                "type": "speaking",
                 "language": "zh",
                 "user_id": self.id
             }
