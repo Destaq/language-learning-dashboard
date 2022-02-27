@@ -374,7 +374,7 @@ def parse_and_use_file(file):
         logs_to_add = []
 
         for line in lines[1:]:
-            for i in range(1, len(line[1:])):
+            for i in range(1, len(line[1:]) + 1):
                 if line[i] != "0":
                     log = Log(
                         title=line[0],
