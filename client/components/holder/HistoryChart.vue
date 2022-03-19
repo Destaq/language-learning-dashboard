@@ -295,14 +295,6 @@ export default defineComponent({
                 },
               },
             },
-            toolbox: {
-              feature: {
-                dataView: { show: true, readOnly: false },
-                magicType: { show: true, type: ["line", "bar"] },
-                restore: { show: true },
-                saveAsImage: { show: true },
-              },
-            },
             legend: {
               type: "scroll",
               width: "87.5%",
@@ -554,14 +546,6 @@ export default defineComponent({
           crossStyle: {
             color: "#999",
           },
-        },
-      },
-      toolbox: {
-        feature: {
-          dataView: { show: true, readOnly: false },
-          magicType: { show: true, type: ["line", "bar"] },
-          restore: { show: true },
-          saveAsImage: { show: true },
         },
       },
       legend: {

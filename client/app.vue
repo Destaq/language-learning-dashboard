@@ -1,9 +1,9 @@
 <template>
   <div class="grid grid-cols-12">
-    <LeftSidebar @setupAction="eventData = $event" class="col-span-2" />
+    <LeftSidebar @setupAction="eventData = $event; eventDataToggler = !eventDataToggler" class="col-span-2" />
     <MainHolder
       class="col-span-7"
-      :log="eventData"
+      :log="[eventData, eventDataToggler]"
       :theme="theme"
       @refreshCharts="statUpdateToggler = !statUpdateToggler"
     />
@@ -17,6 +17,7 @@ import { useCookie } from "#app";
 export default {
   setup() {
     const eventData = ref(null);
+    var eventDataToggler = ref(false);
 
     const theme = useCookie("theme");
     if (theme.value === undefined) {
@@ -31,7 +32,7 @@ export default {
       title: "Chinese Learning Dashboard"
     });
 
-    return { eventData, theme, statUpdateToggler };
+    return { eventData, theme, statUpdateToggler, eventDataToggler };
   },
 };
 </script>

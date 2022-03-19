@@ -26,7 +26,7 @@ export default {
   props: {
     // the data for the custom log
     log: {
-      type: Object,
+      type: Array,
       required: false,
     },
     theme: {

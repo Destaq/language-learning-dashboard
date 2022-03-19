@@ -58,7 +58,7 @@ export default defineComponent({
   props: {
     // the data for the custom log
     log: {
-      type: Object,
+      type: Array,
       required: false,
     },
     // the theme for the custom log
@@ -80,9 +80,9 @@ export default defineComponent({
       () => props.log,
       (value) => {
         if (value) {
-          logTitle.value = value.title;
-          logType.value = value.type[0].toUpperCase() + value.type.slice(1);
-          logLength.value = value.length;
+          logTitle.value = value[0].title;
+          logType.value = value[0].type[0].toUpperCase() + value[0].type.slice(1);
+          logLength.value = value[0].length;
           logDate.value = new Date().toISOString().slice(0, 10);
         }
       }
