@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen relative">
-    <LeftSidebarDailyGrouping @setupAction="emitFurther" />
+    <LeftsidebarDailyGrouping @setupAction="emitFurther" />
     <!-- <img src="@/assets/thoughts.svg" class="absolute bottom-0" /> -->
   </div>
 </template>

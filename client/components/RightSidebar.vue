@@ -42,10 +42,10 @@
       </svg>
     </button>
     <!-- sibling component communication -->
-    <RightSidebarUserProfile :refreshIt="toggle" class="mt-7" />
+    <RightsidebarUserProfile :refreshIt="toggle" class="mt-7" />
     <!-- the below has stats -->
-    <RightSidebarStatisticLog @refreshStats="toggle = !toggle" />
-    <RightSidebarUserGoals @refreshStats="toggle = !toggle" :theme="theme" />
+    <RightsidebarStatisticLog @refreshStats="toggle = !toggle" />
+    <RightsidebarUserGoals @refreshStats="toggle = !toggle" :theme="theme" />
   </div>
 </template>
 
