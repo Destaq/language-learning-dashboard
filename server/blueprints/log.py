@@ -1,4 +1,4 @@
-import re, os, requests
+import re
 from flask import Blueprint, request, jsonify
 from extensions import db
 from models.log import Log
