@@ -3,15 +3,13 @@ A web dashboard you can use to track your time spent learning foreign languages 
 
 Built specifically with the Chinese language in mind but  applicable to other languages with minor or even no tweaking.
 
-## Images
+## Image Demonstration
 
-![](/images/whole.png)
-![](/images/track.png)
-![](/images/stats.png)
-![](/images/goal.png)
-![](/images/dark-top.png)
-![](/images/dark-stats-lower.png)
-![](/images/dark-whole.png)
+Light             |  Dark
+:-------------------------:|:-------------------------:
+![](/images/whole.png) | ![](/images/dark-whole.png)
+![](/images/goal.png) | ![](/images/dark-top.png)
+![](/images/track.png) | ![](/images/dark-stats-lower.png)
 
 ## Features:
 - Detailed and customizable graphs of time spent learning
