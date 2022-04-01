@@ -39,7 +39,7 @@ This dashboard is built with the following technologies: Python, Flask, Vue, Nux
 1. Clone or download this repository
 2. Ensure you have Python3 and [Node.js](https://nodejs.org/en/download/) installed,
 3. Navigate to the `server` folder, which holds the Python code that allows the dashboard to run and store data. Install all requirements with the command `python3 -m pip install -r requirements.txt`.
-4. Backend done! Let's make sure that we have a database running. Install Postgres (best done through the [Postgres App](https://postgresapp.com/)) and run the following command in your terminal: `createdb language-learning-dashboard`.
+4. Backend done! Let's make sure that we have a database running. Install Postgres (best done through the [Postgres App](https://postgresapp.com/)) and run the following command in your terminal: `createdb language-learning-dashboard`. If the command does not work, you may have to configure PostgreSQL command line tools, a very simple process described [on the Postgres App page](https://postgresapp.com/documentation/cli-tools.html).
 5. We need to link the Python code to the database using Flask-Migrate. Create a file called `.env` in the `server` folder and populate it with the following values:
 
    ```
