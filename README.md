@@ -9,7 +9,7 @@ Light             |  Dark
 :-------------------------:|:-------------------------:
 ![](/images/whole.png) | ![](/images/dark-whole.png)
 ![](/images/goal.png) | ![](/images/dark-top.png)
-![](/images/track.png) | ![](/images/dark-stats-lower.png)
+![](/images/light-track.png) | ![](/images/dark-stats-lower.png)
 
 ## Features:
 - Detailed and customizable graphs of time spent learning
