@@ -50,7 +50,7 @@ This dashboard is built with the following technologies: Python, Flask, Vue, Nux
 
    You should also consider putting in the config secret key in the `.env` file and reading from there rather than having it be hardcoded in the code.
 
-   Then, we need to run the `flask db migrate` command in the `server` folder to link the database to the Python migrations and code.
+   Then, we need to run the `flask db upgrade` command in the `server` folder to link the database to the Python migrations and code.
 
 6. Almost done, let's just create some initial database values. In the `server` folder, run the following command: `python3 scripts/json_postgres_loader.py` (this sets up the chengyu database).
 7. Moving onto the frontend: navigate to the `client` folder and run the following command in your terminal: `npm install`. We now have all our dependencies installed. Take care with messing with the `package.json` package versions, there are some dependency clashes with later versions that can't be really resolved.
@@ -84,6 +84,8 @@ Webnovel,76,75,81,112
 Audiobook,28,39,67,42
 Chat,10,8,7,2
 ```
+
+Finally, note that you may have to refresh for changes to take effect.
 
 ![](images/track-sheets.png)
 
@@ -121,4 +123,8 @@ chapters_read	30
 episodes_watched	4
 ```
 
-For each manual item, type the name on one line, and then press tab, and then type in the value you want to upload. Not all of these are required, but you can't upload a value for an item that doesn't exist.
+For each manual item, type the name on one line, and then press tab, and then type in the value you want to upload. Not all of these are required, but you can't upload a value for an item that doesn't exist. Note that the first time you import this data, it will show up twice - simply refresh the page.
+
+---
+
+Best of luck on your language learning journey! I hope this tool will be of use to you while you're on it.
