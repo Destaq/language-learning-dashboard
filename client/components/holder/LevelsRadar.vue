@@ -104,10 +104,10 @@ export default defineComponent({
                       - 5 - C1
                       - 6 - C2
                 */
-                Math.round((4.40/ 6) * 100), // reading
+                Math.round((4.50/ 6) * 100), // reading
                 Math.round((4.05 / 6) * 100), // listening
-                Math.round((3.20 / 6) * 100), // speaking
-                Math.round((2.70 / 6) * 100), // writing (digital)
+                Math.round((3.25 / 6) * 100), // speaking
+                Math.round((2.75 / 6) * 100), // writing (digital)
               ],
               name: "Current",
             },

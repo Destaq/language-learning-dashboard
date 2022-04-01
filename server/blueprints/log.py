@@ -393,6 +393,14 @@ def parse_and_use_file(file):
 
     db.session.commit()
 
+
+    # Update my Notion stats page
+    # https://heavenlypath.notion.site/Mythaar-ecebac2093c74f69914740949921d4f1
+    # main website heavenlypath.notion.site is a curated collection of intermediate+ learner resources
+
+    # NOTE: commented out given that stats are no longer being updated
+
+    """
     STATS_LOG = "2795ae914ae7433e99831b40885175e7"
     NOTION_API_KEY = os.environ["NOTION_API_KEY"]
 
@@ -531,5 +539,6 @@ def parse_and_use_file(file):
 
     for payload in all_payloads:
         add_new_row(headers, payload)
+    """
 
     return jsonify(success=True)
