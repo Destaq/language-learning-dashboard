@@ -16,25 +16,34 @@ def fetch_statistics():
     # this returns interesting tidbits: characters read, chapters read, books read, # of shows + movies watched, all-time study hours, vocab size
     # the user levels are currently hardcoded, may be changed later, but for now simple like this
     user = User.query.filter_by(id=1).first()
-    total_hours = sum(
-        [log.length / 60 for log in Log.query.filter_by(user_id=user.id).all()]
-    )
+    try:
+        all_user_logs = Log.query.filter_by(user_id=user.id).all()
+        total_hours = sum(
+            [log.length / 60 for log in all_user_logs]
+        )
 
-    first_log_date = (
-        Log.query.filter_by(user_id=user.id).order_by(Log.date.asc()).first().date
-    )
+        first_log_date = (
+            Log.query.filter_by(user_id=user.id).order_by(Log.date.asc()).first().date
+        )
 
-    # calculate days since first log
-    today = datetime.datetime.now()
-    days_since_first_log = (today - first_log_date).days + 1
+        # calculate days since first log
+        today = datetime.datetime.now()
+        days_since_first_log = (today - first_log_date).days + 1
 
-    goals_completed = GoalMessage.query.filter_by(user_id=user.id, completed=True).count()
+        goals_completed = GoalMessage.query.filter_by(user_id=user.id, completed=True).count()
+
+    except AttributeError:
+        # simple hack to get it to work for those cloning/downloading
+        # means that no data is available
+        total_hours = 0
+        days_since_first_log = 0
+        goals_completed = 0
 
 
     return jsonify(
         statistics=[
             {"name": "Total Study Time", "value": round(total_hours, 2)},
-            {"name": "Daily Average", "value": round(total_hours / days_since_first_log, 2)},
+            {"name": "Daily Average", "value": round(total_hours / (days_since_first_log + 0.0000001), 2)},
             {"name": "Vocab Size (Words)", "value": user.vocab_size},
             {"name": "Characters Read", "value": user.characters_read},
             {"name": "Chapters Read", "value": user.chapters_read},

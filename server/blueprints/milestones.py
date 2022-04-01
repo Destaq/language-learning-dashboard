@@ -36,7 +36,14 @@ milestones = [
 def get_vocab_size_and_milestone():
     # return vocab size and the closest milestone that hasn't been reached
     user = User.query.filter_by(id=1).first()  # NOTE: hardcoded
-    vocab_size = user.vocab_size
+    try:
+        vocab_size = user.vocab_size
+    except AttributeError:
+        # there is no user in the database, we need to create a user
+        user = User(username="Learner")
+        db.session.add(user)
+        db.session.commit()
+        vocab_size = user.vocab_size
     for milestone in milestones:
         if vocab_size < milestone:
             return jsonify(

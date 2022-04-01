@@ -5,13 +5,14 @@ A web dashboard you can use to track your time spent learning foreign languages 
 Built specifically with the Chinese language in mind but applicable to other languages with minor or even no tweaking.
 
 ## Image Demonstration
+
 ![](/images/whole.png)
 
-|            Light             |               Dark                |
-| :--------------------------: | :-------------------------------: |
-|    ![](/images/light-whole-2.png)    |    ![](/images/dark-whole.png)    |
-|    ![](/images/goal.png)     |     ![](/images/dark-top.png)     |
-| ![](/images/light-track.png) | ![](/images/dark-stats-lower.png) |
+|             Light              |               Dark                |
+| :----------------------------: | :-------------------------------: |
+| ![](/images/light-whole-2.png) |    ![](/images/dark-whole.png)    |
+|     ![](/images/goal.png)      |     ![](/images/dark-top.png)     |
+|  ![](/images/light-track.png)  | ![](/images/dark-stats-lower.png) |
 
 ## Features:
 
@@ -43,16 +44,17 @@ This dashboard is built with the following technologies: Python, Flask, Vue, Nux
 
    ```
    export APP_SETTINGS="config.DevelopmentConfig"
-   export DATABASE_URL="postgresql:///ll_dashboard"
+   export DATABASE_URL="postgresql:///language-learning-dashboard"
    export FLASK_APP=app
    ```
 
    You should also consider putting in the config secret key in the `.env` file and reading from there rather than having it be hardcoded in the code.
 
-   You can then run the following command in your terminal: `flask db init`. This will create a `migrations` folder in the `server` folder. This is where the database changes will be stored. Afterwards, you can run `flask db migrate` to create the database tables. Finally, you can run `flask db upgrade` to apply the changes to the database.
+   Then, we need to run the `flask db migrate` command in the `server` folder to link the database to the Python migrations and code.
 
-6. Moving onto the frontend: navigate to the `client` folder and run the following command in your terminal: `npm install`. We now have all our dependencies installed. Take care with messing with the `package.json` package versions, there are some dependency clashes with later versions that can't be really resolved.
-7. Let's run our frontend and backend! In two terminal windows, run the following commands from the root server:
+6. Almost done, let's just create some initial database values. In the `server` folder, run the following command: `python3 scripts/json_postgres_loader.py` (this sets up the chengyu database).
+7. Moving onto the frontend: navigate to the `client` folder and run the following command in your terminal: `npm install`. We now have all our dependencies installed. Take care with messing with the `package.json` package versions, there are some dependency clashes with later versions that can't be really resolved.
+8. Let's run our frontend and backend! In two terminal windows, run the following commands from the root server:
    ```
    cd client
    npm run dev
@@ -63,7 +65,7 @@ This dashboard is built with the following technologies: Python, Flask, Vue, Nux
    python3 main.py
    ```
 
-You should now be able to access and use the dashboard at localhost://4000. If you'd like to make specific changes to the dashbaord, such as Quick Actions, Ability Breakdown, etc. you can just modify the source code, and it will be updated automatically.
+You should now be able to access and use the dashboard at http://localhost:3000. If you'd like to make specific changes to the dashboard, such as Quick Actions, Ability Breakdown, etc. you can just modify the source code, and it will be updated automatically.
 
 As for specifically using the dashboard: most everything is intuitive, though there is one shortcut to point out - the `Log Data from File` shortcut. This button allows you to automate the logging of your language data in three ways.
 
@@ -110,7 +112,7 @@ Example file (note _must_ be named `pleco.txt`):
 
 ### Uploading manual statistics data
 
-Currently four types of manual statistics are supported, as you can see in the statistics in the main image for this repository. You can see what they are in the file below.
+Currently four types of manual statistics are supported, as you can see in the statistics in the main image for this repository. You can see what they are in the file below. Filename should be `stats.txt`.
 
 ```
 # episodes_watched, chapters_read, characters_read, books_read
