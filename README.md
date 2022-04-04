@@ -67,6 +67,8 @@ This dashboard is built with the following technologies: Python, Flask, Vue, Nux
 
 You should now be able to access and use the dashboard at http://localhost:3000. If you'd like to make specific changes to the dashboard, such as Quick Actions, Ability Breakdown, etc. you can just modify the source code, and it will be updated automatically.
 
+Note that on Windows or perhaps Mac, this might still not be enough to get the app running. Try also create a new localStorage key-value pair for localhost:3000 with the following key: `theme` and value: `garden`. Also on Windows you need to set up `DATABASE_URL` in `.env` in the format `postgresql://user:password@localhost:5432/language-learning-dashboard` instead.
+
 As for specifically using the dashboard: most everything is intuitive, though there is one shortcut to point out - the `Log Data from File` shortcut. This button allows you to automate the logging of your language data in three ways.
 
 ### Uploading a `.csv` file with your language data.
