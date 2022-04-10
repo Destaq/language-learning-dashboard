@@ -73,7 +73,7 @@ As for specifically using the dashboard: most everything is intuitive, though th
 
 You can also use the `Log Data from File` shortcut to save yourself from manually inputting logs.
 
-Example file (note dates have to be at the top in the format DD/MM/YY) and file has to be named `track - track.csv` (modify source code to change).
+Example file (note dates have to be at the top in the format MM/DD/YY) and file has to be named `track - track.csv` (modify source code to change).
 
 ```
 ,03/28/22,03/29/22,03/30/22,03/31/22
