@@ -71,6 +71,8 @@ Note that on Windows or perhaps Mac, this might still not be enough to get the a
 
 As for specifically using the dashboard: most everything is intuitive, though there is one shortcut to point out - the `Log Data from File` shortcut. This button allows you to automate the logging of your language data in three ways.
 
+If you accidentally logged something, you can either log its inverse (e.g. you added 10 minutes of Reading, you can simply add -10 minutes of Reading) *or* (more technical) open up the SQL database (`psql language-learning-dashboard`) and `DELETE FROM log WHERE ID=<id of bad log>` (id can be found via `SELECT * FROM log`).
+
 ### Uploading a `.csv` file with your language data.
 
 You can also use the `Log Data from File` shortcut to save yourself from manually inputting logs.
