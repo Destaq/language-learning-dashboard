@@ -139,3 +139,5 @@ For each manual item, type the name on one line, and then press tab, and then ty
 ---
 
 Best of luck on your language learning journey! I hope this tool will be of use to you while you're on it.
+
+*I wrote a short article on my experiences tracking Chinese for these three months using this tool on my personal website - check out the post [here](https://simonilincev.com/reflections/chinese/100-days-of-tracking/).*
