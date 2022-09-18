@@ -18,7 +18,7 @@ Built specifically with the Chinese language in mind but applicable to other lan
 
 - Detailed and customizable graphs of time spent learning
   - Supports weekly, monthly, and yearly intervals
-  - Switch between two views of the graphs - one with learning types (reading, speaking, etc.) and one with specific methods (Anki, TV, Podcast, etc.)
+  - Switch between two views of the graphs — one with learning types (reading, speaking, etc.) and one with specific methods (Anki, TV, Podcast, etc.)
   - See a breakdown with both a bar chart and a pie chart
 - Set yourself learning goals
   - ... with deadlines, tracking, and more!
@@ -69,7 +69,7 @@ You should now be able to access and use the dashboard at http://localhost:3000.
 
 Note that on Windows or perhaps Mac, this might still not be enough to get the app running. Try also create a new localStorage key-value pair for localhost:3000 with the following key: `theme` and value: `garden`. Also on Windows you need to set up `DATABASE_URL` in `.env` in the format `postgresql://user:password@localhost:5432/language-learning-dashboard` instead.
 
-As for specifically using the dashboard: most everything is intuitive, though there is one shortcut to point out - the `Log Data from File` shortcut. This button allows you to automate the logging of your language data in three ways.
+As for specifically using the dashboard: most everything is intuitive, though there is one shortcut to point out — the `Log Data from File` shortcut. This button allows you to automate the logging of your language data in three ways.
 
 If you accidentally logged something, you can either log its inverse (e.g. you added 10 minutes of Reading, you can simply add -10 minutes of Reading) *or* (more technical) open up the SQL database (`psql language-learning-dashboard`) and `DELETE FROM log WHERE ID=<id of bad log>` (id can be found via `SELECT * FROM log`).
 
@@ -134,10 +134,10 @@ chapters_read	30
 episodes_watched	4
 ```
 
-For each manual item, type the name on one line, and then press tab, and then type in the value you want to upload. Not all of these are required, but you can't upload a value for an item that doesn't exist. Note that the first time you import this data, it will show up twice - simply refresh the page.
+For each manual item, type the name on one line, and then press tab, and then type in the value you want to upload. Not all of these are required, but you can't upload a value for an item that doesn't exist. Note that the first time you import this data, it will show up twice — simply refresh the page.
 
 ---
 
 Best of luck on your language learning journey! I hope this tool will be of use to you while you're on it.
 
-*I wrote a short article on my experiences tracking Chinese for these three months using this tool on my personal website - check out the post [here](https://simonilincev.com/reflections/chinese/100-days-of-tracking/).*
+*I wrote a short article on my experiences tracking Chinese for these three months using this tool on my personal website — check out the post [here](https://simonilincev.com/reflections/chinese/100-days-of-tracking/).*
