@@ -52,9 +52,13 @@ This dashboard is built with the following technologies: Python, Flask, Vue, Nux
 
    Then, we need to run the `flask db upgrade` command in the `server` folder to link the database to the Python migrations and code.
 
-6. Almost done, let's just create some initial database values. In the `server` folder, run the following command: `python3 scripts/json_postgres_loader.py` (this sets up the chengyu database).
-7. Moving onto the frontend: navigate to the `client` folder and run the following command in your terminal: `npm install`. We now have all our dependencies installed. Take care with messing with the `package.json` package versions, there are some dependency clashes with later versions that can't be really resolved.
-8. Let's run our frontend and backend! In two terminal windows, run the following commands from the root server:
+6. Now, the Python libraries we installed aren't comprehensive. To run the chengyu database loader, below, we still need `psycopg2`. If you're *not* on a Mac (M1 I believe too?), run `python3 -m pip install psycopg2`. Then go to the next step, and if there is an issue with some `psycopg2` symbols, return here. If you *are* on a Mac (or coming back), do: `python3 -m pip uninstall psycopg2`, and then `python3 -m pip install psycopg2-binary`.
+
+   I'm not sure which versions of what OSes have the issue, so if one of these doesn't work, just uninstall and try the other.
+
+7. Almost done, let's just create some initial database values. In the `server` folder, run the following command: `python3 scripts/json_postgres_loader.py` (this sets up the chengyu database).
+8. Moving onto the frontend: navigate to the `client` folder and run the following command in your terminal: `npm install`. We now have all our dependencies installed. Take care with messing with the `package.json` package versions, there are some dependency clashes with later versions that can't be really resolved.
+9. Let's run our frontend and backend! In two terminal windows, run the following commands from the root folder:
    ```
    cd client
    npm run dev
