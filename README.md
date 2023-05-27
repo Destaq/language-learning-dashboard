@@ -81,7 +81,7 @@ If you accidentally logged something, you can either log its inverse (e.g. you a
 
 You can also use the `Log Data from File` shortcut to save yourself from manually inputting logs.
 
-Example file (note that it has tao be named `track - track.csv`, modify source code to change).
+Example file (note that it has to be named `track - track.csv`, modify source code to change).
 
 Also note the format on the first line of the file. Dates must be in one of the following formats:
 - `YYYY-MM-DD`
