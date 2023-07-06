@@ -40,7 +40,10 @@ This dashboard is built with the following technologies: Python, Flask, Vue, Nux
 2. Ensure you have Python3 and [Node.js](https://nodejs.org/en/download/) installed,
 3. Navigate to the `server` folder, which holds the Python code that allows the dashboard to run and store data. Install all requirements with the command `python3 -m pip install -r requirements.txt`.
 4. Backend done! Let's make sure that we have a database running. Install Postgres (best done through the [Postgres App](https://postgresapp.com/)) and run the following command in your terminal: `createdb language-learning-dashboard`. If the command does not work, you may have to configure PostgreSQL command line tools, a very simple process described [on the Postgres App page](https://postgresapp.com/documentation/cli-tools.html).
-5. We need to link the Python code to the database using Flask-Migrate. Create a file called `.env` in the `server` folder and populate it with the following values:
+5. Now, the Python libraries we installed aren't comprehensive. To run the chengyu database loader, below, we still need `psycopg2`. If you're *not* on a Mac (M1 I believe too?), run `python3 -m pip install psycopg2`. Then go to the next step. If there is an issue down the line with some `psycopg2` symbols, return here. If you *are* on a Mac (or coming back), do: `python3 -m pip uninstall psycopg2`, and then `python3 -m pip install psycopg2-binary`.
+
+   I'm not sure which versions of what OSes have the issue, so if one of these doesn't work, just uninstall and try the other.
+6. We need to link the Python code to the database using Flask-Migrate. Create a file called `.env` in the `server` folder and populate it with the following values:
 
    ```
    export APP_SETTINGS="config.DevelopmentConfig"
@@ -51,10 +54,6 @@ This dashboard is built with the following technologies: Python, Flask, Vue, Nux
    You should also consider putting in the config secret key in the `.env` file and reading from there rather than having it be hardcoded in the code.
 
    Then, we need to run the `flask db upgrade` command in the `server` folder to link the database to the Python migrations and code.
-
-6. Now, the Python libraries we installed aren't comprehensive. To run the chengyu database loader, below, we still need `psycopg2`. If you're *not* on a Mac (M1 I believe too?), run `python3 -m pip install psycopg2`. Then go to the next step, and if there is an issue with some `psycopg2` symbols, return here. If you *are* on a Mac (or coming back), do: `python3 -m pip uninstall psycopg2`, and then `python3 -m pip install psycopg2-binary`.
-
-   I'm not sure which versions of what OSes have the issue, so if one of these doesn't work, just uninstall and try the other.
 
 7. Almost done, let's just create some initial database values. In the `server` folder, run the following command: `python3 scripts/json_postgres_loader.py` (this sets up the chengyu database). If you're on Windows and you encounter an issue, try changing line 12 in `server/scripts/json_postgres_loader.py` to use utf-8 encoding.
 8. Moving onto the frontend: navigate to the `client` folder and run the following command in your terminal: `npm install`. We now have all our dependencies installed. Take care with messing with the `package.json` package versions, there are some dependency clashes with later versions that can't be really resolved.
