@@ -55,7 +55,7 @@ This dashboard is built with the following technologies: Python, Flask, Vue, Nux
 
    Then, we need to run the `flask db upgrade` command in the `server` folder to link the database to the Python migrations and code.
 
-7. Almost done, let's just create some initial database values. In the `server` folder, run the following command: `python3 scripts/json_postgres_loader.py` (this sets up the chengyu database). If you're on Windows and you encounter an issue, try changing line 12 in `server/scripts/json_postgres_loader.py` to use utf-8 encoding.
+7. Almost done, let's just create some initial database values. In the `server` folder, run the following command: `python3 scripts/json_postgres_loader.py` (this sets up the chengyu database).
 8. Moving onto the frontend: navigate to the `client` folder and run the following command in your terminal: `npm install`. We now have all our dependencies installed. Take care with messing with the `package.json` package versions, there are some dependency clashes with later versions that can't be really resolved.
 9. Let's run our frontend and backend! In two terminal windows, run the following commands from the root folder:
    ```
