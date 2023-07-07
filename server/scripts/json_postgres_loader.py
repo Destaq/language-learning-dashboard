@@ -9,7 +9,7 @@ import psycopg2
 dotenv.load_dotenv()
 
 # load in the file as a csv
-with open('data/chengyu.json') as f:
+with open('data/chengyu.json', encoding='utf-8') as f:
     data = json.load(f)
 
 # connect to the database
