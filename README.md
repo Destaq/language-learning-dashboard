@@ -4,6 +4,14 @@ A web dashboard you can use to track your time spent learning foreign languages 
 
 Built specifically with the Chinese language in mind but applicable to other languages with minor or even no tweaking.
 
+**I'm in the process of building a publicly hosted, much more comprehensive version of this tool. It differs in that:**
+
+- **it has a social emphasis**
+- **there's an additional focus on tracking & finding media (à la Goodreads)**
+- **logging is even more effortless (speech-to-text, automatic goals, journaling, etc.)**
+
+**You can find more information on [the app's landing page](https://www.lingotrack.com) and sign up to be notified of its launch there!**
+
 ## Image Demonstration
 
 ![](/images/whole.png)
