@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { useCookie } from "#app";
+import { useCookie } from "#imports";
 import { watch } from "vue";
 
 export default {

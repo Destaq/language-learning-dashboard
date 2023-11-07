@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { useCookie } from "#app";
+import { useCookie } from "#imports";
 
 export default {
   setup() {
